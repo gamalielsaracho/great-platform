@@ -6,14 +6,20 @@ var server = require('http').Server(app)
 
 var io = require('socket.io')(server)
 
+import config from './config'
+
 // Importamos la conexión de la base de datos. 
 import db from './config/db'
 
 
-require('././app/pregunta/pregunta.sockets')(io)
+require('././app/rol/rol.sockets')(io)
+
+require('././app/usuario/usuario.sockets')(io)
+
+require('././app/calificacion/calificacion.sockets')(io)
 
 
-server.listen(3000, function (err) {
+server.listen(config.server.port, function (err) {
 	if(err) {
 		console.log('Error al correr en el puerto 3000')
 		return
