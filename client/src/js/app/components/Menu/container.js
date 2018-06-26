@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import Menu from './Menu'
 
 import {
-	salirPersonal
+	salirPersonal,
+
+	abrirFormularioCrearPersonal
 } from '../../../usuario/actions'
 
 
@@ -17,6 +19,9 @@ function mapDispatchToProps(dispatch) {
 	return {
 		salirPersonal: () => {
 			dispatch(salirPersonal())
+		},
+		abrirFormularioCrearPersonal: () => {
+			dispatch(abrirFormularioCrearPersonal())
 		}
 	}
 }

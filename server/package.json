@@ -11,6 +11,7 @@
   "dependencies": {
     "babel": "^5.8.23",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
     "mongoose": "^5.0.14",
     "socket.io": "^2.1.0"
   }

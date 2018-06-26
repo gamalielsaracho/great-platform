@@ -1,13 +1,14 @@
 export default {
+
 	server: {
 		host: 'localhost',
 		port: 3000
 	},
 	database: {
 		host: 'localhost',
-		port: 27017,
+		post: 27017,
 		db: 'notastudent',
-		url: ''
+		url: 'mongodb://127.0.0.1:27017/notastudent'
 	},
 	key: {
 		privateKey: 'mysupersecretkey',

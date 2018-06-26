@@ -1,0 +1,13 @@
+/*.navbar-inverse {
+	linear-gradient(to bottom right, #673AB7, #2196F3);
+}
+*/
+
+.myBtn {
+	border-radius: 13px;
+	border: 1px solid #0f94d4;
+	color: #fff;
+	background: linear-gradient(to bottom right, #673AB7, #2196F3);
+	padding: 0.7em;
+	margin-left: 0.4em;
+}

@@ -6,17 +6,28 @@ var server = require('http').Server(app)
 
 var io = require('socket.io')(server)
 
+export default io
+
 import config from './config'
 
 // Importamos la conexión de la base de datos. 
 import db from './config/db'
 
 
-require('././app/rol/rol.sockets')(io)
 
-require('././app/usuario/usuario.sockets')(io)
 
-require('././app/calificacion/calificacion.sockets')(io)
+
+io.on('connection', function (socket) {
+	console.log('Usuario Conectado.')
+
+	require('././app/usuario/usuario.sockets')(socket, io)
+	require('././app/calificacion/calificacion.sockets')(socket, io)
+	require('././app/materia/materia.sockets')(socket, io)
+
+	socket.on('disconnect', function () {
+		console.log('Usuario Desconectado.')
+	})
+})
 
 
 server.listen(config.server.port, function (err) {

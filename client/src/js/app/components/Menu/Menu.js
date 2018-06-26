@@ -1,31 +1,114 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router' 
 
+
 class Menu extends Component {
 	constructor(props) {
 		super(props)
-		this.renderLinks = this.renderLinks.bind(this)
+		this.renderLinksMenuByRol = this.renderLinksMenuByRol.bind(this)
+		this.renderLinksAuth = this.renderLinksAuth.bind(this)
+
 	}
 
-	renderLinks(autenticado, datosToken) {
+	renderLinksAuth(autenticado, datosToken) {
 		let personal = datosToken.personal
 		let rol = datosToken.rol
 
 		if(autenticado) {
 			return <ul className="nav navbar-nav navbar-right">
-				<li><Link to='/dashboard' className='menu__text-link'>Panel</Link></li>
-				<li><Link to='' className='menu__text-link'>{ personal.correo }</Link></li>
-				<li onClick={() => { this.props.salirPersonal() }}><a className='menu__text-link'>Salir</a></li>
-			</ul>
+		        <li onClick={() => { this.props.salirPersonal() }} >
+		        	<a href="#"><span className="glyphicon glyphicon-user"></span>Salir</a>
+		        </li>
+		    </ul>
+
+		    {/*
+
+				<Link to='/alumnos' className='mdl-navigation__link'>
+					Alumnos
+				</Link>
+
+				<Link to='/materias' className='mdl-navigation__link'>
+					Materias
+				</Link>	
+
+				<Link to='/usuarios' className='mdl-navigation__link'>
+					Usuarios
+				</Link>	
+
+			    <Link to={`/perfil`} className='mdl-navigation__link'>Perfil</Link>	
+
+			
+				<a onClick={() => { this.props.salirPersonal() }} 
+			    	className="mdl-navigation__link">Salir</a>
+		    */}
+
+
 		}else {
 			return <ul className="nav navbar-nav navbar-right">
-				<li><Link to='/entrar' className='menu__text-link'>Entrar</Link></li>
-			</ul>
-				// <li><Link to='/' className='menu__text-link'>Inicio</Link></li>
-				// <li><Link to='/registrarse' className='menu__text-link'>Registrarse</Link></li>
-				// <li><a href='#nosotros' className='menu__text-link'>Nosotros</a></li>
-				// <li><a href='#horarios' className='menu__text-link'>Horarios</a></li>
-				// <li><a href='#cantactanos' className='menu__text-link'>Contactanos</a></li>
+		    	<li>
+			    	<Link to='/entrar' className="mdl-navigation__link">
+						<span className="glyphicon glyphicon-user"></span>Entrar
+					</Link>
+				</li>
+
+		    	<li>
+		    		<Link to='/registrarse' className="mdl-navigation__link">
+						<span className="glyphicon glyphicon-log-in"></span> Registrarse
+					</Link>
+				</li>
+		    </ul>
+
+
+			{/*					
+			*/}
+		}
+	}
+
+	renderLinksMenuByRol(autenticado, datosToken) {
+		let personal = datosToken.personal
+		let rol = datosToken.rol
+
+		console.log("EL ROL ES -> "+rol)
+
+		if(autenticado) {
+			if(rol == "docente") {
+				return <ul className="nav navbar-nav">
+
+			    	<li className="active">
+						<Link to='/dashboard' className='mdl-navigation__link'>
+							dashboard
+						</Link>
+			    	</li>
+			        <li>
+					    <Link to={`/perfil`} className='mdl-navigation__link'>
+					    	Perfil
+					    </Link>	
+			        </li>
+			    </ul>
+			} else if(rol == "alumno") {
+				return <ul className="nav navbar-nav">
+					<Link to='/alumnos' className='mdl-navigation__link'>
+					Alumnos
+				</Link>
+
+				<Link to='/materias' className='mdl-navigation__link'>
+					Materias
+				</Link>	
+
+				<Link to='/usuarios' className='mdl-navigation__link'>
+					Usuarios
+				</Link>
+
+			        <li>
+					    <Link to={`/perfil`} className='mdl-navigation__link'>
+					    	Perfil
+					    </Link>	
+			        </li>
+			    </ul>
+			}
+		}else {
+			return <span>
+			</span>
 		}
 	}
 
@@ -33,27 +116,36 @@ class Menu extends Component {
 	render() {
 		const { error, datosToken, autenticado } = this.props.usuarioEstado
 
-		console.log(this.props.usuarioEstado)
 
-			  //     <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-					// <span className="foteer__icon icon-list"></span>
-			  //     </button>
-		return <div className='back-nav'>
-			<nav className="navbar back-nav container">
-			  <div className="container-fluid">
-			    <div className="navbar-header">
+		// console.log('this.props.usuarioEstado')
 
-			      <a className="navbar-brand menu__text-link" href="/">Unidad de Salud Familiar</a>
-			    </div>
+		// console.log(this.props.usuarioEstado)
 
-			    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		return <nav className="navbar navbar-inverse">
+		  <div className="container-fluid">
+		    <div className="navbar-header">
+		      <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span className="icon-bar"></span>
+		        <span className="icon-bar"></span>
+		        <span className="icon-bar"></span> 
+		        <span className="icon-bar"></span>                        
+		      </button>
 
-					{ this.renderLinks(autenticado, datosToken) }
+		      <Link to='/' className="navbar-brand">
+				Sistema Notas
+			  </Link>
 
-			    </div>
-			  </div>
-			</nav>
-		</div>
+		    </div>
+		    <div className="collapse navbar-collapse" id="myNavbar">
+
+		      { this.renderLinksMenuByRol(autenticado, datosToken) }
+			  
+			  { this.renderLinksAuth(autenticado, datosToken) }
+		      
+		    </div>
+		  </div>
+		</nav>
+		
 	}
 }
 

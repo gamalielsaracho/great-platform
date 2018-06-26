@@ -1,37 +1,45 @@
 import Usuario from './usuario.model'
 
+import Calificacion from '../calificacion/calificacion.model'
+
 import jwt from 'jsonwebtoken'
 import config from '../../config'
 
 const privateKey = config.key.privateKey
 const tokenExpiry = config.key.tokenExpiry
 
-export default (io) => {
-	var usuarioNsp = io.of('/usuario');
+// import nsp from '../nsp'
 
-	usuarioNsp.on('connection', function (socket) {
+// console.log(nsp.usuarioNsp)
+
+export default (socket, io) => {
+	// var usuarioNsp = io.of('/usuario');
+
+	// usuarioNsp.on('connection', function (socket) {
 		
 		console.log('Usuario Conectado.')
 
 		function usuarios() {
 			Usuario.find((err, usuarios) => {
 				if(err) {
-					socket.emit('listar_usuarios', { error: 'Ocurrió un error, intente nuevamente.' })
+					io.sockets.emit('listar_usuarios', { error: 'Ocurrió un error, intente nuevamente.' })
 					return
 				}
 					
-				usuarioNsp.emit('listar_usuarios', { usuarios: usuarios })
+				io.sockets.emit('listar_usuarios', { usuarios: usuarios })
 			})
 		}
 
-		usuarios()
 
+		socket.on('listar_usuarios', () => {
+			usuarios()
+		})
 
 		socket.on('registrar_usuario', (data) => {
 			
 			var usuario = new Usuario(data)			
 
-			usuario.save(data, (err, usuario) => {
+			usuario.save((err, usuario) => {
 				if(err) {
 					console.log(err)
 					socket.emit('registrar_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
@@ -46,17 +54,63 @@ export default (io) => {
 		})
 
 
+		socket.on('agregar_calificacion_usuario', (data) => {
+			
+			Usuario.findById(data._id, (err, usuario) => {
+				if(err) {
+					socket.emit('agregar_calificacion_usuario', { error: 'Ocurrió un error, intente nuevamente' })
+					return
+				}
+
+				var calificacion = new Calificacion(data.datosCli)
+
+				calificacion.save((err, calificacion) => {
+					if(err) {
+						console.log(err)
+						socket.emit('agregar_calificacion_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+						return
+					}
+
+					// console.log('....CALIFICACION CREADA.....')
+					// console.log(calificacion)
+
+					// console.log('....USUARIO ENCONTRADO.....')
+					// console.log(usuario)
+
+					usuario.calificaciones.push(calificacion)
+
+					usuario.save((err) => {
+						if(err) {
+							console.log(err)
+							socket.emit('agregar_calificacion_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+							return
+						}
+
+						socket.emit('agregar_calificacion_usuario', { mensaje: 'La calificación se agregó exitosamente.' })
+						socket.emit('mostrar_usuario', usuario)								
+					})
+
+					// socket.emit('agregar_calificacion_usuario', { mensaje: 'La calificación se agregó exitosamente.' })
+					// socket.emit('mostrar_usuario', usuario)								
+				})
+
+			})
+		})
+
+
 		socket.on('autenticar_usuario', (data) => {
 
+				// console.log(data)
 			Usuario.findOne({ correo: data.correo }, (err, usuario) => {
 
 				
-				// console.log(dato)
 				if(err) {
 					return socket.emit('autenticar_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
 				}
 
-				if(usuario.correo) {
+				console.log(usuario)
+
+				if(usuario) {
 
 					if(usuario.contrasena != data.contrasena) {
 						return socket.emit('autenticar_usuario', { error: 'La contraseña es incorrecta.' })
@@ -108,7 +162,7 @@ export default (io) => {
 					return
 				}
 
-				socket.emit('mostrar_usuario', personal)
+				socket.emit('mostrar_usuario', usuario)
 			})
 		})
 
@@ -140,10 +194,10 @@ export default (io) => {
 		})
 
 
-		socket.on('disconnect', function () {
-			console.log('Usuario Desconectado.')
-		})
-	})
+	// 	socket.on('disconnect', function () {
+	// 		console.log('Usuario Desconectado.')
+	// 	})
+	// })
 
 
 }

@@ -1,11 +1,6 @@
 import Calificacion from './calificacion.model'
 
-export default (io) => {
-	var calificacionNsp = io.of('/calificacion');
-	
-	calificacionNsp.on('connection', function (socket) {
-
-		console.log('Calificacion Conectado.')
+export default (socket, io) => {
 
 		function calificaciones() {
 			Calificacion.find((err, calificaciones) => {
@@ -14,15 +9,17 @@ export default (io) => {
 				if(err) {
 					console.log(err)
 					
-					socket.emit('listar_calificaciones', { error: 'Lo sentimos, acurrió un error. intente más tarde.' })
+					io.socket.emit('listar_calificaciones', { error: 'Lo sentimos, acurrió un error. intente más tarde.' })
 					return
 				}
 
-				calificacionNsp.emit('listar_calificaciones', { calificaciones: calificaciones })
+				io.socket.emit('listar_calificaciones', { calificaciones: calificaciones })
 			})
 		}
 		
-		calificaciones()
+		socket.on('listar_calificaciones', function(data) {
+			calificaciones()
+		})
 
 
 		socket.on('crear_calificacion', function(data) {
@@ -57,15 +54,15 @@ export default (io) => {
 		})
 
 
-		socket.emit('mostrar_calificacion', (data) => {
+		socket.on('mostrar_calificacion', (data) => {
 								
-			Calificacion.findById(data._id, (err, pregunta) => {
+			Calificacion.findById(data._id, (err, calificacion) => {
 				if(err) {
 					console.log(err)
 					return socket.emit('mostrar_calificacion', { error: 'Ocurrió un error, intente más tarde.' })
 				}
 
-				socket.emit('mostrar_calificacion', pregunta)
+				socket.emit('mostrar_calificacion', calificacion)
 					
 			})
 		})
@@ -73,21 +70,25 @@ export default (io) => {
 
 		socket.on('editar_calificacion', (data) => {
 								
-			Calificacion.findByIdAndUpdate(data._id, data, (err) => {
+			Calificacion.findByIdAndUpdate(data.datosCli._id, data.datosCli, (err) => {
 				if(err) {
 					console.log(err)
 					return socket.emit('editar_calificacion', { error: 'Ocurrió un error, intente más tarde.' })
 				}
 
-				socket.emit('editar_calificacion', { mensaje: 'Se actualizó exitósamente.' })
+				Usuario.findById(data._id, (err, usuario) => {
+					if(err) {
+						socket.emit('mostrar_usuario', { error: 'Ocurrió un error, intente nuevamente' })
+						return
+					}
+
+					socket.emit('mostrar_usuario', usuario)
+				})
+
+				// socket.emit('editar_calificacion', { mensaje: 'Se actualizó exitósamente.' })
 					
-				calificaciones()
+				// calificaciones()
 			})
 		})
-
-
-		socket.on('disconnect', function () {
-			console.log('Calificacion Desconectado.')
-		})
-	})
+	
 }

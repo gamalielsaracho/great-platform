@@ -1,2 +1,0 @@
-import CabeceraEstadisticaContainer from './CabeceraEstadistica'
-export default CabeceraEstadisticaContainer

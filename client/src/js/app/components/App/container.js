@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import App from './App'
 
 import {
-	verificarTokenPersonal,
-	salirPersonal
+	verificarTokenPersonal
 } from '../../../usuario/actions'
 
 
@@ -18,9 +17,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		verificarTokenPersonal: (token) => {
 			dispatch(verificarTokenPersonal(token))
-		},
-		salirPersonal: () => {
-			dispatch(salirPersonal())
 		}
 	}
 }
