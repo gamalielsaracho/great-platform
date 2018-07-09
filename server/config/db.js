@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import config from './index'
 
-console.log(config.database.url)
+// console.log(config.database.url)
 const db = mongoose.connect(config.database.url)
 	.then(() => {
 		console.log(`Conexión exitosa con mongodb`)

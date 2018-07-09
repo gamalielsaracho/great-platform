@@ -64,9 +64,6 @@ const validate = values => {
     errors.rol = 'Rol obligatorio.'
   }
 
-  if (!values.curso) {
-    errors.curso = 'Rol obligatorio.'
-  }
   
   return errors
 }
