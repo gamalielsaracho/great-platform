@@ -53,50 +53,9 @@ export default (socket, io) => {
 
 		})
 
-
-		socket.on('agregar_calificacion_usuario', (data) => {
-			
-			Usuario.findById(data._id, (err, usuario) => {
-				if(err) {
-					socket.emit('agregar_calificacion_usuario', { error: 'Ocurrió un error, intente nuevamente' })
-					return
-				}
-
-				var calificacion = new Calificacion(data.datosCli)
-
-				calificacion.save((err, calificacion) => {
-					if(err) {
-						console.log(err)
-						socket.emit('agregar_calificacion_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
-						return
-					}
-
-					// console.log('....CALIFICACION CREADA.....')
-					// console.log(calificacion)
-
-					// console.log('....USUARIO ENCONTRADO.....')
-					// console.log(usuario)
-
-					usuario.calificaciones.push(calificacion)
-
-					usuario.save((err) => {
-						if(err) {
-							console.log(err)
-							socket.emit('agregar_calificacion_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
-							return
-						}
-
-						socket.emit('agregar_calificacion_usuario', { mensaje: 'La calificación se agregó exitosamente.' })
-						socket.emit('mostrar_usuario', usuario)								
-					})
-
-					// socket.emit('agregar_calificacion_usuario', { mensaje: 'La calificación se agregó exitosamente.' })
-					// socket.emit('mostrar_usuario', usuario)								
-				})
-
-			})
-		})
-
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjM0MzlhNGFlOTNiOTFlMGM2ZTdkZDQ
+// iLCJjb3JyZW8iOiJnYW1hQGdtYWlsLmNvbSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNTMxMDg3NDU3LCJ
+// leHAiOjE1MzM2Nzk0NTd9.jF_FkcUoGI4c4QoVxFyT8KfbH0PEDCerMS5MR-UNG5U
 
 		socket.on('autenticar_usuario', (data) => {
 
@@ -138,8 +97,22 @@ export default (socket, io) => {
 		})
 		
 
+		socket.on('mostrar_usuario_editar', (data) => {
+			Usuario.findById(data._id, (err, usuario) => {
+				if(err) {
+					console.log(err)
+					socket.emit('mostrar_usuario_editar', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+					return
+				}
+
+				console.log(usuario)
+
+				socket.emit('mostrar_usuario_editar', usuario)									
+			})
+		})
+
+
 		socket.on('editar_usuario', (data) => {
-			
 			Usuario.findByIdAndUpdate(data._id, data, (err, usuario) => {
 				if(err) {
 					console.log(err)
@@ -147,23 +120,114 @@ export default (socket, io) => {
 					return
 				}
 
-				socket.emit('editar_usuario', { mensaje: 'El usuario se actualizó exitosamente.' })
+				mostrarUsuario(data._id)
+
+				// socket.emit('editar_usuario', { mensaje: 'El usuario se actualizó exitosamente.' })
 									
 				usuarios()	
 			})
 
 		})
 
+		
+
+
+		socket.on('crear_calificacion', function(data) {
+
+			 Usuario.findByIdAndUpdate(
+		     data.idAlumno,
+		     { $push: {"calificaciones": data.datosCli}},
+		     {  safe: true, upsert: true},
+		       function(err, usuario) {
+		         if(err){
+		        	console.log(err);
+		        	return res.send(err);
+		         }
+
+				 mostrarUsuario(data.idAlumno)		        
+		        
+		      })
+			
+		})
+
+
+		
+		socket.on('eliminar_calificacion', function(data) {
+			console.log("EL ID idAlumno-->: "+data.idAlumno)
+			console.log("EL ID calificacion -->: "+data._id)
+
+
+			Usuario.findByIdAndUpdate(
+		    data.idAlumno,
+		    { $pull: { 'calificaciones': {  _id: data._id } } },function(err, usuarioSinDato){
+		      	if(err){
+		       	console.log(err);
+		       	return res.send(err);
+		        }
+
+				mostrarUsuario(data.idAlumno)		        
+		    });
+		})
+
+
+		function mostrarUsuario(idAlumno) {
+				// console.log("EL DATO ES--->"+idAlumno)
+				
+				Usuario
+				.findById(idAlumno)
+				.populate('calificaciones.materia')
+				.populate('calificaciones.docente')
+				
+				.then((usuario) => {
+					io.sockets.emit('mostrar_usuario', usuario)
+				})
+				.catch((err) => {
+					console.log(err)
+					return socket.emit('mostrar_usuario', { 
+						error: 'Ocurrió un error, intente nuevamente' 
+					})
+				})
+		}
 
 		socket.on('mostrar_usuario', (data) => {
-			Usuario.findById(data._id, (err, usuario) => {
-				if(err) {
-					socket.emit('mostrar_usuario', { error: 'Ocurrió un error, intente nuevamente' })
-					return
-				}
+			mostrarUsuario(data._id)
+		})
 
-				socket.emit('mostrar_usuario', usuario)
+
+		socket.on('mostrar_calificacion_editar', (data) => {
+			
+			Usuario.findOne({"_id": data.idAlumno}, {calificaciones: {$elemMatch: { _id: data._id }}})
+			.then((dato) => {
+				// console.log("LA Calificacion--->")
+				// console.log(dato.calificaciones[0])
+
+				return socket.emit('mostrar_calificacion_editar', dato.calificaciones[0])
 			})
+			.catch((err) => {
+				console.log(err)
+				return socket.emit('mostrar_calificacion_editar', { error: 'Ocurrió un error, intente más tarde.' })
+			})
+		})
+
+
+		socket.on('editar_calificacion', (data) => {
+				// 'calificaciones.$.': "this is Update comment",
+			Usuario.update({'calificaciones._id': data.datosCli._id},
+			{'$set': {
+				'calificaciones.$.materia':data.datosCli.materia,
+				'calificaciones.$.oportunidad':data.datosCli.oportunidad,
+				'calificaciones.$.nota':data.datosCli.nota,
+				'calificaciones.$.fechaExamen':data.datosCli.fechaExamen,
+				'calificaciones.$.observaciones':data.datosCli.observaciones,
+				'calificaciones.$.fechaActualizacion':data.datosCli.fechaActualizacion
+			}}, function(err, model) {
+				if(err){
+			    	console.log(err);
+			    	return res.send(err);
+			    }
+
+				mostrarUsuario(data.idAlumno)
+			});
 		})
 
 

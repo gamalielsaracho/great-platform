@@ -1,0 +1,2 @@
+import FormularioCalificacionContainer from './container'
+export default FormularioCalificacionContainer

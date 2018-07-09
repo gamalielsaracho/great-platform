@@ -26,7 +26,33 @@ const UsuarioSchema = new Schema({
 		default: 'alumno'
 	},
 	calificaciones: [
-		{ type: Schema.Types.ObjectId, ref: 'Calificacion' }
+		{
+			docente: {
+				type: Schema.Types.ObjectId, ref: 'Usuario'
+			},
+			materia: {
+				type: Schema.Types.ObjectId, ref: 'Materia'
+			},
+			oportunidad: {
+				type: String
+			},
+			nota: {
+				type: Number,
+				default: 0
+			},
+			fechaExamen: {
+				type: Date
+			},
+			observaciones: {
+				type: String
+			},
+			fechaCreacion: {
+				type: Date
+			},
+			fechaActualizacion: {
+				type: Date
+			}
+		}
 	]
 })
 

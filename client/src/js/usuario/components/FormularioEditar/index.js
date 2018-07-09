@@ -1,0 +1,2 @@
+import FormularioEditarPersonalContainer from './container'
+export default FormularioEditarPersonalContainer
