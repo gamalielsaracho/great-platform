@@ -22,8 +22,8 @@ const UsuarioSchema = new Schema({
 		type: String
 	},
 	rol: {
-		type: String,
-		default: 'alumno'
+		// default: 'alumno'
+		type: Schema.Types.ObjectId, ref: 'Rol'
 	},
 	calificaciones: [
 		{
@@ -34,7 +34,7 @@ const UsuarioSchema = new Schema({
 				type: Schema.Types.ObjectId, ref: 'Materia'
 			},
 			oportunidad: {
-				type: String
+				type: Schema.Types.ObjectId, ref: 'Oportunidad'
 			},
 			nota: {
 				type: Number,
@@ -51,6 +51,25 @@ const UsuarioSchema = new Schema({
 			},
 			fechaActualizacion: {
 				type: Date
+			}
+		}
+	],
+	permisos: [
+		{
+			modulo: {
+				type: Schema.Types.ObjectId, ref: 'Modulo'
+			},
+			editar: {
+				type: Boolean,
+				default: false
+			},
+			eliminar: {
+				type: Boolean,
+				default: false
+			},
+			mostrar: {
+				type: Boolean,
+				default: false
 			}
 		}
 	]
