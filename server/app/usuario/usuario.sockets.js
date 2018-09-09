@@ -37,19 +37,32 @@ export default (socket, io) => {
 
 		socket.on('registrar_usuario', (data) => {
 			
-			var usuario = new Usuario(data)			
-
-			usuario.save((err, usuario) => {
+			Usuario.find((err, usuariosLista) => {
 				if(err) {
-					console.log(err)
-					socket.emit('registrar_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+					io.sockets.emit('registrar_usuario', { error: 'Ocurrió un error, intente nuevamente.' })
 					return
 				}
+					
+				if(usuariosLista.length == 0) {
+					data.rol = 'admin'
+				}
 
-				socket.emit('registrar_usuario', { mensaje: 'El usuario se creó exitosamente.' })
-								
-				usuarios()
+				var usuario = new Usuario(data)			
+
+				usuario.save((err, usuario) => {
+					if(err) {
+						console.log(err)
+						socket.emit('registrar_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+						return
+					}
+
+					socket.emit('registrar_usuario', { mensaje: 'El usuario se creó exitosamente.' })
+									
+					usuarios()
+				})
+
 			})
+
 
 		})
 

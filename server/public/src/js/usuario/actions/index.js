@@ -305,6 +305,8 @@ export function salirPersonal() {
 		localStorage.removeItem('token')
 
 		browserHistory.push(`/entrar`)
+		window.location.reload()
+
 	}
 }
 

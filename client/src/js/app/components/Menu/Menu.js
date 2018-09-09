@@ -19,7 +19,7 @@ class Menu extends Component {
 		if(autenticado) {
 			return <ul className="nav navbar-nav navbar-right">
 		        <li onClick={() => { this.props.salirPersonal() }} >
-		        	<a href="#">Salir</a>
+		        	<a>Salir</a>
 		        </li>
 		    </ul>
 

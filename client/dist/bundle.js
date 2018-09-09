@@ -42338,7 +42338,7 @@
 								} },
 							_react2.default.createElement(
 								'a',
-								{ href: '#' },
+								null,
 								'Salir'
 							)
 						)
@@ -42892,6 +42892,7 @@
 			localStorage.removeItem('token');
 
 			_reactRouter.browserHistory.push('/entrar');
+			window.location.reload();
 		};
 	}
 
