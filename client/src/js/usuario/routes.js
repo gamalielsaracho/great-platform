@@ -11,6 +11,18 @@ import MostrarPersonalContainer from './components/Mostrar'
 
 import ListarPersonalesContainer from './components/Mostrar'
 
+// const personalRoutes = (
+// 	<Route path='/dashboard/personales' component={ListarPersonalesApp}>
+// 		<IndexRoute component={ListarPersonalesContainer}/>
+		
+// 			<Route path='/dashboard/personales/:idPersonal' 
+// 				component={MostrarPersonalContainer}/>
+// 		{/*
+// 		*/}
+			
+// 	</Route>
+// )
+
 const personalRoutes = (
 	<Route path='/dashboard/personales' component={ListarPersonalesApp}>
 		<IndexRoute component={ListarPersonalesContainer}/>

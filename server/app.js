@@ -17,7 +17,7 @@ app.use(express.static('public'));
 io.on('connection', function (socket) {
 	console.log('Usuario Conectado.')
 
-	require('././app/usuario/usuario.sockets')(socket, io)
+	require('././app/usuario/allEvents.sockets')(socket, io)
 	require('././app/materia/materia.sockets')(socket, io)
 
 	socket.on('disconnect', function () {

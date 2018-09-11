@@ -1,2 +1,2 @@
-import MostrarPersonalContainer from './container'
-export default MostrarPersonalContainer
+import MostrarUsuarioContainer from './container'
+export default MostrarUsuarioContainer

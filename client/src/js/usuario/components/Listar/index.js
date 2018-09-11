@@ -1,2 +1,2 @@
-import ListarPersonalesContainer from './container'
-export default ListarPersonalesContainer
+import ListarUsuariosContainer from './container'
+export default ListarUsuariosContainer

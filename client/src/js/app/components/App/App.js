@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MenuContainer from '../Menu'
+import HomePage from '../../pages/HomePage'
 
+// import RegistrarPersonalContainer from '../../../usuario/components/Registrar'
+
+import MainRoutes from '../MainRoutes'
 
 class App extends Component {
 	constructor(props) {
@@ -24,8 +28,8 @@ class App extends Component {
 	render() {
 		return <div>
 			<MenuContainer/>
-			{ this.props.children }
 
+			<MainRoutes/>
 
 		</div>
 	}

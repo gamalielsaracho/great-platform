@@ -29,6 +29,10 @@ class Mostrar extends Component {
 	}
 	
 	componentWillMount() {
+			console.log('this.props.urls.idPersonal')
+
+			console.log(this.props.match.params.idPersonal)
+		
 		this.props.mostrarPersonal(this.props.urls.idPersonal)
 	}
 
@@ -39,7 +43,7 @@ class Mostrar extends Component {
 					calificacionesLista={calificacionesListaParam}/>
 		} else {
 			// console.log('this.props.urls.idPersonal')
-			// console.log(this.props.urls.idPersonal)
+			// console.log(this.props.match.params.idPersonal)
 
 			// console.log('this.idUsuarioLst')
 			// console.log(jwtDecode(localStorage.getItem('token'))._id)

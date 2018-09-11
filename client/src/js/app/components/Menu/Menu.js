@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router' 
+import { NavLink } from 'react-router-dom' 
 
 import jwtDecode from 'jwt-decode'
 
@@ -25,19 +25,19 @@ class Menu extends Component {
 
 		    {/*
 
-				<Link to='/alumnos' className='mdl-navigation__link'>
+				<NavLink to='/alumnos' className='mdl-navigation__link'>
 					Alumnos
-				</Link>
+				</NavLink>
 
-				<Link to='/materias' className='mdl-navigation__link'>
+				<NavLink to='/dashboard/materias' className='mdl-navigation__link'>
 					Materias
-				</Link>	
+				</NavLink>	
 
-				<Link to='/usuarios' className='mdl-navigation__link'>
+				<NavLink to='/dashboard/usuarios' className='mdl-navigation__link'>
 					Usuarios
-				</Link>	
+				</NavLink>	
 
-			    <Link to={`/perfil`} className='mdl-navigation__link'>Perfil</Link>	
+			    <NavLink to={`/perfil`} className='mdl-navigation__link'>Perfil</NavLink>	
 
 			
 				<a onClick={() => { this.props.salirPersonal() }} 
@@ -48,15 +48,15 @@ class Menu extends Component {
 		}else {
 			return <ul className="nav navbar-nav navbar-right">
 		    	<li>
-			    	<Link to='/entrar' className="mdl-navigation__link">
+			    	<NavLink to='/entrar' className="mdl-navigation__link">
 						Entrar
-					</Link>
+					</NavLink>
 				</li>
 
 		    	<li>
-		    		<Link to='/registrarse' className="mdl-navigation__link">
+		    		<NavLink to='/registrarse' className="mdl-navigation__link">
 						Registrarse
-					</Link>
+					</NavLink>
 				</li>
 		    </ul>
 
@@ -77,21 +77,21 @@ class Menu extends Component {
 			if(rol == "docente" || rol == "admin") {
 				return <ul className="nav navbar-nav">
 			        <li>
-						<Link to='/materias' className='mdl-navigation__link'>
+						<NavLink to='/dashboard/materias' className='mdl-navigation__link'>
 							Materias
-						</Link>	
+						</NavLink>	
 			        </li>
 
 			        <li>
-						<Link to='/usuarios' className='mdl-navigation__link'>
+						<NavLink to='/dashboard/usuarios' className='mdl-navigation__link'>
 							Usuarios
-						</Link>
+						</NavLink>
 			        </li>
 
 			        <li>
-					    <Link to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
+					    <NavLink to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
 					    	Perfil
-					    </Link>	
+					    </NavLink>	
 			        </li>
 			    	
 			    </ul>
@@ -99,9 +99,9 @@ class Menu extends Component {
 				return <ul className="nav navbar-nav">
 
 			        <li>
-					    <Link to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
+					    <NavLink to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
 					    	Perfil
-					    </Link>	
+					    </NavLink>	
 			        </li>
 			    </ul>
 			}
@@ -130,9 +130,9 @@ class Menu extends Component {
 		        <span className="icon-bar"></span>                        
 		      </button>
 
-		      <Link to='/' className="navbar-brand">
+		      <NavLink to='/' className="navbar-brand">
 				Calificaciones estudiantes
-			  </Link>
+			  </NavLink>
 
 		    </div>
 		    <div className="collapse navbar-collapse" id="myNavbar">

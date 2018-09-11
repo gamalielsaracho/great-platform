@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import Cargando from '../../../app/components/Cargando'
 
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 import jwtDecode from 'jwt-decode'
 
@@ -25,19 +25,20 @@ class Listar extends Component {
 	}
 
 	renderUsuarioDatos(i) {
-		if(jwtDecode(localStorage.getItem('token'))._id != i._id) {
+		console.log(i)
+		// if(jwtDecode(localStorage.getItem('token'))._id != i._id) {
 			return <tr key={i._id}>
 				<td>{ i.nroDocumento }</td>
 				<td>{ i.nombres+' '+i.apellidos }</td>
 				<td>{ i.correo }</td>
 
 				<td>
-					<Link to={`/usuarios/${i._id}`}>
+					<NavLink to={`/dashboard/usuarios/${i._id}`}>
 						<button type="button" className="myBtn">Mostrar</button>
-					</Link>
+					</NavLink>
 				</td>
 			</tr>
-		}
+		// }
 	}
 
 	// shouldComponentUpdate(nextProps) {

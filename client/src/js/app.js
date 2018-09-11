@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom'
 import configureStore from './store'
 
 import { Provider } from 'react-redux'
-import { Router, browserHistory } from 'react-router'
+import { BrowserRouter } from 'react-router-dom'
+
+import AppContainer from '././app/components/App'
 
 // import { createStore, applyMiddleware } from 'redux'
 // import reduxThunk from 'redux-thunk'
@@ -15,8 +17,11 @@ import { Router, browserHistory } from 'react-router'
 
 import routes from './routes'
 
+import Root from '././app/components/Root'
+
 const store = configureStore()
 
-ReactDOM.render(<Provider store={store}>
-		<Router history={browserHistory} routes={routes}/>
-	</Provider>, document.getElementById('root'))
+		// <BrowserRouter>
+		// </BrowserRouter>
+ReactDOM.render(<Root store={store} />, document.getElementById('root'))
+		// <Router history={browserHistory} routes={routes}/>

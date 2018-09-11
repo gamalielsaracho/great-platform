@@ -22,8 +22,9 @@ const UsuarioSchema = new Schema({
 		type: String
 	},
 	rol: {
-		// default: 'alumno'
-		type: Schema.Types.ObjectId, ref: 'Rol'
+		type: String,
+		default: 'alumno'
+		// type: Schema.Types.ObjectId, ref: 'Rol'
 	},
 	calificaciones: [
 		{
