@@ -19,6 +19,8 @@ io.on('connection', function (socket) {
 
 	require('././app/usuario/allEvents.sockets')(socket, io)
 	require('././app/materia/materia.sockets')(socket, io)
+	require('././app/facultad/facultad.sockets')(socket, io)
+
 
 	socket.on('disconnect', function () {
 		console.log('Usuario Desconectado.')

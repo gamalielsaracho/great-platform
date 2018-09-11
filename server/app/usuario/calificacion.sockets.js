@@ -1,5 +1,7 @@
+import Usuario from './usuario.model'
+
 import { listarUsuarios, mostrarUsuario } from './enventsToCall'
-	
+
 
 export default (socket, io) => {
 	listarUsuarios(socket, io)
@@ -14,7 +16,8 @@ export default (socket, io) => {
 	       function(err, usuario) {
 	         if(err){
 	        	console.log(err);
-	        	return res.send(err);
+
+				return socket.emit('crear_calificacion', { error: 'Ocurrió un error, intente más tarde.' })
 	         }
 
 			 mostrarUsuario(data.idAlumno)		        
@@ -33,8 +36,8 @@ export default (socket, io) => {
 	    data.idAlumno,
 	    { $pull: { 'calificaciones': {  _id: data._id } } },function(err, usuarioSinDato){
 	      	if(err){
-	       	console.log(err);
-	       	return res.send(err);
+	       		console.log(err);
+				return socket.emit('eliminar_calificacion', { error: 'Ocurrió un error, intente más tarde.' })
 	        }
 
 			mostrarUsuario(data.idAlumno)		        
@@ -73,7 +76,7 @@ export default (socket, io) => {
 		}}, function(err, model) {
 			if(err){
 		    	console.log(err);
-		    	return res.send(err);
+				return socket.emit('editar_calificacion', { error: 'Ocurrió un error, intente más tarde.' })
 		    }
 
 			mostrarUsuario(data.idAlumno)

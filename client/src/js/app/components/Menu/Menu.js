@@ -89,6 +89,12 @@ class Menu extends Component {
 			        </li>
 
 			        <li>
+						<NavLink to='/dashboard/facultades' className='mdl-navigation__link'>
+							Facultades
+						</NavLink>
+			        </li>
+
+			        <li>
 					    <NavLink to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
 					    	Perfil
 					    </NavLink>	

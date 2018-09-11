@@ -216,6 +216,7 @@ export function mostrarPersonal(idPersonal) {
 
 
 		socketPersonal.emit('mostrar_usuario', { _id: idPersonal })
+			console.log('mostrar_usuario')
 
 		socketPersonal.on('mostrar_usuario', (data) => {
 			console.log(data)

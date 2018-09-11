@@ -9,6 +9,10 @@ import AutenticarContainer from '../../../usuario/components/Autenticar'
 import MateriaRoutes from '../../../materia/components/MateriaRoutes'
 import UsuarioRoutes from '../../../usuario/components/UsuarioRoutes'
 
+import MostrarUsuarioContainer from '../../../usuario/components/Mostrar'
+
+import ListarFacultadesContainer from '../../../facultad/components/Listar'
+
 class MainRoutes extends Component {
 
 	render() {
@@ -21,6 +25,10 @@ class MainRoutes extends Component {
 				<Route exact path='/dashboard/materias' component={MateriaRoutes} />
 
 				<Route exact path='/dashboard/usuarios' component={UsuarioRoutes} />
+				<Route path='/dashboard/usuarios/:idPersonal' component={MostrarUsuarioContainer} />
+
+
+				<Route exact path='/dashboard/facultades' component={ListarFacultadesContainer} />
 
 			</Switch>
 		</main>

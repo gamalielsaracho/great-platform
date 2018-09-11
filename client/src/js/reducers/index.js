@@ -8,12 +8,15 @@ import materiaReducer from '../materia/reducer'
 
 import calificacionReducer from '../calificacion/reducer'
 
+import facultadReducer from '../facultad/reducer'
+
 
 const rootReducer = combineReducers({
 	form: formReducer,
 	personal: personalReducer,
 	materia: materiaReducer,
-	calificacion: calificacionReducer
+	calificacion: calificacionReducer,
+	facultad: facultadReducer
 })
 
 export default rootReducer

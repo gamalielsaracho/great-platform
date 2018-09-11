@@ -87,7 +87,7 @@ export default (socket, io) => {
 		
 
 	socket.on('mostrar_usuario', (data) => {
-		mostrarUsuario(data._id)
+		mostrarUsuario(data._id, socket, io)
 	})
 
 

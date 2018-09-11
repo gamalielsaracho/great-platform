@@ -29,11 +29,11 @@ class Mostrar extends Component {
 	}
 	
 	componentWillMount() {
-			console.log('this.props.urls.idPersonal')
+			console.log('this.props.match.params.idPersonal')
 
 			console.log(this.props.match.params.idPersonal)
 		
-		this.props.mostrarPersonal(this.props.urls.idPersonal)
+		this.props.mostrarPersonal(this.props.match.params.idPersonal)
 	}
 
 	renderCalificacionesByRolAndId(idAlumnoParam, calificacionesListaParam) {
@@ -42,13 +42,13 @@ class Mostrar extends Component {
 					idAlumno={idAlumnoParam}
 					calificacionesLista={calificacionesListaParam}/>
 		} else {
-			// console.log('this.props.urls.idPersonal')
+			// console.log('this.props.match.params.idPersonal')
 			// console.log(this.props.match.params.idPersonal)
 
 			// console.log('this.idUsuarioLst')
 			// console.log(jwtDecode(localStorage.getItem('token'))._id)
 
-			if(jwtDecode(localStorage.getItem('token'))._id == this.props.urls.idPersonal) {
+			if(jwtDecode(localStorage.getItem('token'))._id == this.props.match.params.idPersonal) {
 				return <ListarCalificacionesContainer 
 					idAlumno={idAlumnoParam}
 					calificacionesLista={calificacionesListaParam}/>
@@ -58,17 +58,18 @@ class Mostrar extends Component {
 		}
 	}
 
+
 	renderBtnEditByRol(personal) {
 		if(jwtDecode(localStorage.getItem('token')).rol == 'admin') {
 			return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(personal._id) }} className='myBtn'>Editar</button>
 		} else {
-			// console.log('this.props.urls.idPersonal')
-			// console.log(this.props.urls.idPersonal)
+			// console.log('this.props.match.params.idPersonal')
+			// console.log(this.props.match.params.idPersonal)
 
 			// console.log('this.idUsuarioLst')
 			// console.log(this.idUsuarioLst)
 
-			if(jwtDecode(localStorage.getItem('token'))._id == this.props.urls.idPersonal) {
+			if(jwtDecode(localStorage.getItem('token'))._id == this.props.match.params.idPersonal) {
 				return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(personal._id) }} className='myBtn'>Editar</button>
 			} else {
 				return <span></span>
@@ -103,7 +104,7 @@ class Mostrar extends Component {
 
 				</div>
 
-				{ this.renderCalificacionesByRolAndId(this.props.urls.idPersonal, personal.calificaciones) }
+				{ this.renderCalificacionesByRolAndId(this.props.match.params.idPersonal, personal.calificaciones) }
 				
 			</div>
 
@@ -121,6 +122,9 @@ class Mostrar extends Component {
 
 		const { cargando, personal, error } = this.props.mostrar
 		// ...
+
+		console.log('el personal...')
+		console.log(personal)
 		return <div className='container'>
 
 			<MensajeOerror error={error} mensaje={null}/>
