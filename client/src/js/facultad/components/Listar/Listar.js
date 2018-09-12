@@ -5,6 +5,8 @@ import MensajeOerror from '../../../app/components/MensajeOerror'
 
 import jwtDecode from 'jwt-decode'
 
+import { NavLink } from 'react-router-dom'
+
 import FormularioFacultadContainer from '../Formulario'
 
 class Listar extends Component {
@@ -34,23 +36,31 @@ class Listar extends Component {
 
 
 	renderFacultades(facultades) {
-		console.log(facultades)
+		// console.log(facultades)
 
-		return <tbody>
-			{
-				facultades.map((f) => {
-					return <tr key={f._id}>
-			            <td>{ f.descripcion }</td>
+		if (facultades) {
+			return <tbody>
+				{
+					facultades.map((f) => {
+						return <tr key={f._id}>
+				            <td>{ f.descripcion }</td>
 
-			            <td>
-							<button type="button" onClick={() => { this.props.abrirFormularioEditarFacultad(f._id) }} className="myBtn">Editar</button>
+				            <td>
+								<button type="button" onClick={() => { this.props.abrirFormularioEditarFacultad(f._id) }} className="myBtn">Editar</button>
 
-							<button type="button" onClick={() => { this.props.eliminarFacultad(f._id) }} className="myBtn">Eliminar</button>
-			            </td>
-			        </tr>		
-				})
-			}
-		</tbody>
+								<button type="button" onClick={() => { this.props.eliminarFacultad(f._id) }} className="myBtn">Eliminar</button>
+								
+								<NavLink to={`/dashboard/facultades/${f._id}/carreras`}>
+									<button type="button" className="myBtn">Mostrar</button>
+								</NavLink>
+				            </td>
+				        </tr>		
+					})
+				}
+			</tbody>
+		} else {
+			return <tbody></tbody>
+		}
 	}
 
 	render() {
@@ -66,10 +76,9 @@ class Listar extends Component {
 				return <div className='container'>
 					<h1 className='text-center'>Facultades</h1>
 
-					
 
 					<FormularioFacultadContainer/>
-						<br/>
+					<br/>
 
 					<MensajeOerror error={error} mensaje={null}/>
 
@@ -92,7 +101,6 @@ class Listar extends Component {
 
 						</table>
 					</div>
-
 
 				</div>
 		}

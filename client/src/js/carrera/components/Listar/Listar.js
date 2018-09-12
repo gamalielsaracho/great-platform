@@ -5,17 +5,20 @@ import MensajeOerror from '../../../app/components/MensajeOerror'
 
 import jwtDecode from 'jwt-decode'
 
-import FormularioFacultadContainer from '../Formulario'
+import { NavLink } from 'react-router-dom'
+
+import FormularioCarreraContainer from '../Formulario'
 
 class Listar extends Component {
 	constructor(props) {
 		super(props)
-		this.renderFacultades = this.renderFacultades.bind(this)
+		this.renderCarreras = this.renderCarreras.bind(this)
 		this.personalLocalSt = jwtDecode(localStorage.getItem('token'))
+		this.idFacultad = this.props.match.params.idFacultad
 	}
 
 	componentWillMount() {
-		this.props.listarFacultades()
+		this.props.listarCarrerasPorIdFacultad(this.idFacultad)
 	}
  
 	// shouldComponentUpdate(nextProps) {
@@ -33,29 +36,36 @@ class Listar extends Component {
 
 
 
-	renderFacultades(facultades) {
-		console.log(facultades)
+	renderCarreras(carreras) {
+		// console.log(carreras)
 
-		return <tbody>
-			{
-				facultades.map((f) => {
-					return <tr key={f._id}>
-			            <td>{ f.descripcion }</td>
+		if(carreras) {
+			return <tbody>
+				{
+					carreras.map((c) => {
+						return <tr key={c._id}>
+				            <td>{ c.descripcion }</td>
 
-			            <td>
-							<button type="button" onClick={() => { this.props.abrirFormularioEditarFacultad(f._id) }} className="myBtn">Editar</button>
-
-							<button type="button" onClick={() => { this.props.eliminarFacultad(f._id) }} className="myBtn">Eliminar</button>
-			            </td>
-			        </tr>		
-				})
-			}
-		</tbody>
+				            <td>
+								<button type="button" onClick={() => { this.props.abrirFormularioEditarCarrera(c._id) }} className="myBtn">Editar</button>
+								<button type="button" onClick={() => { this.props.eliminarCarrera(c._id, this.idFacultad) }} className="myBtn">Eliminar</button>
+				            	
+				            	<NavLink to={`/dashboard/facultades/${this.idFacultad}/carreras/${c._id}`}>
+									<button type="button" className="myBtn">Mostrar</button>
+								</NavLink>
+				            </td>
+				        </tr>		
+					})
+				}
+			</tbody>
+		} else {
+			return <tbody></tbody>
+		}
 	}
 
 	render() {
 
-		const { facultades, cargando } = this.props.listar
+		const { carreras, cargando } = this.props.listar
 
 		let error = this.props.listar.error ? this.props.listar.error :
 			this.props.eliminar.error
@@ -64,17 +74,16 @@ class Listar extends Component {
 			return <Cargando/>
 		} else {
 				return <div className='container'>
-					<h1 className='text-center'>Facultades</h1>
-
+					<h1 className='text-center'>Carreras</h1>
 					
 
-					<FormularioFacultadContainer/>
-						<br/>
+					<FormularioCarreraContainer 
+						idFacultad={this.idFacultad}/>
+					<br/>
 
 					<MensajeOerror error={error} mensaje={null}/>
-
 					
-					<button type="button" onClick={this.props.abrirFormularioCrearFacultad} className="myBtn">Agregar</button>
+					<button type="button" onClick={this.props.abrirFormularioCrearCarrera} className="myBtn">Agregar</button>
 					<br/>
 					<br/>
 						
@@ -88,7 +97,7 @@ class Listar extends Component {
 								</tr>
 							</thead>
 
-							{ this.renderFacultades(facultades) }
+							{ this.renderCarreras(carreras) }
 
 						</table>
 					</div>

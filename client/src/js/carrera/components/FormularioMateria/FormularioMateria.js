@@ -15,7 +15,7 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
   </div>
 )
 
-class Formulario extends Component {
+class FormularioMateria extends Component {
 	constructor(props) {
 		super(props)
 		this.enviarFormulario = this.enviarFormulario.bind(this)
@@ -24,9 +24,6 @@ class Formulario extends Component {
 
 	enviarFormulario(formProps) {		
 		console.log(formProps)
-
-		console.log('this.props.idFacultad')
-		console.log(this.props.idFacultad)
 
 		if(this.props.editarContenido) {
 			this.props.editarCarrera(formProps)
@@ -83,4 +80,4 @@ class Formulario extends Component {
 	}
 }
 
-export default Formulario
+export default FormularioMateria

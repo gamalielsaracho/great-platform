@@ -35,23 +35,27 @@ class Listar extends Component {
 
 
 	renderMaterias(materias) {
-		console.log(materias)
+		// console.log(materias)
 
-		return <tbody>
-			{
-				materias.map((m) => {
-					return <tr key={m._id}>
-			            <td>{ m.nombre }</td>
+		if (materias) {
+			return <tbody>
+				{
+					materias.map((m) => {
+						return <tr key={m._id}>
+				            <td>{ m.nombre }</td>
 
-			            <td>
-							<button type="button" onClick={() => { this.props.abrirFormularioEditarMateria(m._id) }} className="myBtn">Editar</button>
+				            <td>
+								<button type="button" onClick={() => { this.props.abrirFormularioEditarMateria(m._id) }} className="myBtn">Editar</button>
 
-							<button type="button" onClick={() => { this.props.eliminarMateria(m._id) }} className="myBtn">Eliminar</button>
-			            </td>
-			        </tr>		
-				})
-			}
-		</tbody>
+								<button type="button" onClick={() => { this.props.eliminarMateria(m._id) }} className="myBtn">Eliminar</button>
+				            </td>
+				        </tr>		
+					})
+				}
+			</tbody>
+		} else {
+			return <tbody></tbody>
+		}
 	}
 
 	render() {

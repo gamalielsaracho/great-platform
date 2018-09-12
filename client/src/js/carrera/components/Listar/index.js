@@ -1,2 +1,2 @@
-import ListarFacultadesContainer from './container'
-export default ListarFacultadesContainer
+import ListarCarrerasContainer from './container'
+export default ListarCarrerasContainer

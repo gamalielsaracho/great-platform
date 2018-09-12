@@ -15,10 +15,6 @@ import {
 	MOSTRAR_MATERIA_EXITO,
 	MOSTRAR_MATERIA_FALLO,
 
-	CERRAR_MODAL_MOSTRAR_MATERIA,
-
-	// Editar Rol.
-		// form to edit a rol.
 	ABRIR_FORMULARIO_EDITAR_MATERIA_REQUEST,
 	ABRIR_FORMULARIO_EDITAR_MATERIA_EXITO,
 	ABRIR_FORMULARIO_EDITAR_MATERIA_FALLO,
@@ -39,12 +35,12 @@ const INITIAL_STATE = {
 		iniciarValores: false,
 		error: '',
 		cargando: false,
-		materia: {}
+		materia: null
 	},
 	crear: { mensaje: '', cargando: false, error:'' },
-	listar: { materias:[], cargando: false, error: '' },
+	listar: { materias: null, cargando: false, error: '' },
 	eliminar: { cargando: false, mensaje: '', error: '' },
-	mostrar: { cargando: false, materia: {}, error: '', abierto: false },
+	mostrar: { cargando: false, materia: null, error: '' },
 	editar: { cargando: false, mensaje: '', error: '' }
 }
 
@@ -58,9 +54,9 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: false,
 					error: '',
 					cargando: false,
-					materia: {}
+					materia: null
 				},
-				mostrar: { abierto: false },
+				mostrar: INITIAL_STATE.mostrar,
 				eliminar: INITIAL_STATE.eliminar
 			})
 
@@ -72,9 +68,9 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: true,
 					error: '',
 					cargando: true,
-					materia: {}
+					materia: null
 				},
-				mostrar: { abierto: false },
+				mostrar: INITIAL_STATE.mostrar,
 				eliminar: INITIAL_STATE.eliminar
 			})
 
@@ -88,7 +84,7 @@ export default function (state = INITIAL_STATE, action) {
 					cargando: false,
 					materia: action.payload
 				},
-				mostrar: { abierto: false }
+				mostrar: INITIAL_STATE.mostrar
 			})
 
 		case ABRIR_FORMULARIO_EDITAR_MATERIA_FALLO:
@@ -99,9 +95,9 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: true,
 					error: action.payload,
 					cargando: false,
-					materia: {}
+					materia: null
 				},
-				mostrar: { abierto: false }
+				mostrar: INITIAL_STATE.mostrar
 			})
 
 
@@ -113,27 +109,23 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: false,
 					error: '',
 					cargando: false,
-					materia: {}
+					materia: null
 				}
 			})
 
-		// CREATE ROL.
+
 		case CREAR_MATERIA_REQUEST:
 			return state = Object.assign({}, state, {
 				crear: { cargando: true }
 			})
 
 		case CREAR_MATERIA_EXITO:
-			// console.log(action.payload.datoInsertado)
 
 			return Object.assign({}, state, {
 				crear: { 
 					mensaje: action.payload.mensaje,
 				},
 				formulario: { abirtoCrear: false }
-				// listar: { 
-				// 	materias: [ ...state.listar.roles, action.payload.datoInsertado ]
-				// }
 			})
 
 		case CREAR_MATERIA_FALLO:
@@ -141,11 +133,12 @@ export default function (state = INITIAL_STATE, action) {
 				crear: { error: action.payload }
 			})
 
-		// LISTAR.
+
 		case LISTAR_MATERIAS_REQUEST:
 			return Object.assign({}, state, {
 				listar: { cargando: true, error: '' },
-				eliminar: INITIAL_STATE.eliminar
+				eliminar: INITIAL_STATE.eliminar,
+				formulario: INITIAL_STATE.formulario
 			})
 
 		case LISTAR_MATERIAS_EXITO:
@@ -156,13 +149,13 @@ export default function (state = INITIAL_STATE, action) {
 
 		case LISTAR_MATERIAS_FALLO:
 			return Object.assign({}, state, {
-				listar: { error: action.payload, materias:[], cargando: false }
+				listar: { error: action.payload, materias: null, cargando: false }
 			})
 
-		// MOSTRAR.
+
 		case MOSTRAR_MATERIA_REQUEST:
 			return Object.assign({}, state, {
-				mostrar: { cargando: true, abierto: true },
+				mostrar: { cargando: true },
 				formulario: { abirtoEditar: false, abirtoCrear: false },
 				eliminar: INITIAL_STATE.eliminar
 			})
@@ -171,8 +164,7 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, {
 				mostrar: {
 					cargando: false,
-					materia: action.payload,
-					abierto: true
+					materia: action.payload
 				},
 				formulario: { abirtoEditar: false, abirtoCrear: false }
 			})
@@ -181,25 +173,13 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, {
 				mostrar: {
 					cargando: false,
-					materia: {},
-					error: action.payload,
-					abierto: true
+					materia: null,
+					error: action.payload
 				},
 				formulario: { abirtoEditar: false, abirtoCrear: false }
 			})
 
-		case CERRAR_MODAL_MOSTRAR_MATERIA:
-			return Object.assign({}, state, {
-				mostrar: {
-					cargando: false,
-					materia: {},
-					error: '',
-					abierto: false
-				}
-			})
 
-
-		// EDITAR.
 		case EDITAR_MATERIA_REQUEST:
 			return Object.assign({}, state, {
 				editar: { cargando: true }
@@ -224,7 +204,6 @@ export default function (state = INITIAL_STATE, action) {
 			})
 		
 
-		// ELIMINAR.
 		case ELIMINAR_MATERIA_REQUEST:
 			return Object.assign({}, state, {
 				eliminar: { cargando: true }
@@ -234,8 +213,7 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, {
 				eliminar: {
 					cargando: false,
-					error: '',
-					materia: action.payload
+					error: ''
 				}
 			})
 
@@ -243,8 +221,7 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, {
 				eliminar: {
 					cargando: false,
-					error: action.payload,
-					materia: {}
+					error: action.payload
 				}
 			})
 

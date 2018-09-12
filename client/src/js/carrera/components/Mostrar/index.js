@@ -1,2 +1,2 @@
-import MostarContainer from './container'
-export default MostarContainer
+import MostrarCarreraContainer from './container'
+export default MostrarCarreraContainer

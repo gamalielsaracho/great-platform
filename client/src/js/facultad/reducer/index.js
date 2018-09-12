@@ -35,12 +35,12 @@ const INITIAL_STATE = {
 		iniciarValores: false,
 		error: '',
 		cargando: false,
-		facultad: {}
+		facultad: null
 	},
 	crear: { mensaje: '', cargando: false, error:'' },
-	listar: { facultades:[], cargando: false, error: '' },
+	listar: { facultades: null, cargando: false, error: '' },
 	eliminar: { cargando: false, mensaje: '', error: '' },
-	mostrar: { cargando: false, facultad: {}, error: '', abierto: false },
+	mostrar: { cargando: false, facultad: null, error: '' },
 	editar: { cargando: false, mensaje: '', error: '' }
 }
 
@@ -55,9 +55,9 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: false,
 					error: '',
 					cargando: false,
-					facultad: {}
+					facultad: null
 				},
-				mostrar: { abierto: false },
+				mostrar: INITIAL_STATE.mostrar,
 				eliminar: INITIAL_STATE.eliminar
 			})
 
@@ -69,9 +69,9 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: true,
 					error: '',
 					cargando: true,
-					facultad: {}
+					facultad: null
 				},
-				mostrar: { abierto: false },
+				mostrar: INITIAL_STATE.mostrar,
 				eliminar: INITIAL_STATE.eliminar
 			})
 
@@ -85,7 +85,7 @@ export default function (state = INITIAL_STATE, action) {
 					cargando: false,
 					facultad: action.payload
 				},
-				mostrar: { abierto: false }
+				mostrar: INITIAL_STATE.mostrar
 			})
 
 		case ABRIR_FORMULARIO_EDITAR_FACULTAD_FALLO:
@@ -96,9 +96,9 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: true,
 					error: action.payload,
 					cargando: false,
-					facultad: {}
+					facultad: null
 				},
-				mostrar: { abierto: false }
+				mostrar: INITIAL_STATE.mostrar
 			})
 
 
@@ -110,7 +110,7 @@ export default function (state = INITIAL_STATE, action) {
 					iniciarValores: false,
 					error: '',
 					cargando: false,
-					facultad: {}
+					facultad: null
 				}
 			})
 
@@ -137,7 +137,8 @@ export default function (state = INITIAL_STATE, action) {
 		case LISTAR_FACULTADES_REQUEST:
 			return Object.assign({}, state, {
 				listar: { cargando: true, error: '' },
-				eliminar: INITIAL_STATE.eliminar
+				eliminar: INITIAL_STATE.eliminar,
+				formulario: INITIAL_STATE.formulario
 			})
 
 		case LISTAR_FACULTADES_EXITO:
@@ -148,13 +149,13 @@ export default function (state = INITIAL_STATE, action) {
 
 		case LISTAR_FACULTADES_FALLO:
 			return Object.assign({}, state, {
-				listar: { error: action.payload, facultades:[], cargando: false }
+				listar: { error: action.payload, facultades: null, cargando: false }
 			})
 
 
 		case MOSTRAR_FACULTAD_REQUEST:
 			return Object.assign({}, state, {
-				mostrar: { cargando: true, abierto: true },
+				mostrar: { cargando: true },
 				formulario: { abirtoEditar: false, abirtoCrear: false },
 				eliminar: INITIAL_STATE.eliminar
 			})
@@ -163,8 +164,7 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, {
 				mostrar: {
 					cargando: false,
-					facultad: action.payload,
-					abierto: true
+					facultad: action.payload
 				},
 				formulario: { abirtoEditar: false, abirtoCrear: false }
 			})
@@ -173,9 +173,8 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, {
 				mostrar: {
 					cargando: false,
-					facultad: {},
-					error: action.payload,
-					abierto: true
+					facultad: null,
+					error: action.payload
 				},
 				formulario: { abirtoEditar: false, abirtoCrear: false }
 			})

@@ -11,24 +11,18 @@ import {
 	LISTAR_MATERIAS_EXITO,
 	LISTAR_MATERIAS_FALLO,
 
-	// Create rol.
 	CREAR_MATERIA_REQUEST,
 	CREAR_MATERIA_EXITO,
 	CREAR_MATERIA_FALLO,
 
-	// Show rol.
 	MOSTRAR_MATERIA_REQUEST,
 	MOSTRAR_MATERIA_EXITO,
 	MOSTRAR_MATERIA_FALLO,
 
-	CERRAR_MODAL_MOSTRAR_MATERIA,
-
-	// Editar Rol.
 	EDITAR_MATERIA_REQUEST,
 	EDITAR_MATERIA_EXITO,
 	EDITAR_MATERIA_FALLO,
 
-	// Delete Rol.
 	ELIMINAR_MATERIA_REQUEST,
 	ELIMINAR_MATERIA_EXITO,
 	ELIMINAR_MATERIA_FALLO
@@ -155,12 +149,6 @@ export function mostrarMateria(idMateria) {
 	}
 }
 
-
-export function cerrarModalMostrarMateria() {
-	return (dispatch) => {
-		dispatch({ type: CERRAR_MODAL_MOSTRAR_MATERIA })
-	}
-}
 
 export function editarMateria(datosFormulario) {
 	return (dispatch) => {

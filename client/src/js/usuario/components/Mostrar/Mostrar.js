@@ -29,9 +29,8 @@ class Mostrar extends Component {
 	}
 	
 	componentWillMount() {
-			console.log('this.props.match.params.idPersonal')
-
-			console.log(this.props.match.params.idPersonal)
+		// console.log('this.props.match.params.idPersonal')
+		// console.log(this.props.match.params.idPersonal)
 		
 		this.props.mostrarPersonal(this.props.match.params.idPersonal)
 	}

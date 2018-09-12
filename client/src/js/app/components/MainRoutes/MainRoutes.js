@@ -12,6 +12,8 @@ import UsuarioRoutes from '../../../usuario/components/UsuarioRoutes'
 import MostrarUsuarioContainer from '../../../usuario/components/Mostrar'
 
 import ListarFacultadesContainer from '../../../facultad/components/Listar'
+import MostarFacultadContainer from '../../../facultad/components/Mostrar'
+
 
 class MainRoutes extends Component {
 
@@ -29,6 +31,8 @@ class MainRoutes extends Component {
 
 
 				<Route exact path='/dashboard/facultades' component={ListarFacultadesContainer} />
+
+				<Route path='/dashboard/facultades/:idFacultad/carreras' component={MostarFacultadContainer} />
 
 			</Switch>
 		</main>

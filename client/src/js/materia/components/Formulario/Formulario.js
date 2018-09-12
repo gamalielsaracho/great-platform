@@ -22,7 +22,7 @@ class Formulario extends Component {
 	constructor(props) {
 		super(props)
 		this.enviarFormulario = this.enviarFormulario.bind(this)
-		this.renderCargando = this.renderCargando.bind(this)
+		this.renderFormulario = this.renderFormulario.bind(this)
 	}
 
 	enviarFormulario(formProps) {		
@@ -35,20 +35,29 @@ class Formulario extends Component {
 		}
 	}
 
-	renderCargando(cargando) {
+	renderFormulario(cargando) {
+		const { handleSubmit, pristine, reset, submitting } = this.props		
+
 		if(cargando) {
-			return <Cargando/>
+			return <h1>Cargando..</h1>
 		} else {
-			return <span></span>
+			return <div className='col-xs-12 col-sm-6 col-md-4 col-lg-4'>
+				<form onSubmit={handleSubmit(this.enviarFormulario)}>
+					<Field name='nombre' type='text' component={renderField} label='Nombre'/>
+
+					<div className='row end-xs'>
+						<button type="submit" className="myBtn" disabled={pristine || submitting}>Guardar</button>
+						<button type="button" onClick={ this.props.cerrarFormularioMateria } className="myBtn">Cancelar</button>
+					</div>
+				</form>
+			</div>
 		}
 	}
 
 	render() {
-
-		const { handleSubmit, pristine, reset, submitting } = this.props		
 		
 		const { 
-			abirtoCrear, abirtoEditar, cargando, rol 
+			abirtoCrear, abirtoEditar, cargando 
 		} = this.props.formulario
 
 		let error = this.props.formulario.error ? this.props.formulario.error 
@@ -58,29 +67,16 @@ class Formulario extends Component {
 		let abierto = abirtoEditar ? abirtoEditar : abirtoCrear
 
 		if(abierto) {
-			return <div className='container'>
+			return <div className="main-container-modal">
+				<div className="main-container-modal__content">
+			    
 					<h4 className='text-center'></h4>
+					<MensajeOerror error={error} mensaje={null}/>
 
-					<div className='row'>
-						<div className='col-xs-12 col-sm-6 col-md-4 col-lg-4'>
-							<MensajeOerror error={error} mensaje={null}/>
-							{ this.renderCargando(cargando) }
+					{ this.renderFormulario(cargando) }
 
-							<form onSubmit={handleSubmit(this.enviarFormulario)}>
-								
-								<Field name='nombre' type='text' component={renderField} label='Nombre'/>
-														
-
-							<div className='row end-xs'>
-								<button type="submit" className="myBtn" disabled={pristine || submitting}>Guardar</button>
-								<button type="button" onClick={ this.props.cerrarFormularioMateria } className="myBtn">Cancelar</button>
-							</div>
-							</form>
-						</div>
-
-
-					</div>
 				</div>
+			</div>
 		} else {
 			return <span></span>
 		}

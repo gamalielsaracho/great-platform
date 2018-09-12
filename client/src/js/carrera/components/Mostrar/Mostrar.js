@@ -8,67 +8,49 @@ import Cargando from '../../../app/components/Cargando'
 class Mostrar extends Component {
 	constructor(props) {
 		super(props)
-		this.renderCargando = this.renderCargando.bind(this)
-		this.renderRol = this.renderRol.bind(this)
+		this.renderCarrera = this.renderCarrera.bind(this)
+		this.idCarrera = this.props.match.params.idCarrera
+		this.idFacultad = this.props.match.params.idFacultad
 	}
 
-	renderCargando(cargando) {
+	static getIdCarrera() {
+		return this.idCarrera
+	}
+
+	componentWillMount() {
+		this.props.mostrarCarrera(this.idCarrera)
+	}
+
+	renderCarrera(cargando, carrera) {
 		if(cargando) {
 			return <Cargando/>
-		} else {
-			return <span></span>
-		}
-	}
+		} else if(carrera) {
+			console.log('carrera')
 
-	renderRol(rol) {
-		if(rol) {
+			console.log(carrera)
 			return <div>
-				<p><strong>Nombre:</strong> { rol.descripcion }</p>
+				<br/>
+				<h4><strong>Nombre:</strong> { carrera.descripcion }</h4>
+			
+				<h1 className='text-center'>Materias</h1>
+
 			</div>
-		} else {
-			return <span></span>
 		}
 	}
 
 	render() {
-		const customStyles = {
-		    content : {
-		  		height: '40vh',
-		  		position: 'none'
-		  	}
-		}
 
-
-		const { cargando, rol, error, abierto } = this.props.mostrar
-
-		console.log("Mostrar estÁ: "+this.props.mostrar.abierto)
+		const { cargando, carrera, error, abierto } = this.props.mostrar
 		
-		if(abierto) {
-			return <ReactModal isOpen={abierto}
-				       	contentLabel="Minimal Modal Example"
-				       	style={customStyles}>
+		return <div className='container'>
+			<div className='row'>
+				<div className='col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered'>
+					<MensajeOerror error={error} mensaje={null}/>
 
-				<div className='container'>
-
-					<div className='row end-lg end-md end-sm end-xs'>
-						<span className='icon-cross' onClick={() => { this.props.cerrarModalMostrarRol() }}></span>
-					</div>
-
-					<div className='row'>
-						<div className='col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered'>
-							{ this.renderCargando(cargando) }
-							<MensajeOerror error={error} mensaje={null}/>
-
-							{ this.renderRol(rol) }
-						</div>
-					</div>
+					{ this.renderCarrera(cargando, carrera) }
 				</div>
-
-			</ReactModal>
-		} else {
-			return <span></span>
-		}
-
+			</div>
+		</div>
 	}
 }
 

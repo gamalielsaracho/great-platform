@@ -1,43 +1,43 @@
 import { connect } from 'react-redux'
 
 import {
-	listarFacultades,
-	eliminarFacultad,
-	mostrarFacultad,
+	listarCarrerasPorIdFacultad,
+	eliminarCarrera,
+	mostrarCarrera,
 
-	abrirFormularioCrearFacultad,
-	abrirFormularioEditarFacultad
+	abrirFormularioCrearCarrera,
+	abrirFormularioEditarCarrera
 } from '../../actions'
 
 import Listar from './Listar'
 
 function mapStateToProps(state) {
 	return {
-		eliminar: state.facultad.eliminar,
-		listar: state.facultad.listar,
-		facultades: state.facultad.listar.facultades
+		eliminar: state.carrera.eliminar,
+		listar: state.carrera.listar,
+		carreras: state.carrera.listar.carreras
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		listarFacultades: () => {
-			dispatch(listarFacultades())
+		listarCarrerasPorIdFacultad: (idFacultad) => {
+			dispatch(listarCarrerasPorIdFacultad(idFacultad))
 		},
-		eliminarFacultad: (idFacultad) => {
+		eliminarCarrera: (idCarrera, idFacultad) => {
 			var r = confirm("Está seguro que desea eliminar?");
 		    if (r == true) {
-				dispatch(eliminarFacultad(idFacultad))
+				dispatch(eliminarCarrera(idCarrera, idFacultad))
 		    }
 		},
-		mostrarFacultad: (idFacultad) => {
-			dispatch(mostrarFacultad(idFacultad))
+		mostrarCarrera: (idCarrera) => {
+			dispatch(mostrarCarrera(idCarrera))
 		},
-		abrirFormularioCrearFacultad: () => {
-			dispatch(abrirFormularioCrearFacultad())
+		abrirFormularioCrearCarrera: () => {
+			dispatch(abrirFormularioCrearCarrera())
 		},
-		abrirFormularioEditarFacultad: (idFacultad) => {
-			dispatch(abrirFormularioEditarFacultad(idFacultad))
+		abrirFormularioEditarCarrera: (idCarrera) => {
+			dispatch(abrirFormularioEditarCarrera(idCarrera))
 		}
 	}
 }

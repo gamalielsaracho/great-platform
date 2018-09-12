@@ -1,23 +1,20 @@
 import Carrera from './carrera.model'
 
+import { 
+	listarCarreras, 
+	listarCarrerasPorIdFacultad,
+	mostrarCarrera 
+} from './enventsToCall'
+
 export default (socket, io) => {
-
-		function carreras() {
-			Carrera.find((err, carreras) => {
-				// console.log(carreras)
-
-				if(err) {
-					console.log(err)
-					return io.sockets.emit('listar_carreras', { error: 'Lo sentimos, acurrió un error. intente más tarde.' })
-				}
-
-				io.sockets.emit('listar_carreras', { carreras: carreras })
-			})
-		}
-		
 		
 		socket.on('listar_carreras', function() {
-			carreras()
+			listarCarreras(socket, io)
+		})
+
+
+		socket.on('listar_carreras_porIdFacultad', function(data) {
+			listarCarrerasPorIdFacultad(socket, io, data.idFacultad)
 		})
 
 
@@ -33,7 +30,8 @@ export default (socket, io) => {
 
 				socket.emit('crear_carrera', { mensaje: 'Se agregó exitósamente.' })
 						
-				carreras()
+				listarCarrerasPorIdFacultad(socket, io, data.facultad)
+
 			})
 		})
 
@@ -47,31 +45,19 @@ export default (socket, io) => {
 
 				socket.emit('eliminar_carrera', { mensaje: 'Se Eliminó exitósamente.' })
 
-				carreras()
+				listarCarrerasPorIdFacultad(socket, io, data.idFacultad)
+
 			})
 		})
 
 
 		socket.on('mostrar_carrera', (data) => {
-			Carrera.findById(data._id, (err, carrera) => {
-				if(err) {
-					console.log(err)
-					return socket.emit('mostrar_carrera', { error: 'Ocurrió un error, intente más tarde.' })
-				}
-
-				if(carrera === null) {
-					return socket.emit('mostrar_carrera', { error: 'No se encontró en la base de datos.' })
-				}
-
-				// console.log(carrera)
-				socket.emit('mostrar_carrera', carrera)
-					
-			})
+			mostrarCarrera(data._id, socket, io)
 		})
 
 
 		socket.on('editar_carrera', (data) => {
-								
+					
 			Carrera.findByIdAndUpdate(data._id, data, (err) => {
 				if(err) {
 					console.log(err)
@@ -80,7 +66,8 @@ export default (socket, io) => {
 
 				socket.emit('editar_carrera', { mensaje: 'Se actualizó exitósamente.' })
 					
-				carreras()
+				listarCarrerasPorIdFacultad(socket, io, data.facultad)
+
 			})
 		})
 

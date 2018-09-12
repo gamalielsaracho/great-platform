@@ -1,36 +1,29 @@
-// FIND.
-export const LISTAR_FACULTADES_REQUEST = 'listar_facultades_request'
-export const LISTAR_FACULTADES_EXITO = 'listar_facultades_exito'
-export const LISTAR_FACULTADES_FALLO = 'listar_facultades_fallo'
+export const LISTAR_CARRERAS_REQUEST = 'listar_carreras_request'
+export const LISTAR_CARRERAS_EXITO = 'listar_carreras_exito'
+export const LISTAR_CARRERAS_FALLO = 'listar_carreras_fallo'
 
 
-// EDIT.
-export const ABRIR_FORMULARIO_EDITAR_FACULTAD_REQUEST = 'abrir_formulario_editar_facultad_request'
-export const ABRIR_FORMULARIO_EDITAR_FACULTAD_EXITO = 'abrir_formulario_editar_facultad_exito'
-export const ABRIR_FORMULARIO_EDITAR_FACULTAD_FALLO = 'abrir_formulario_editar_facultad_fallo'
+export const ABRIR_FORMULARIO_EDITAR_CARRERA_REQUEST = 'abrir_formulario_editar_carrera_request'
+export const ABRIR_FORMULARIO_EDITAR_CARRERA_EXITO = 'abrir_formulario_editar_carrera_exito'
+export const ABRIR_FORMULARIO_EDITAR_CARRERA_FALLO = 'abrir_formulario_editar_carrera_fallo'
 
-	export const EDITAR_FACULTAD_REQUEST = 'edit_facultad_request'
-	export const EDITAR_FACULTAD_EXITO = 'edit_facultad_exito'
-	export const EDITAR_FACULTAD_FALLO = 'edit_facultad_fallo'
+	export const EDITAR_CARRERA_REQUEST = 'editar_carrera_request'
+	export const EDITAR_CARRERA_EXITO = 'editar_carrera_exito'
+	export const EDITAR_CARRERA_FALLO = 'editar_carrera_fallo'
 
-// CREATE.
-export const ABRIR_FORMULARIO_CREAR_FACULTAD = 'abrir_formulario_crear_facultad'
+export const ABRIR_FORMULARIO_CREAR_CARRERA = 'abrir_formulario_crear_carrera'
 
-	export const CREAR_FACULTAD_REQUEST = 'crear_facultad_request'
-	export const CREAR_FACULTAD_EXITO = 'crear_facultad_exito'
-	export const CREAR_FACULTAD_FALLO = 'crear_facultad_fallo'
+	export const CREAR_CARRERA_REQUEST = 'crear_carrera_request'
+	export const CREAR_CARRERA_EXITO = 'crear_carrera_exito'
+	export const CREAR_CARRERA_FALLO = 'crear_carrera_fallo'
 
-export const CERRAR_FORMULARIO_FACULTAD = 'cerrar_formulario_facultad'
+export const CERRAR_FORMULARIO_CARRERA = 'cerrar_formulario_carrera'
 
-// SHOW.
-export const MOSTRAR_FACULTAD_REQUEST = 'mostrar_facultad_request'
-export const MOSTRAR_FACULTAD_EXITO = 'mostrar_facultad_exito'
-export const MOSTRAR_FACULTAD_FALLO = 'mostrar_facultad_fallo'
+export const MOSTRAR_CARRERA_REQUEST = 'mostrar_carrera_request'
+export const MOSTRAR_CARRERA_EXITO = 'mostrar_carrera_exito'
+export const MOSTRAR_CARRERA_FALLO = 'mostrar_carrera_fallo'
 
 
-// DELETE.
-export const ELIMINAR_FACULTAD_REQUEST = 'eliminair_facultad_request'
-export const ELIMINAR_FACULTAD_EXITO = 'eliminair_facultad_exito'
-export const ELIMINAR_FACULTAD_FALLO = 'eliminair_facultad_fallo'
-
-
+export const ELIMINAR_CARRERA_REQUEST = 'eliminair_carrera_request'
+export const ELIMINAR_CARRERA_EXITO = 'eliminair_carrera_exito'
+export const ELIMINAR_CARRERA_FALLO = 'eliminair_carrera_fallo'

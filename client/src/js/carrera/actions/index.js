@@ -1,36 +1,32 @@
 import {
-	ABRIR_FORMULARIO_CREAR_FACULTAD,
+	ABRIR_FORMULARIO_CREAR_CARRERA,
 
-	ABRIR_FORMULARIO_EDITAR_FACULTAD_REQUEST,
-	ABRIR_FORMULARIO_EDITAR_FACULTAD_EXITO,
-	ABRIR_FORMULARIO_EDITAR_FACULTAD_FALLO,
+	ABRIR_FORMULARIO_EDITAR_CARRERA_REQUEST,
+	ABRIR_FORMULARIO_EDITAR_CARRERA_EXITO,
+	ABRIR_FORMULARIO_EDITAR_CARRERA_FALLO,
 
-	CERRAR_FORMULARIO_FACULTAD,
+	CERRAR_FORMULARIO_CARRERA,
 
-	LISTAR_FACULTADES_REQUEST,
-	LISTAR_FACULTADES_EXITO,
-	LISTAR_FACULTADES_FALLO,
+	LISTAR_CARRERAS_REQUEST,
+	LISTAR_CARRERAS_EXITO,
+	LISTAR_CARRERAS_FALLO,
 
-	// Create rol.
-	CREAR_FACULTAD_REQUEST,
-	CREAR_FACULTAD_EXITO,
-	CREAR_FACULTAD_FALLO,
+	CREAR_CARRERA_REQUEST,
+	CREAR_CARRERA_EXITO,
+	CREAR_CARRERA_FALLO,
 
-	// Show rol.
-	MOSTRAR_FACULTAD_REQUEST,
-	MOSTRAR_FACULTAD_EXITO,
-	MOSTRAR_FACULTAD_FALLO,
+	MOSTRAR_CARRERA_REQUEST,
+	MOSTRAR_CARRERA_EXITO,
+	MOSTRAR_CARRERA_FALLO,
 
 
-	// Editar Rol.
-	EDITAR_FACULTAD_REQUEST,
-	EDITAR_FACULTAD_EXITO,
-	EDITAR_FACULTAD_FALLO,
+	EDITAR_CARRERA_REQUEST,
+	EDITAR_CARRERA_EXITO,
+	EDITAR_CARRERA_FALLO,
 
-	// Delete Rol.
-	ELIMINAR_FACULTAD_REQUEST,
-	ELIMINAR_FACULTAD_EXITO,
-	ELIMINAR_FACULTAD_FALLO
+	ELIMINAR_CARRERA_REQUEST,
+	ELIMINAR_CARRERA_EXITO,
+	ELIMINAR_CARRERA_FALLO
 } from './types'
 
 import io from 'socket.io-client'
@@ -40,133 +36,150 @@ import { reset } from 'redux-form'
 
 import jwtDecode from 'jwt-decode'
 
-var socketFacultad = io('http://localhost:3000')
+var socketCarrera = io('http://localhost:3000')
 
-export function abrirFormularioCrearFacultad() {
+export function abrirFormularioCrearCarrera() {
 	return (dispatch) => {
-		dispatch(reset('FormularioFacultad'))
+		dispatch(reset('FormularioCarrera'))
 
-		dispatch({ type: ABRIR_FORMULARIO_CREAR_FACULTAD })
+		dispatch({ type: ABRIR_FORMULARIO_CREAR_CARRERA })
 	}
 }
 
-export function abrirFormularioEditarFacultad(idFacultad) {
-	console.log(idFacultad)
+export function abrirFormularioEditarCarrera(idCarrera) {
+	console.log(idCarrera)
 	return (dispatch) => {
-		dispatch({ type: ABRIR_FORMULARIO_EDITAR_FACULTAD_REQUEST })
+		dispatch({ type: ABRIR_FORMULARIO_EDITAR_CARRERA_REQUEST })
 
-		socketFacultad.emit('mostrar_facultad', { _id: idFacultad })
+		socketCarrera.emit('mostrar_carrera', { _id: idCarrera })
 
-		socketFacultad.on('mostrar_facultad', (data) => {
+		socketCarrera.on('mostrar_carrera', (data) => {
 			
 			if(data.error) {
-				dispatch({ type: ABRIR_FORMULARIO_EDITAR_FACULTAD_FALLO, payload: data.error })
+				dispatch({ type: ABRIR_FORMULARIO_EDITAR_CARRERA_FALLO, payload: data.error })
 			} else {
-				dispatch({ type: ABRIR_FORMULARIO_EDITAR_FACULTAD_EXITO, payload: data })
+				dispatch({ type: ABRIR_FORMULARIO_EDITAR_CARRERA_EXITO, payload: data })
 			}
 		})
 	}
 }
 
-export function cerrarFormularioFacultad() {
+export function cerrarFormularioCarrera() {
 	return (dispatch) => {
-		dispatch({ type: CERRAR_FORMULARIO_FACULTAD })
+		dispatch({ type: CERRAR_FORMULARIO_CARRERA })
 	}
 }
 
-export function listarFacultades() {
+
+export function listarCarreras() {
 	return (dispatch) => {
 
-		dispatch({ type: LISTAR_FACULTADES_REQUEST })
+		dispatch({ type: LISTAR_CARRERAS_REQUEST })
 
-		socketFacultad.emit('listar_facultades', null)
+		socketCarrera.emit('listar_carreras', null)
 
-		socketFacultad.on('listar_facultades', (data) => {
-
-			console.log('listar_facultades')
-			console.log(data)
-
+		socketCarrera.on('listar_carreras', (data) => {
 			if(data.error) {
-				dispatch({ type: LISTAR_FACULTADES_FALLO, payload: data.error })
+				dispatch({ type: LISTAR_CARRERAS_FALLO, payload: data.error })
 			} else {
-				dispatch({ type: LISTAR_FACULTADES_EXITO, payload: data })
+				dispatch({ type: LISTAR_CARRERAS_EXITO, payload: data })
 			}
 		})
 	}
 }
 
-export function crearFacultad(datosFormulario) {
+
+export function listarCarrerasPorIdFacultad(idFacultad) {
 	return (dispatch) => {
 
-		dispatch({ type: CREAR_FACULTAD_REQUEST })
+		dispatch({ type: LISTAR_CARRERAS_REQUEST })
 
-		socketFacultad.emit('crear_facultad', datosFormulario)
-		socketFacultad.on('crear_facultad', (data) => {
-			if(data.err) {
-				dispatch({ type: CREAR_FACULTAD_FALLO, payload: data.error })
+
+		socketCarrera.emit('listar_carreras_porIdFacultad', {
+			idFacultad: idFacultad
+		})
+
+		socketCarrera.on('listar_carreras_porIdFacultad', (data) => {
+			if(data.error) {
+				dispatch({ type: LISTAR_CARRERAS_FALLO, payload: data.error })
 			} else {
-				dispatch({ type: CREAR_FACULTAD_EXITO, payload: data })
+				dispatch({ type: LISTAR_CARRERAS_EXITO, payload: data })
+			}
+		})
+	}
+}
+
+
+export function crearCarrera(datosFormulario) {
+	return (dispatch) => {
+
+		dispatch({ type: CREAR_CARRERA_REQUEST })
+
+		socketCarrera.emit('crear_carrera', datosFormulario)
+		socketCarrera.on('crear_carrera', (data) => {
+			if(data.err) {
+				dispatch({ type: CREAR_CARRERA_FALLO, payload: data.error })
+			} else {
+				dispatch({ type: CREAR_CARRERA_EXITO, payload: data })
 			}
 		})
 	
-		dispatch(reset('FormularioFacultad'))
+		dispatch(reset('FormularioCarrera'))
 	}
 }
 
-export function eliminarFacultad(idFacultad) {
+export function eliminarCarrera(idCarrera, idFacultad) {
 	return (dispatch) => {
-		// alert(idFacultad)
 
-		dispatch({ type: ELIMINAR_FACULTAD_REQUEST })
+		dispatch({ type: ELIMINAR_CARRERA_REQUEST })
 
-		// var socket = io('http://localhost:3000')
-
-		socketFacultad.emit('eliminar_facultad', { 
-			_id: idFacultad
+		socketCarrera.emit('eliminar_carrera', { 
+			_id: idCarrera,
+			idFacultad: idFacultad
 		})
 
-		socketFacultad.on('eliminar_facultad', (data) => {
+		socketCarrera.on('eliminar_carrera', (data) => {
 			console.log(data)
 			if(data.error) {
-				dispatch({ type: ELIMINAR_FACULTAD_FALLO, payload: data.error })
+				dispatch({ type: ELIMINAR_CARRERA_FALLO, payload: data.error })
 			} else {
-				dispatch({ type: ELIMINAR_FACULTAD_EXITO, payload: data })
+				dispatch({ type: ELIMINAR_CARRERA_EXITO, payload: data })
 			}
 		})
 	}
 }
 
 
-export function mostrarFacultad(idFacultad) {
+export function mostrarCarrera(idCarrera) {
 	return (dispatch) => {
-		dispatch({ type: MOSTRAR_FACULTAD_REQUEST })
+		dispatch({ type: MOSTRAR_CARRERA_REQUEST })
 
-		socketFacultad.emit('mostrar_facultad', { _id: idFacultad })
+		socketCarrera.emit('mostrar_carrera', { _id: idCarrera })
 
-		socketFacultad.on('mostrar_facultad', (data) => {
+		socketCarrera.on('mostrar_carrera', (data) => {
 			// console.log(data)
 			if(data.error) {
-				dispatch({ type: MOSTRAR_FACULTAD_FALLO, payload: data.error })
+				dispatch({ type: MOSTRAR_CARRERA_FALLO, payload: data.error })
 			} else {
-				dispatch({ type: MOSTRAR_FACULTAD_EXITO, payload: data })
+				dispatch({ type: MOSTRAR_CARRERA_EXITO, payload: data })
 			}
 		})
 	}
 }
 
 
-export function editarFacultad(datosFormulario) {
+export function editarCarrera(datosFormulario) {
 	return (dispatch) => {
 
-		dispatch({ type: EDITAR_FACULTAD_REQUEST })
+		dispatch({ type: EDITAR_CARRERA_REQUEST })
 
-		socketFacultad.emit('editar_facultad', datosFormulario)
+		socketCarrera.emit('editar_carrera', datosFormulario)
 
-		socketFacultad.on('editar_facultad', (data) => {
+		socketCarrera.on('editar_carrera', (data) => {
 			if(data.error) {
-				dispatch({ type: EDITAR_FACULTAD_FALLO, payload: data.error })
+				dispatch({ type: EDITAR_CARRERA_FALLO, payload: data.error })
 			} else {
-				dispatch({ type: EDITAR_FACULTAD_EXITO, payload: data })
+				dispatch({ type: EDITAR_CARRERA_EXITO, payload: data })
 			}
 		})
 

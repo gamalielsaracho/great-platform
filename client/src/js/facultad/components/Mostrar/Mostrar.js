@@ -1,74 +1,69 @@
 import React, { Component } from 'react'
+import { Switch, Route, NavLink } from 'react-router-dom'
+
 
 import ReactModal from 'react-modal'
 
 import MensajeOerror from '../../../app/components/MensajeOerror'
 import Cargando from '../../../app/components/Cargando'
 
+
+import ListarCarrerasContainer from '../../../carrera/components/Listar'
+import MostrarCarreraContainer from '../../../carrera/components/Mostrar'
+
+
 class Mostrar extends Component {
 	constructor(props) {
 		super(props)
-		this.renderCargando = this.renderCargando.bind(this)
-		this.renderRol = this.renderRol.bind(this)
+		this.renderFacultad = this.renderFacultad.bind(this)
+		this.idFacultad = this.props.match.params.idFacultad
 	}
 
-	renderCargando(cargando) {
+
+
+	componentWillMount() {
+		this.props.mostrarFacultad(this.idFacultad)
+	}
+
+
+	renderFacultad(cargando, facultad) {
 		if(cargando) {
 			return <Cargando/>
-		} else {
-			return <span></span>
-		}
-	}
+		} else if(facultad) {
 
-	renderRol(rol) {
-		if(rol) {
 			return <div>
-				<p><strong>Nombre:</strong> { rol.descripcion }</p>
+				<h3><strong>Nombre:</strong> { facultad.descripcion }</h3>
+				<br/>
+
+				<ul className="nav nav-tabs no-print-data">
+				  <li className="nav-item nav-link">
+				  	<NavLink to={`/dashboard/facultades/${this.idFacultad}/carreras`}>Carreras</NavLink>
+				  </li>
+				  <li className="nav-item nav-link">
+				    <a className="nav-link">Detalle Carrera</a>
+				  </li>
+				</ul>
+
+				<Switch>
+					<Route exact path='/dashboard/facultades/:idFacultad/carreras' component={ListarCarrerasContainer} />
+					<Route path='/dashboard/facultades/:idFacultad/carreras/:idCarrera' component={MostrarCarreraContainer} />
+				</Switch>
 			</div>
-		} else {
-			return <span></span>
 		}
 	}
 
 	render() {
-		const customStyles = {
-		    content : {
-		  		height: '40vh',
-		  		position: 'none'
-		  	}
-		}
+		const { cargando, facultad, error } = this.props.mostrar
 
+		return <div className='container'>
+			<div className='row'>
+				<div className='col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered'>
+					<MensajeOerror error={error} mensaje={null}/>
 
-		const { cargando, rol, error, abierto } = this.props.mostrar
-
-		console.log("Mostrar estÁ: "+this.props.mostrar.abierto)
-		
-		if(abierto) {
-			return <ReactModal isOpen={abierto}
-				       	contentLabel="Minimal Modal Example"
-				       	style={customStyles}>
-
-				<div className='container'>
-
-					<div className='row end-lg end-md end-sm end-xs'>
-						<span className='icon-cross' onClick={() => { this.props.cerrarModalMostrarRol() }}></span>
-					</div>
-
-					<div className='row'>
-						<div className='col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered'>
-							{ this.renderCargando(cargando) }
-							<MensajeOerror error={error} mensaje={null}/>
-
-							{ this.renderRol(rol) }
-						</div>
-					</div>
+					{ this.renderFacultad(cargando, facultad) }
 				</div>
-
-			</ReactModal>
-		} else {
-			return <span></span>
-		}
-
+			</div>
+		</div>
 	}
 }
 

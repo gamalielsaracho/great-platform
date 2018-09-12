@@ -1,0 +1,33 @@
+.main-container-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(37, 36, 36, 0.75);
+}
+
+.main-container-modal__content {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    outline: none;
+    padding: 0.5em;
+
+    margin-left:7em;
+    margin-right:7em;
+
+    margin-top: 7em;
+    margin-bottom: 7em;
+}
+
+/* ver */
+.show-project-modal__container-max {
+    /*border: 1px solid;*/
+    max-width: 1290px;
+}

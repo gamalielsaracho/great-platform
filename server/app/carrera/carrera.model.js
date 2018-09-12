@@ -9,9 +9,9 @@ const CarreraSchema = new Schema({
 	},
 	materias: [
 		{
-			// materia: {
+			materia: {
 				type: Schema.Types.ObjectId, ref: 'Materia'
-			// }
+			}
 		}
 	]
 })
