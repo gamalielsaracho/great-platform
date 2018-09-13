@@ -28,7 +28,32 @@ import {
 	ELIMINAR_CARRERA_FALLO
 } from '../actions/types'
 
-const INITIAL_STATE = {
+
+import {
+	ABRIR_FORMULARIO_CREAR_MATERIA_CARRERA,
+
+	CERRAR_FORMULARIO_MATERIA_CARRERA,
+
+	CREAR_MATERIA_CARRERA_REQUEST,
+	CREAR_MATERIA_CARRERA_EXITO,
+	CREAR_MATERIA_CARRERA_FALLO,
+
+	ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_REQUEST,
+	ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_EXITO,
+	ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_FALLO,
+
+	EDITAR_MATERIA_CARRERA_REQUEST,
+	EDITAR_MATERIA_CARRERA_EXITO,
+	EDITAR_MATERIA_CARRERA_FALLO,
+
+	ELIMINAR_MATERIA_CARRERA_REQUEST,
+	ELIMINAR_MATERIA_CARRERA_EXITO,
+	ELIMINAR_MATERIA_CARRERA_FALLO
+} from '../actions/materiaTypes'
+
+import materiaReducer from './materia'
+
+export const INITIAL_STATE = {
 	formulario: {
 		abirtoCrear: false,
 		abirtoEditar: false,
@@ -41,11 +66,21 @@ const INITIAL_STATE = {
 	listar: { carreras: null, cargando: false, error: '' },
 	eliminar: { cargando: false, mensaje: '', error: '' },
 	mostrar: { cargando: false, carrera: null, error: '' },
-	editar: { cargando: false, mensaje: '', error: '' }
+	editar: { cargando: false, mensaje: '', error: '' },
+
+	formularioMateria: {
+		abirtoCrear: false,
+		abirtoEditar: false,
+		iniciarValores: false,
+		error: '',
+		cargando: false,
+		materia: null
+	}
 }
 
 
 export default function (state = INITIAL_STATE, action) {
+
 	switch(action.type) {
 		case ABRIR_FORMULARIO_CREAR_CARRERA:
 			return Object.assign({}, state, {
@@ -157,8 +192,9 @@ export default function (state = INITIAL_STATE, action) {
 		case MOSTRAR_CARRERA_REQUEST:
 			return Object.assign({}, state, {
 				mostrar: { cargando: true },
-				formulario: { abirtoEditar: false, abirtoCrear: false },
-				eliminar: INITIAL_STATE.eliminar
+				formulario: INITIAL_STATE.formulario,
+				eliminar: INITIAL_STATE.eliminar,
+				formularioMateria: INITIAL_STATE.formularioMateria
 			})
 
 		case MOSTRAR_CARRERA_EXITO:
@@ -167,7 +203,9 @@ export default function (state = INITIAL_STATE, action) {
 					cargando: false,
 					carrera: action.payload
 				},
-				formulario: { abirtoEditar: false, abirtoCrear: false }
+				formulario: { abirtoEditar: false, abirtoCrear: false },
+				formularioMateria: INITIAL_STATE.formularioMateria
+				
 			})
 
 		case MOSTRAR_CARRERA_FALLO:
@@ -226,6 +264,69 @@ export default function (state = INITIAL_STATE, action) {
 					cargando: false,
 					error: action.payload
 				}
+			})
+
+
+
+		// MATERIA.
+		case ABRIR_FORMULARIO_CREAR_MATERIA_CARRERA:
+			return Object.assign({}, state, {
+				formularioMateria: {
+					abirtoCrear: true,
+					abirtoEditar: false,
+					iniciarValores: false,
+					error: '',
+					cargando: false,
+					materia: null
+				}
+				// mostrar: INITIAL_STATE.mostrar,
+				// eliminar: INITIAL_STATE.eliminar
+			})
+
+		case CERRAR_FORMULARIO_MATERIA_CARRERA:
+			return Object.assign({}, state, {
+				formularioMateria: INITIAL_STATE.formularioMateria
+			})
+
+
+		case ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_REQUEST:
+			return Object.assign({}, state, {
+				formularioMateria: {
+					abirtoCrear: false,
+					abirtoEditar: true,
+					iniciarValores: true,
+					error: '',
+					cargando: true,
+					materia: null
+				}
+				// mostrar: INITIAL_STATE.mostrar,
+				// eliminar: INITIAL_STATE.eliminar
+			})
+
+		case ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_EXITO:
+			return Object.assign({}, state, {
+				formularioMateria: {
+					abirtoCrear: false,
+					abirtoEditar: true,
+					iniciarValores: true,
+					error: '',
+					cargando: false,
+					materia: action.payload
+				}
+				// mostrar: INITIAL_STATE.mostrar
+			})
+
+		case ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_FALLO:
+			return Object.assign({}, state, {
+				formularioMateria: {
+					abirtoCrear: false,
+					abirtoEditar: true,
+					iniciarValores: true,
+					error: action.payload,
+					cargando: false,
+					materia: null
+				}
+				// mostrar: INITIAL_STATE.mostrar
 			})
 
 

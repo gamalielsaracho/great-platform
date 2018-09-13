@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 
 
-class FieldSelectMaterias extends Component {
+class FieldSelectFacultades extends Component {
 	constructor(props) {
 		super(props)
 	}
+
+	componentWillMount() {
+		this.props.listarFacultades()
+	}
+
 
 	render() {
 		const { input, label, type, meta: { touched, error, warning } } = this.props
@@ -15,11 +20,11 @@ class FieldSelectMaterias extends Component {
 				
 				<div className='form-inline'>
 					<div className='form-group'>
-						<span className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Cargando niveles...
+						<span className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Cargando facultades...
 					</div>
 				</div>
 			</div>
-		} else if(this.props.listar.materias) {
+		} else {
 			return <div className='form-group'>
 				<label htmlFor={label}>{label}</label>
 				
@@ -28,9 +33,9 @@ class FieldSelectMaterias extends Component {
 						<select {...input} name={name} className='form-control'>
 							<option value=''>Seleccionar</option>
 							{
-								this.props.listar.materias.map((m) => {
-									return <option key={m._id} value={m._id}>
-										{ m.nombre }
+								this.props.listar.facultades.map((f) => {
+									return <option key={f._id} value={f._id}>
+										{ f.descripcion }
 									</option>
 								})
 							}
@@ -44,4 +49,4 @@ class FieldSelectMaterias extends Component {
 	}
 }
 
-export default FieldSelectMaterias
+export default FieldSelectFacultades

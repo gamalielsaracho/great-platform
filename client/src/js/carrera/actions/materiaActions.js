@@ -38,7 +38,7 @@ export function abrirFormularioCrearMateriaCarrera() {
 }
 
 export function abrirFormularioEditarMateriaCarrera(idMateria, idCarrera) {
-	console.log(idMateria)
+	// console.log(idMateria)
 	return (dispatch) => {
 		dispatch({ type: ABRIR_FORMULARIO_EDITAR_MATERIA_CARRERA_REQUEST })
 
@@ -75,6 +75,7 @@ export function crearMateriaCarrera(datosFormulario, idCarrera) {
 			datosCli: datosFormulario 
 		}
 
+		// console.log(datos)
 		socketCarrera.emit('crear_materia_carrera', datos)
 		socketCarrera.on('crear_materia_carrera', (data) => {
 			if(data.err) {

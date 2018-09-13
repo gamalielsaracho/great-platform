@@ -9,14 +9,10 @@ class FieldSelectPesonales extends Component {
 		const { input, valoresFiltro, label, listar, 
 			type, meta: { touched, error, warning } } = this.props
 			
-	
 		if(listar.cargando) {
 			return <p>Cargando Personales..</p>
 		} else {
-			// ...
 			let personales = listar.personales
-
-			console.log(personales)
 
 			if(valoresFiltro != null) {
 				personales = personales.filter((i) => {
@@ -27,11 +23,14 @@ class FieldSelectPesonales extends Component {
 			return <div>
 				<div className='form-group'>
 					<label htmlFor={label}>{label}</label>
-					<select multiple {...input} name={name} className='form-control'>
+
+					<select {...input} name={name} className='form-control'>
+						<option value=''>Seleccionar usuario</option>
+						
 						{
 							personales.map((i) => {
-								return <option key={i.personal.id_personal} value={i.personal.id_personal}>
-									{ i.personal.nombres } 
+								return <option key={i._id} value={i._id}>
+									{ i.nombres+ i.apellidos } 
 								</option>
 							})
 						}

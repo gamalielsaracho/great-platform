@@ -22,29 +22,6 @@ class Menu extends Component {
 		        	<a>Salir</a>
 		        </li>
 		    </ul>
-
-		    {/*
-
-				<NavLink to='/alumnos' className='mdl-navigation__link'>
-					Alumnos
-				</NavLink>
-
-				<NavLink to='/dashboard/materias' className='mdl-navigation__link'>
-					Materias
-				</NavLink>	
-
-				<NavLink to='/dashboard/usuarios' className='mdl-navigation__link'>
-					Usuarios
-				</NavLink>	
-
-			    <NavLink to={`/perfil`} className='mdl-navigation__link'>Perfil</NavLink>	
-
-			
-				<a onClick={() => { this.props.salirPersonal() }} 
-			    	className="mdl-navigation__link">Salir</a>
-		    */}
-
-
 		}else {
 			return <ul className="nav navbar-nav navbar-right">
 		    	<li>
@@ -59,10 +36,6 @@ class Menu extends Component {
 					</NavLink>
 				</li>
 		    </ul>
-
-
-			{/*					
-			*/}
 		}
 	}
 
@@ -70,36 +43,14 @@ class Menu extends Component {
 		let personal = datosToken.personal
 		let rol = datosToken.rol
 
-		console.log("EL ROL ES -> ")
-		console.log(personal)
-
 		if(autenticado) {
 			if(rol == "docente" || rol == "admin") {
 				return <ul className="nav navbar-nav">
 			        <li>
-						<NavLink to='/dashboard/materias' className='mdl-navigation__link'>
-							Materias
+						<NavLink to='/dashboard' className='mdl-navigation__link'>
+							Dashboard
 						</NavLink>	
 			        </li>
-
-			        <li>
-						<NavLink to='/dashboard/usuarios' className='mdl-navigation__link'>
-							Usuarios
-						</NavLink>
-			        </li>
-
-			        <li>
-						<NavLink to='/dashboard/facultades' className='mdl-navigation__link'>
-							Facultades
-						</NavLink>
-			        </li>
-
-			        <li>
-					    <NavLink to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
-					    	Perfil
-					    </NavLink>	
-			        </li>
-			    	
 			    </ul>
 			} else if(rol == "alumno") {
 				return <ul className="nav navbar-nav">
@@ -120,11 +71,6 @@ class Menu extends Component {
 
 	render() {
 		const { error, datosToken, autenticado } = this.props.usuarioEstado
-
-
-		// console.log('this.props.usuarioEstado')
-
-		// console.log(this.props.usuarioEstado)
 
 		return <nav className="navbar navbar-inverse">
 		  <div className="container-fluid">

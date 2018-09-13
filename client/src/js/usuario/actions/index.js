@@ -44,7 +44,7 @@ import io from 'socket.io-client'
 import { reset } from 'redux-form'
 import $ from 'jquery'
 
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router-dom'
 
 import moment from 'moment'
 

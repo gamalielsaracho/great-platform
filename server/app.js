@@ -20,8 +20,9 @@ io.on('connection', function (socket) {
 	require('././app/usuario/allEvents.sockets')(socket, io)
 	require('././app/materia/materia.sockets')(socket, io)
 	require('././app/facultad/facultad.sockets')(socket, io)
-	require('././app/carrera/carrera.sockets')(socket, io)
+	require('././app/carrera/allEvents.sockets')(socket, io)
 
+	require('././app/permiso/permiso.sockets')(socket, io)
 
 	socket.on('disconnect', function () {
 		console.log('Usuario Desconectado.')

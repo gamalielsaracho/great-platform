@@ -12,6 +12,8 @@ import facultadReducer from '../facultad/reducer'
 
 import carreraReducer from '../carrera/reducer'
 
+import permisoReducer from '../permiso/reducer'
+
 
 const rootReducer = combineReducers({
 	form: formReducer,
@@ -19,7 +21,8 @@ const rootReducer = combineReducers({
 	materia: materiaReducer,
 	calificacion: calificacionReducer,
 	facultad: facultadReducer,
-	carrera: carreraReducer
+	carrera: carreraReducer,
+	permiso: permisoReducer
 })
 
 export default rootReducer

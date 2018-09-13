@@ -4,7 +4,7 @@ import Menu from './Menu'
 
 function mapStateToProps(state) {
 	return {
-		usuarioEstado: state.personal.usuarioEstado
+
 	}
 }
 

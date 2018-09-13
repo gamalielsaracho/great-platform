@@ -2,21 +2,22 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
 import {
-	crearCarrera,
-	editarCarrera,
-	cerrarFormularioCarrera
-} from '../../actions'
+	crearMateriaCarrera,
+	editarMateriaCarrera,
+	cerrarFormularioMateriaCarrera
+} from '../../actions/materiaActions'
 
-import Formulario from './Formulario'
+import {
+	listarMaterias
+} from '../../../materia/actions'
+
+import FormularioMateria from './FormularioMateria'
 
 const validate = (values) => {
 	const errors = {}
 
-	if(!values.descripcion) {
-		errors.descripcion = 'Tienes que introducir una descripción.'
-	}else if (values.descripcion.length < 5) {
-		values.descripcion.toLowerCase()
-   		errors.descripcion = 'Tiene que ser por lo menos 5 characteres.'
+	if(!values.materia) {
+		errors.materia = 'Tienes que introducir una descripción.'
 	}
 
 	return errors
@@ -24,10 +25,13 @@ const validate = (values) => {
 
 function mapStateToProps(state) {
 	return {
-		formulario: state.carrera.formulario,
-		initialValues: state.carrera.formulario.carrera,
-		enableReinitialize: state.carrera.formulario.iniciarValores,
-		editarContenido: state.carrera.formulario.iniciarValores,
+		formularioMateria: state.carrera.formularioMateria,
+		initialValues: state.carrera.formularioMateria.materia,
+		enableReinitialize: state.carrera.formularioMateria.iniciarValores,
+		editarContenido: state.carrera.formularioMateria.iniciarValores,
+
+		// select Materias.
+		listar: state.materia.listar,
 
 		// Para obtener el error al crear o editar.
 		crear: state.carrera.crear,
@@ -38,21 +42,26 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		crearCarrera: (datosFormulario) => {
-			dispatch(crearCarrera(datosFormulario))
+		crearMateriaCarrera: (datosFormulario, idCarrera) => {
+			dispatch(crearMateriaCarrera(datosFormulario, idCarrera))
 		},
-		cerrarFormularioCarrera: () => {
-			dispatch(cerrarFormularioCarrera())
+		cerrarFormularioMateriaCarrera: () => {
+			dispatch(cerrarFormularioMateriaCarrera())
 		},
-		editarCarrera: (datosFormulario) => {
-			dispatch(editarCarrera(datosFormulario))
+		editarMateriaCarrera: (datosFormulario, idCarrera) => {
+			dispatch(editarMateriaCarrera(datosFormulario, idCarrera))
+		},
+
+		// select materias.
+		listarMaterias: () => {
+			dispatch(listarMaterias())
 		}
 	}
 }
 
 const form = reduxForm({
-	form: 'FormularioCarrera',
+	form: 'FormularioMateriaCarrera',
 	validate
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(form(Formulario))
+export default connect(mapStateToProps, mapDispatchToProps)(form(FormularioMateria))

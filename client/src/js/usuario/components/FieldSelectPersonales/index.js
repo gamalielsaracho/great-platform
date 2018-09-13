@@ -1,0 +1,2 @@
+import FieldSelectPersonalesContainer from './container'
+export default FieldSelectPersonalesContainer

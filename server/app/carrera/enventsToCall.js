@@ -27,6 +27,7 @@ export function listarCarrerasPorIdFacultad(socket, io, idFacultad) {
 	})
 }
 
+
 export function mostrarCarrera(idCarrera, socket, io) {
 	Carrera
 	.findById(idCarrera)
@@ -36,7 +37,7 @@ export function mostrarCarrera(idCarrera, socket, io) {
 			return socket.emit('mostrar_carrera', { error: 'No se encontró en la base de datos.' })
 		}
 
-		socket.emit('mostrar_carrera', carrera)
+		io.sockets.emit('mostrar_carrera', carrera)
 	})
 	.catch((err) => {
 		console.log(err)

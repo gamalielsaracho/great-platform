@@ -25,7 +25,9 @@ export default (socket, io) => {
 
 		
 	socket.on('eliminar_materia_carrera', function(data) {
+		console.log('eliminar_materia_carrera')
 
+		console.log(data.idCarrera)
 		Carrera.findByIdAndUpdate(
 	    data.idCarrera,
 	    { $pull: { 'materias': {  _id: data._id } } },function(err, carreraSinMateria){
