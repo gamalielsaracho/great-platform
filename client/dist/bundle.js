@@ -22318,6 +22318,10 @@
 
 	var _reducer12 = _interopRequireDefault(_reducer11);
 
+	var _reducer13 = __webpack_require__(635);
+
+	var _reducer14 = _interopRequireDefault(_reducer13);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
@@ -22327,7 +22331,8 @@
 		calificacion: _reducer6.default,
 		facultad: _reducer8.default,
 		carrera: _reducer10.default,
-		permiso: _reducer12.default
+		permiso: _reducer12.default,
+		rol: _reducer14.default
 	});
 
 	exports.default = rootReducer;
@@ -41980,9 +41985,6 @@
 
 	exports.default = _container2.default;
 
-	// import App from './App'
-	// export default App
-
 /***/ }),
 /* 345 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -42072,7 +42074,7 @@
 			key: 'componentWillMount',
 			value: function componentWillMount() {
 				var token = localStorage.getItem('token');
-				console.log("-------------------->" + token);
+				console.log("Token -------------------->" + token);
 
 				if (token) {
 					this.props.verificarTokenPersonal(token);
@@ -97557,7 +97559,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+							value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -97596,6 +97598,10 @@
 
 	var _Listar4 = _interopRequireDefault(_Listar3);
 
+	var _Listar5 = __webpack_require__(637);
+
+	var _Listar6 = _interopRequireDefault(_Listar5);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -97605,45 +97611,46 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var DashBoard = function (_Component) {
-		_inherits(DashBoard, _Component);
+							_inherits(DashBoard, _Component);
 
-		function DashBoard() {
-			_classCallCheck(this, DashBoard);
+							function DashBoard() {
+													_classCallCheck(this, DashBoard);
 
-			return _possibleConstructorReturn(this, (DashBoard.__proto__ || Object.getPrototypeOf(DashBoard)).apply(this, arguments));
-		}
+													return _possibleConstructorReturn(this, (DashBoard.__proto__ || Object.getPrototypeOf(DashBoard)).apply(this, arguments));
+							}
 
-		_createClass(DashBoard, [{
-			key: 'render',
-			value: function render() {
+							_createClass(DashBoard, [{
+													key: 'render',
+													value: function render() {
 
-				return _react2.default.createElement(
-					'div',
-					{ className: 'container-fluid' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'row' },
-						_react2.default.createElement(_Menu2.default, null),
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-12 col-sm-12 col-md-10 col-lg-10 back-green' },
-							_react2.default.createElement(
-								_reactRouterDom.Switch,
-								null,
-								_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/permisos', component: _Listar4.default }),
-								_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/materias', component: _MateriaRoutes2.default }),
-								_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/usuarios', component: _UsuarioRoutes2.default }),
-								_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/usuarios/:idPersonal', component: _Mostrar2.default }),
-								_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/facultades', component: _Listar2.default }),
-								_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/facultades/:idFacultad/carreras', component: _Mostrar4.default })
-							)
-						)
-					)
-				);
-			}
-		}]);
+																			return _react2.default.createElement(
+																									'div',
+																									{ className: 'container-fluid' },
+																									_react2.default.createElement(
+																															'div',
+																															{ className: 'row' },
+																															_react2.default.createElement(_Menu2.default, null),
+																															_react2.default.createElement(
+																																					'div',
+																																					{ className: 'col-xs-12 col-sm-12 col-md-10 col-lg-10 back-green' },
+																																					_react2.default.createElement(
+																																											_reactRouterDom.Switch,
+																																											null,
+																																											_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/permisos', component: _Listar4.default }),
+																																											_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/materias', component: _MateriaRoutes2.default }),
+																																											_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/usuarios', component: _UsuarioRoutes2.default }),
+																																											_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/usuarios/:idPersonal', component: _Mostrar2.default }),
+																																											_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/facultades', component: _Listar2.default }),
+																																											_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/facultades/:idFacultad/carreras', component: _Mostrar4.default }),
+																																											_react2.default.createElement(_reactRouterDom.Route, { path: '/dashboard/roles', component: _Listar6.default })
+																																					)
+																															)
+																									)
+																			);
+													}
+							}]);
 
-		return DashBoard;
+							return DashBoard;
 	}(_react.Component);
 
 	exports.default = DashBoard;
@@ -97790,6 +97797,15 @@
 								_reactRouterDom.NavLink,
 								{ to: '/dashboard/permisos', className: 'mdl-navigation__link' },
 								'Permisos'
+							)
+						),
+						_react2.default.createElement(
+							'li',
+							null,
+							_react2.default.createElement(
+								_reactRouterDom.NavLink,
+								{ to: '/dashboard/roles', className: 'mdl-navigation__link' },
+								'Roles'
 							)
 						)
 					)
@@ -103804,7 +103820,9 @@
 		return {
 			eliminar: state.permiso.eliminar,
 			listar: state.permiso.listar,
-			permisos: state.permiso.listar.permisos
+			permisos: state.permiso.listar.permisos,
+
+			usuarioEstado: state.personal.usuarioEstado
 		};
 	}
 
@@ -104048,6 +104066,7 @@
 			_this.renderPermisos = _this.renderPermisos.bind(_this);
 			_this.renderConfirmation = _this.renderConfirmation.bind(_this);
 			_this.personalLocalSt = (0, _jwtDecode2.default)(localStorage.getItem('token'));
+			_this.dataUserFormServer = _this.dataUserFormServer;
 			return _this;
 		}
 
@@ -104096,62 +104115,70 @@
 				// console.log(permisos)
 
 				if (permisos) {
+					// console.log('this.dataUserFormServer -----')
+					// console.log(this.dataUserFormServer)
+
 					return _react2.default.createElement(
 						'tbody',
 						null,
 						permisos.map(function (p) {
-							return _react2.default.createElement(
-								'tr',
-								{ key: p._id },
-								_react2.default.createElement(
-									'td',
-									null,
-									p.usuario.nombres + p.usuario.apellidos
-								),
-								_react2.default.createElement(
-									'td',
-									null,
-									p.modulo
-								),
-								_react2.default.createElement(
-									'td',
-									null,
-									_this2.renderConfirmation(p.mostrar)
-								),
-								_react2.default.createElement(
-									'td',
-									null,
-									_this2.renderConfirmation(p.editar)
-								),
-								_react2.default.createElement(
-									'td',
-									null,
-									_this2.renderConfirmation(p.eliminar)
-								),
-								_react2.default.createElement(
-									'td',
-									null,
-									_this2.renderConfirmation(p.crear)
-								),
-								_react2.default.createElement(
-									'td',
-									null,
+
+							if (p.usuario._id === _this2.dataUserFormServer._id && _this2.dataUserFormServer.rol === 'admin') {
+								return _react2.default.createElement('span', null);
+							} else {
+								return _react2.default.createElement(
+									'tr',
+									{ key: p._id },
 									_react2.default.createElement(
-										'button',
-										{ type: 'button', onClick: function onClick() {
-												_this2.props.abrirFormularioEditarPermiso(p._id);
-											}, className: 'myBtn' },
-										'Editar'
+										'td',
+										null,
+										p.usuario.nombres + p.usuario.apellidos
 									),
 									_react2.default.createElement(
-										'button',
-										{ type: 'button', onClick: function onClick() {
-												_this2.props.eliminarPermiso(p._id);
-											}, className: 'myBtn' },
-										'Eliminar'
+										'td',
+										null,
+										p.modulo
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										_this2.renderConfirmation(p.mostrar)
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										_this2.renderConfirmation(p.editar)
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										_this2.renderConfirmation(p.eliminar)
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										_this2.renderConfirmation(p.crear)
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										_react2.default.createElement(
+											'button',
+											{ type: 'button', onClick: function onClick() {
+													_this2.props.abrirFormularioEditarPermiso(p._id);
+												}, className: 'myBtn' },
+											'Editar'
+										),
+										_react2.default.createElement(
+											'button',
+											{ type: 'button', onClick: function onClick() {
+													_this2.props.eliminarPermiso(p._id);
+												}, className: 'myBtn' },
+											'Eliminar'
+										)
 									)
-								)
-							);
+								);
+							}
 						})
 					);
 				} else {
@@ -104171,6 +104198,8 @@
 				if (cargando) {
 					return _react2.default.createElement(_Cargando2.default, null);
 				} else {
+					this.dataUserFormServer = this.props.usuarioEstado.datosToken;
+
 					return _react2.default.createElement(
 						'div',
 						{ className: 'container-fluid' },
@@ -104382,9 +104411,9 @@
 
 	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
 
-	var _FieldSelectPersonales = __webpack_require__(626);
+	var _FieldSelectUsuarios = __webpack_require__(632);
 
-	var _FieldSelectPersonales2 = _interopRequireDefault(_FieldSelectPersonales);
+	var _FieldSelectUsuarios2 = _interopRequireDefault(_FieldSelectUsuarios);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -104577,7 +104606,7 @@
 									'form',
 									{ onSubmit: handleSubmit(this.enviarFormulario) },
 									_react2.default.createElement(_reduxForm.Field, { name: 'usuario', type: 'text',
-										component: _FieldSelectPersonales2.default,
+										component: _FieldSelectUsuarios2.default,
 										listar: this.props.listarPersonales,
 										label: 'Usuario:' }),
 									_react2.default.createElement(_reduxForm.Field, { name: 'modulo',
@@ -104618,165 +104647,9 @@
 	exports.default = Formulario;
 
 /***/ }),
-/* 626 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _container = __webpack_require__(627);
-
-	var _container2 = _interopRequireDefault(_container);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _container2.default;
-
-/***/ }),
-/* 627 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _reactRedux = __webpack_require__(44);
-
-	var _reduxForm = __webpack_require__(24);
-
-	var _FieldSelectPersonales = __webpack_require__(628);
-
-	var _FieldSelectPersonales2 = _interopRequireDefault(_FieldSelectPersonales);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function mapStateToProps(state) {
-		return {};
-	}
-
-	// import { 
-	// } from '../../actions'
-
-	function mapDispatchToProps(dispatch) {
-		return {};
-	}
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_FieldSelectPersonales2.default);
-
-/***/ }),
-/* 628 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var FieldSelectPesonales = function (_Component) {
-		_inherits(FieldSelectPesonales, _Component);
-
-		function FieldSelectPesonales(props) {
-			_classCallCheck(this, FieldSelectPesonales);
-
-			return _possibleConstructorReturn(this, (FieldSelectPesonales.__proto__ || Object.getPrototypeOf(FieldSelectPesonales)).call(this, props));
-		}
-
-		_createClass(FieldSelectPesonales, [{
-			key: 'render',
-			value: function render() {
-				var _props = this.props,
-				    input = _props.input,
-				    valoresFiltro = _props.valoresFiltro,
-				    label = _props.label,
-				    listar = _props.listar,
-				    type = _props.type,
-				    _props$meta = _props.meta,
-				    touched = _props$meta.touched,
-				    error = _props$meta.error,
-				    warning = _props$meta.warning;
-
-
-				if (listar.cargando) {
-					return _react2.default.createElement(
-						'p',
-						null,
-						'Cargando Personales..'
-					);
-				} else {
-					var personales = listar.personales;
-
-					if (valoresFiltro != null) {
-						personales = personales.filter(function (i) {
-							return i.especialidad.id_especialidad == valoresFiltro.id_especialidad;
-						});
-					}
-
-					return _react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(
-							'div',
-							{ className: 'form-group' },
-							_react2.default.createElement(
-								'label',
-								{ htmlFor: label },
-								label
-							),
-							_react2.default.createElement(
-								'select',
-								_extends({}, input, { name: name, className: 'form-control' }),
-								_react2.default.createElement(
-									'option',
-									{ value: '' },
-									'Seleccionar usuario'
-								),
-								personales.map(function (i) {
-									return _react2.default.createElement(
-										'option',
-										{ key: i._id, value: i._id },
-										i.nombres + i.apellidos
-									);
-								})
-							)
-						),
-						touched && error && _react2.default.createElement(
-							'label',
-							{ className: 'text-danger text-center' },
-							error
-						)
-					);
-				}
-			}
-		}]);
-
-		return FieldSelectPesonales;
-	}(_react.Component);
-
-	exports.default = FieldSelectPesonales;
-
-/***/ }),
+/* 626 */,
+/* 627 */,
+/* 628 */,
 /* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -104916,6 +104789,1064 @@
 	};
 
 	exports.default = Root;
+
+/***/ }),
+/* 632 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _container = __webpack_require__(633);
+
+	var _container2 = _interopRequireDefault(_container);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _container2.default;
+
+/***/ }),
+/* 633 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _reactRedux = __webpack_require__(44);
+
+	var _reduxForm = __webpack_require__(24);
+
+	var _FieldSelectUsuarios = __webpack_require__(634);
+
+	var _FieldSelectUsuarios2 = _interopRequireDefault(_FieldSelectUsuarios);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state) {
+		return {
+			usuarioEstado: state.personal.usuarioEstado
+		};
+	}
+
+	// import { 
+	// } from '../../actions'
+
+	function mapDispatchToProps(dispatch) {
+		return {};
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_FieldSelectUsuarios2.default);
+
+/***/ }),
+/* 634 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FieldSelectUsuarios = function (_Component) {
+		_inherits(FieldSelectUsuarios, _Component);
+
+		function FieldSelectUsuarios(props) {
+			_classCallCheck(this, FieldSelectUsuarios);
+
+			var _this = _possibleConstructorReturn(this, (FieldSelectUsuarios.__proto__ || Object.getPrototypeOf(FieldSelectUsuarios)).call(this, props));
+
+			_this.dataUserFormServer = _this.props.usuarioEstado.datosToken;
+			return _this;
+		}
+
+		_createClass(FieldSelectUsuarios, [{
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				var _props = this.props,
+				    input = _props.input,
+				    valoresFiltro = _props.valoresFiltro,
+				    label = _props.label,
+				    listar = _props.listar,
+				    type = _props.type,
+				    _props$meta = _props.meta,
+				    touched = _props$meta.touched,
+				    error = _props$meta.error,
+				    warning = _props$meta.warning;
+
+
+				if (listar.cargando) {
+					return _react2.default.createElement(
+						'p',
+						null,
+						'Cargando Personales..'
+					);
+				} else {
+
+					var personales = listar.personales;
+
+					if (valoresFiltro != null) {
+						personales = personales.filter(function (i) {
+							return i.especialidad.id_especialidad == valoresFiltro.id_especialidad;
+						});
+					}
+
+					return _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'label',
+								{ htmlFor: label },
+								label
+							),
+							_react2.default.createElement(
+								'select',
+								_extends({}, input, { name: name, className: 'form-control' }),
+								_react2.default.createElement(
+									'option',
+									{ value: '' },
+									'Seleccionar usuario'
+								),
+								personales.map(function (i) {
+									if (i._id !== _this2.dataUserFormServer._id || i.rol !== 'admin') {
+										return _react2.default.createElement(
+											'option',
+											{ key: i._id, value: i._id },
+											i.nombres + i.apellidos
+										);
+									}
+								})
+							)
+						),
+						touched && error && _react2.default.createElement(
+							'label',
+							{ className: 'text-danger text-center' },
+							error
+						)
+					);
+				}
+			}
+		}]);
+
+		return FieldSelectUsuarios;
+	}(_react.Component);
+
+	exports.default = FieldSelectUsuarios;
+
+/***/ }),
+/* 635 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
+		var action = arguments[1];
+
+		switch (action.type) {
+			case _types.ABRIR_FORMULARIO_CREAR_ROL:
+				return Object.assign({}, state, {
+					formulario: {
+						abirtoCrear: true,
+						abirtoEditar: false,
+						iniciarValores: false,
+						error: '',
+						cargando: false,
+						rol: null
+					},
+					eliminar: INITIAL_STATE.eliminar
+				});
+
+			case _types.ABRIR_FORMULARIO_EDITAR_ROL_REQUEST:
+				return Object.assign({}, state, {
+					formulario: {
+						abirtoCrear: false,
+						abirtoEditar: true,
+						iniciarValores: true,
+						error: '',
+						cargando: true,
+						rol: null
+					},
+					eliminar: INITIAL_STATE.eliminar
+				});
+
+			case _types.ABRIR_FORMULARIO_EDITAR_ROL_EXITO:
+				return Object.assign({}, state, {
+					formulario: {
+						abirtoCrear: false,
+						abirtoEditar: true,
+						iniciarValores: true,
+						error: '',
+						cargando: false,
+						rol: action.payload
+					}
+				});
+
+			case _types.ABRIR_FORMULARIO_EDITAR_ROL_FALLO:
+				return Object.assign({}, state, {
+					formulario: {
+						abirtoCrear: false,
+						abirtoEditar: true,
+						iniciarValores: true,
+						error: action.payload,
+						cargando: false,
+						rol: null
+					}
+				});
+
+			case _types.CERRAR_FORMULARIO_ROL:
+				return Object.assign({}, state, {
+					formulario: INITIAL_STATE.formulario
+				});
+
+			case _types.CREAR_ROL_REQUEST:
+				return state = Object.assign({}, state, {
+					crear: { cargando: true }
+				});
+
+			case _types.CREAR_ROL_EXITO:
+				return Object.assign({}, state, {
+					crear: {
+						mensaje: action.payload.mensaje
+					},
+					formulario: { abirtoCrear: false }
+				});
+
+			case _types.CREAR_ROL_FALLO:
+				return state = Object.assign({}, state, {
+					crear: { error: action.payload }
+				});
+
+			case _types.LISTAR_ROLES_REQUEST:
+				return Object.assign({}, state, {
+					listar: { cargando: true, error: '' },
+					eliminar: INITIAL_STATE.eliminar
+				});
+
+			case _types.LISTAR_ROLES_EXITO:
+				return Object.assign({}, state, {
+					listar: { roles: action.payload.roles, cargando: false, error: '' }
+				});
+
+			case _types.LISTAR_ROLES_FALLO:
+				return Object.assign({}, state, {
+					listar: { error: action.payload, roles: null, cargando: false }
+				});
+
+			case _types.EDITAR_ROL_REQUEST:
+				return Object.assign({}, state, {
+					editar: { cargando: true }
+				});
+
+			case _types.EDITAR_ROL_EXITO:
+				return Object.assign({}, state, {
+					editar: {
+						cargando: false,
+						mensaje: action.payload.mensaje
+					},
+					formulario: { abirtoEditar: false }
+				});
+
+			case _types.EDITAR_ROL_FALLO:
+				return Object.assign({}, state, {
+					editar: {
+						cargando: false,
+						mensaje: '',
+						error: action.payload
+					}
+				});
+
+			case _types.ELIMINAR_ROL_REQUEST:
+				return Object.assign({}, state, {
+					eliminar: { cargando: true }
+				});
+
+			case _types.ELIMINAR_ROL_EXITO:
+				return Object.assign({}, state, {
+					eliminar: {
+						cargando: false,
+						error: ''
+					}
+				});
+
+			case _types.ELIMINAR_ROL_FALLO:
+				return Object.assign({}, state, {
+					eliminar: {
+						cargando: false,
+						error: action.payload
+					}
+				});
+
+			default:
+				return state;
+		}
+	};
+
+	var _types = __webpack_require__(636);
+
+	var INITIAL_STATE = {
+		formulario: {
+			abirtoCrear: false,
+			abirtoEditar: false,
+			iniciarValores: false,
+			error: '',
+			cargando: false,
+			rol: null
+		},
+		crear: { mensaje: '', cargando: false, error: '' },
+		listar: { roles: null, cargando: false, error: '' },
+		eliminar: { cargando: false, mensaje: '', error: '' },
+		editar: { cargando: false, mensaje: '', error: '' }
+	};
+
+/***/ }),
+/* 636 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var LISTAR_ROLES_REQUEST = exports.LISTAR_ROLES_REQUEST = 'listar_roles_request';
+	var LISTAR_ROLES_EXITO = exports.LISTAR_ROLES_EXITO = 'listar_roles_exito';
+	var LISTAR_ROLES_FALLO = exports.LISTAR_ROLES_FALLO = 'listar_roles_fallo';
+
+	var ABRIR_FORMULARIO_EDITAR_ROL_REQUEST = exports.ABRIR_FORMULARIO_EDITAR_ROL_REQUEST = 'abrir_formulario_editar_rol_request';
+	var ABRIR_FORMULARIO_EDITAR_ROL_EXITO = exports.ABRIR_FORMULARIO_EDITAR_ROL_EXITO = 'abrir_formulario_editar_rol_exito';
+	var ABRIR_FORMULARIO_EDITAR_ROL_FALLO = exports.ABRIR_FORMULARIO_EDITAR_ROL_FALLO = 'abrir_formulario_editar_rol_fallo';
+
+	var EDITAR_ROL_REQUEST = exports.EDITAR_ROL_REQUEST = 'edit_role_request';
+	var EDITAR_ROL_EXITO = exports.EDITAR_ROL_EXITO = 'edit_role_exito';
+	var EDITAR_ROL_FALLO = exports.EDITAR_ROL_FALLO = 'edit_role_fallo';
+
+	var ABRIR_FORMULARIO_CREAR_ROL = exports.ABRIR_FORMULARIO_CREAR_ROL = 'abrir_formulario_crear_rol';
+
+	var CREAR_ROL_REQUEST = exports.CREAR_ROL_REQUEST = 'crear_rol_request';
+	var CREAR_ROL_EXITO = exports.CREAR_ROL_EXITO = 'crear_rol_exito';
+	var CREAR_ROL_FALLO = exports.CREAR_ROL_FALLO = 'crear_rol_fallo';
+
+	var CERRAR_FORMULARIO_ROL = exports.CERRAR_FORMULARIO_ROL = 'cerrar_formulario_rol';
+
+	var ELIMINAR_ROL_REQUEST = exports.ELIMINAR_ROL_REQUEST = 'eliminair_rol_request';
+	var ELIMINAR_ROL_EXITO = exports.ELIMINAR_ROL_EXITO = 'eliminair_rol_exito';
+	var ELIMINAR_ROL_FALLO = exports.ELIMINAR_ROL_FALLO = 'eliminair_rol_fallo';
+
+/***/ }),
+/* 637 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _container = __webpack_require__(638);
+
+	var _container2 = _interopRequireDefault(_container);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _container2.default;
+
+/***/ }),
+/* 638 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _reactRedux = __webpack_require__(44);
+
+	var _actions = __webpack_require__(639);
+
+	var _Listar = __webpack_require__(640);
+
+	var _Listar2 = _interopRequireDefault(_Listar);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state) {
+		return {
+			eliminar: state.rol.eliminar,
+			listar: state.rol.listar,
+			roles: state.rol.listar.roles
+		};
+	}
+
+	function mapDispatchToProps(dispatch) {
+		return {
+			listarRoles: function listarRoles() {
+				dispatch((0, _actions.listarRoles)());
+			},
+			eliminarRol: function eliminarRol(idRol) {
+				var r = confirm("Está seguro que desea eliminar el rol?");
+				if (r == true) {
+					dispatch((0, _actions.eliminarRol)(idRol));
+				}
+			},
+			mostrarRol: function mostrarRol(idRol) {
+				dispatch((0, _actions.mostrarRol)(idRol));
+			},
+			abrirFormularioCrearRol: function abrirFormularioCrearRol() {
+				dispatch((0, _actions.abrirFormularioCrearRol)());
+			},
+			abrirFormularioEditarRol: function abrirFormularioEditarRol(idRol) {
+				dispatch((0, _actions.abrirFormularioEditarRol)(idRol));
+			}
+		};
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Listar2.default);
+
+/***/ }),
+/* 639 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.abrirFormularioCrearRol = abrirFormularioCrearRol;
+	exports.abrirFormularioEditarRol = abrirFormularioEditarRol;
+	exports.cerrarFormularioRol = cerrarFormularioRol;
+	exports.listarRoles = listarRoles;
+	exports.crearRol = crearRol;
+	exports.eliminarRol = eliminarRol;
+	exports.editarRol = editarRol;
+
+	var _types = __webpack_require__(636);
+
+	var _socket = __webpack_require__(354);
+
+	var _socket2 = _interopRequireDefault(_socket);
+
+	var _reactRouter = __webpack_require__(560);
+
+	var _reduxForm = __webpack_require__(24);
+
+	var _jwtDecode = __webpack_require__(350);
+
+	var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var socketRol = (0, _socket2.default)('http://localhost:3000');
+
+	function abrirFormularioCrearRol() {
+		return function (dispatch) {
+			dispatch((0, _reduxForm.reset)('FormularioRol'));
+
+			dispatch({ type: _types.ABRIR_FORMULARIO_CREAR_ROL });
+		};
+	}
+
+	function abrirFormularioEditarRol(idRol) {
+		return function (dispatch) {
+			dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_ROL_REQUEST });
+
+			socketRol.emit('mostrar_rol', { _id: idRol });
+
+			socketRol.on('mostrar_rol', function (data) {
+				// console.log(data)
+				if (data.error) {
+					dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_ROL_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_ROL_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function cerrarFormularioRol() {
+		return function (dispatch) {
+			dispatch({ type: _types.CERRAR_FORMULARIO_ROL });
+		};
+	}
+
+	function listarRoles() {
+		return function (dispatch) {
+
+			dispatch({ type: _types.LISTAR_ROLES_REQUEST });
+
+			socketRol.emit('listar_roles', null);
+
+			socketRol.on('listar_roles', function (data) {
+				if (data.error) {
+					dispatch({ type: _types.LISTAR_ROLES_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.LISTAR_ROLES_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function crearRol(datosFormulario) {
+		return function (dispatch) {
+
+			dispatch({ type: _types.CREAR_ROL_REQUEST });
+
+			socketRol.emit('crear_rol', datosFormulario);
+			socketRol.on('crear_rol', function (data) {
+				if (data.err) {
+					dispatch({ type: _types.CREAR_ROL_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.CREAR_ROL_EXITO, payload: data });
+				}
+			});
+
+			dispatch((0, _reduxForm.reset)('FormularioRol'));
+		};
+	}
+
+	function eliminarRol(idRol) {
+		return function (dispatch) {
+
+			dispatch({ type: _types.ELIMINAR_ROL_REQUEST });
+
+			socketRol.emit('eliminar_rol', {
+				_id: idRol
+			});
+
+			socketRol.on('eliminar_rol', function (data) {
+				console.log(data);
+				if (data.error) {
+					dispatch({ type: _types.ELIMINAR_ROL_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.ELIMINAR_ROL_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function editarRol(datosFormulario) {
+		return function (dispatch) {
+
+			dispatch({ type: _types.EDITAR_ROL_REQUEST });
+
+			socketRol.emit('editar_rol', datosFormulario);
+
+			socketRol.on('editar_rol', function (data) {
+				if (data.error) {
+					dispatch({ type: _types.EDITAR_ROL_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.EDITAR_ROL_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+/***/ }),
+/* 640 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Cargando = __webpack_require__(542);
+
+	var _Cargando2 = _interopRequireDefault(_Cargando);
+
+	var _MensajeOerror = __webpack_require__(544);
+
+	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
+
+	var _jwtDecode = __webpack_require__(350);
+
+	var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
+
+	var _Formulario = __webpack_require__(641);
+
+	var _Formulario2 = _interopRequireDefault(_Formulario);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Listar = function (_Component) {
+		_inherits(Listar, _Component);
+
+		function Listar(props) {
+			_classCallCheck(this, Listar);
+
+			var _this = _possibleConstructorReturn(this, (Listar.__proto__ || Object.getPrototypeOf(Listar)).call(this, props));
+
+			_this.renderRoles = _this.renderRoles.bind(_this);
+			_this.renderBtnByRoles = _this.renderBtnByRoles.bind(_this);
+
+			_this.personalLocalSt = (0, _jwtDecode2.default)(localStorage.getItem('token'));
+			return _this;
+		}
+
+		_createClass(Listar, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.props.listarRoles();
+			}
+		}, {
+			key: 'renderBtnByRoles',
+			value: function renderBtnByRoles(rol) {
+				var _this2 = this;
+
+				var descripcion = rol.descripcion;
+
+				if (descripcion === 'admin' || descripcion === 'alumno' || descripcion === 'docente') {
+					return _react2.default.createElement('span', null);
+				} else {
+					return _react2.default.createElement(
+						'span',
+						null,
+						_react2.default.createElement(
+							'button',
+							{ type: 'button', onClick: function onClick() {
+									_this2.props.abrirFormularioEditarRol(rol._id);
+								}, className: 'myBtn' },
+							'Editar'
+						),
+						_react2.default.createElement(
+							'button',
+							{ type: 'button', onClick: function onClick() {
+									_this2.props.eliminarRol(rol._id);
+								}, className: 'myBtn' },
+							'Eliminar'
+						)
+					);
+				}
+			}
+		}, {
+			key: 'shouldComponentUpdate',
+			value: function shouldComponentUpdate(nextProps) {
+				var condition = nextProps.roles !== this.props.roles || nextProps.eliminar !== this.props.eliminar;
+
+				if (condition) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}, {
+			key: 'renderRoles',
+			value: function renderRoles(roles) {
+				var _this3 = this;
+
+				if (roles) {
+					return _react2.default.createElement(
+						'tbody',
+						null,
+						roles.map(function (rol) {
+							return _react2.default.createElement(
+								'tr',
+								{ key: rol._id },
+								_react2.default.createElement(
+									'td',
+									null,
+									rol.descripcion
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									_this3.renderBtnByRoles(rol)
+								)
+							);
+						})
+					);
+				} else {
+					return _react2.default.createElement('tbody', null);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _props$listar = this.props.listar,
+				    roles = _props$listar.roles,
+				    cargando = _props$listar.cargando;
+
+
+				var error = this.props.listar.error ? this.props.listar.error : this.props.eliminar.error;
+
+				if (cargando) {
+					return _react2.default.createElement(_Cargando2.default, null);
+				} else {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'container-fluid' },
+						_react2.default.createElement(
+							'h1',
+							{ className: 'text-center' },
+							'Roles'
+						),
+						_react2.default.createElement(_Formulario2.default, null),
+						_react2.default.createElement(_MensajeOerror2.default, { error: error, mensaje: null }),
+						_react2.default.createElement(
+							'div',
+							{ className: 'row' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col-xs-12 col-sm-8 col-md-6 col-lg-4' },
+								_react2.default.createElement(
+									'button',
+									{ type: 'button', onClick: this.props.abrirFormularioCrearRol, className: 'myBtn' },
+									'Agregar'
+								)
+							)
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(
+							'div',
+							{ className: 'table-responsive' },
+							_react2.default.createElement(
+								'table',
+								{ className: 'table table-striped' },
+								_react2.default.createElement(
+									'thead',
+									null,
+									_react2.default.createElement(
+										'tr',
+										null,
+										_react2.default.createElement(
+											'th',
+											null,
+											'Nombre'
+										),
+										_react2.default.createElement(
+											'th',
+											null,
+											'Opciones'
+										)
+									)
+								),
+								this.renderRoles(roles)
+							)
+						)
+					);
+				}
+			}
+		}]);
+
+		return Listar;
+	}(_react.Component);
+
+	exports.default = Listar;
+
+/***/ }),
+/* 641 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _container = __webpack_require__(642);
+
+	var _container2 = _interopRequireDefault(_container);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _container2.default;
+
+/***/ }),
+/* 642 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _reactRedux = __webpack_require__(44);
+
+	var _reduxForm = __webpack_require__(24);
+
+	var _actions = __webpack_require__(639);
+
+	var _Formulario = __webpack_require__(643);
+
+	var _Formulario2 = _interopRequireDefault(_Formulario);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var validate = function validate(values) {
+		var errors = {};
+
+		if (!values.descripcion) {
+			errors.descripcion = 'Tienes que introducir una descripción.';
+		} else if (values.descripcion.length < 5) {
+			values.descripcion.toLowerCase();
+			errors.descripcion = 'Tiene que ser por lo menos 5 characteres.';
+		}
+
+		return errors;
+	};
+
+	function mapStateToProps(state) {
+		return {
+			formulario: state.rol.formulario,
+			initialValues: state.rol.formulario.rol,
+			enableReinitialize: state.rol.formulario.iniciarValores,
+			editarContenido: state.rol.formulario.iniciarValores,
+
+			// Para obtener el error al crear o editar.
+			crear: state.rol.crear,
+			editar: state.rol.editar
+		};
+	}
+
+	function mapDispatchToProps(dispatch) {
+		return {
+			crearRol: function crearRol(datosFormulario) {
+				dispatch((0, _actions.crearRol)(datosFormulario));
+			},
+			cerrarFormularioRol: function cerrarFormularioRol() {
+				// var r = confirm("Está seguro que desea cancelar?");
+				// if (r == true) {
+				dispatch((0, _actions.cerrarFormularioRol)());
+				// }
+			},
+			editarRol: function editarRol(datosFormulario) {
+				dispatch((0, _actions.editarRol)(datosFormulario));
+			}
+		};
+	}
+
+	var form = (0, _reduxForm.reduxForm)({
+		form: 'FormularioRol',
+		validate: validate
+	});
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_Formulario2.default));
+
+/***/ }),
+/* 643 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reduxForm = __webpack_require__(24);
+
+	var _reactModal = __webpack_require__(531);
+
+	var _reactModal2 = _interopRequireDefault(_reactModal);
+
+	var _lodash = __webpack_require__(541);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _Cargando = __webpack_require__(542);
+
+	var _Cargando2 = _interopRequireDefault(_Cargando);
+
+	var _MensajeOerror = __webpack_require__(544);
+
+	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var renderField = function renderField(_ref) {
+		var input = _ref.input,
+		    label = _ref.label,
+		    type = _ref.type,
+		    _ref$meta = _ref.meta,
+		    touched = _ref$meta.touched,
+		    error = _ref$meta.error,
+		    warning = _ref$meta.warning;
+		return _react2.default.createElement(
+			'div',
+			null,
+			_react2.default.createElement(
+				'div',
+				{ className: 'form-group' },
+				_react2.default.createElement(
+					'label',
+					{ htmlFor: label },
+					label
+				),
+				_react2.default.createElement('input', _extends({ className: 'form-control' }, input, { placeholder: label, type: type }))
+			),
+			touched && error && _react2.default.createElement(
+				'label',
+				{ className: 'text-danger' },
+				error
+			)
+		);
+	};
+
+	var Formulario = function (_Component) {
+		_inherits(Formulario, _Component);
+
+		function Formulario(props) {
+			_classCallCheck(this, Formulario);
+
+			var _this = _possibleConstructorReturn(this, (Formulario.__proto__ || Object.getPrototypeOf(Formulario)).call(this, props));
+
+			_this.enviarFormulario = _this.enviarFormulario.bind(_this);
+			_this.renderFormulario = _this.renderFormulario.bind(_this);
+			return _this;
+		}
+
+		_createClass(Formulario, [{
+			key: 'enviarFormulario',
+			value: function enviarFormulario(formProps) {
+				console.log(formProps);
+
+				if (this.props.editarContenido) {
+					this.props.editarRol(formProps);
+				} else {
+					this.props.crearRol(formProps);
+				}
+			}
+		}, {
+			key: 'renderFormulario',
+			value: function renderFormulario(cargando) {
+				var _props = this.props,
+				    handleSubmit = _props.handleSubmit,
+				    pristine = _props.pristine,
+				    reset = _props.reset,
+				    submitting = _props.submitting;
+
+
+				if (cargando) {
+					return _react2.default.createElement(
+						'h1',
+						null,
+						'Cargando...'
+					);
+				} else {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 col-sm-6 col-md-4 col-lg-4' },
+						_react2.default.createElement(
+							'form',
+							{ onSubmit: handleSubmit(this.enviarFormulario) },
+							_react2.default.createElement(_reduxForm.Field, { name: 'descripcion', type: 'text', component: renderField, label: 'Descripci\xF3n' }),
+							_react2.default.createElement(
+								'div',
+								{ className: 'row end-xs' },
+								_react2.default.createElement(
+									'button',
+									{ type: 'submit', className: 'myBtn', disabled: pristine || submitting },
+									'Guardar'
+								),
+								_react2.default.createElement(
+									'button',
+									{ type: 'button', onClick: this.props.cerrarFormularioRol, className: 'myBtn' },
+									'Cancelar'
+								)
+							)
+						)
+					);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var customStyles = {
+					content: {
+						height: '40vh',
+						position: 'none'
+					}
+				};
+
+				var _props$formulario = this.props.formulario,
+				    abirtoCrear = _props$formulario.abirtoCrear,
+				    abirtoEditar = _props$formulario.abirtoEditar,
+				    cargando = _props$formulario.cargando;
+
+
+				var error = this.props.formulario.error ? this.props.formulario.error : this.props.crear.error ? this.props.crear.error : this.props.editar.error;
+
+				var abierto = abirtoEditar ? abirtoEditar : abirtoCrear;
+
+				if (abierto) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'main-container-modal' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'main-container-modal__content' },
+							_react2.default.createElement(_MensajeOerror2.default, { error: error, mensaje: null }),
+							this.renderFormulario(cargando)
+						)
+					);
+				} else {
+					return _react2.default.createElement('span', null);
+				}
+			}
+		}]);
+
+		return Formulario;
+	}(_react.Component);
+
+	exports.default = Formulario;
 
 /***/ })
 /******/ ]);

@@ -14,7 +14,7 @@ class App extends Component {
 
 	componentWillMount() {
 		const token = localStorage.getItem('token')
-		console.log("-------------------->"+ token)
+		console.log("Token -------------------->"+ token)
 
 		if(token) {
 			this.props.verificarTokenPersonal(token)

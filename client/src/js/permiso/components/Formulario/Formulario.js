@@ -8,7 +8,7 @@ import Cargando from '../../../app/components/Cargando'
 
 import MensajeOerror from '../../../app/components/MensajeOerror'
 
-import FieldSelectPersonalesContainer from '../../../usuario/components/FieldSelectPersonales'
+import FieldSelectUsuariosContainer from '../../../usuario/components/FieldSelectUsuarios'
 
 
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
@@ -116,7 +116,7 @@ class Formulario extends Component {
 							<form onSubmit={handleSubmit(this.enviarFormulario)}>
 								
 								<Field name='usuario' type='text' 
-									component={FieldSelectPersonalesContainer}
+									component={FieldSelectUsuariosContainer}
 									listar={this.props.listarPersonales} 
 									label='Usuario:'/>
 

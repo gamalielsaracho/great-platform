@@ -4,19 +4,19 @@ import { Field, reduxForm } from 'redux-form'
 // import { 
 // } from '../../actions'
 
-import FieldSelectPersonales from './FieldSelectPersonales'
+import FieldSelectUsuarios from './FieldSelectUsuarios'
 
 function mapStateToProps(state) {
 	return {
+		usuarioEstado: state.personal.usuarioEstado
 	}
 }
 
 
 function mapDispatchToProps(dispatch) {
 	return {
-		
 	}
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldSelectPersonales)
+export default connect(mapStateToProps, mapDispatchToProps)(FieldSelectUsuarios)

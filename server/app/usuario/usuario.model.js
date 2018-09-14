@@ -54,25 +54,6 @@ const UsuarioSchema = new Schema({
 				type: Date
 			}
 		}
-	],
-	permisos: [
-		{
-			modulo: {
-				type: Schema.Types.ObjectId, ref: 'Modulo'
-			},
-			editar: {
-				type: Boolean,
-				default: false
-			},
-			eliminar: {
-				type: Boolean,
-				default: false
-			},
-			mostrar: {
-				type: Boolean,
-				default: false
-			}
-		}
 	]
 })
 

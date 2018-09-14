@@ -14,6 +14,8 @@ import carreraReducer from '../carrera/reducer'
 
 import permisoReducer from '../permiso/reducer'
 
+import rolReducer from '../rol/reducer'
+
 
 const rootReducer = combineReducers({
 	form: formReducer,
@@ -22,7 +24,8 @@ const rootReducer = combineReducers({
 	calificacion: calificacionReducer,
 	facultad: facultadReducer,
 	carrera: carreraReducer,
-	permiso: permisoReducer
+	permiso: permisoReducer,
+	rol: rolReducer
 })
 
 export default rootReducer

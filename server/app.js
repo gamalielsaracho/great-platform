@@ -24,6 +24,8 @@ io.on('connection', function (socket) {
 
 	require('././app/permiso/permiso.sockets')(socket, io)
 
+	require('././app/rol/rol.sockets')(socket, io)
+
 	socket.on('disconnect', function () {
 		console.log('Usuario Desconectado.')
 	})

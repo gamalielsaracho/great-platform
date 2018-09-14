@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 
-class FieldSelectPesonales extends Component {
+class FieldSelectUsuarios extends Component {
 	constructor(props) {
 		super(props)
+		this.dataUserFormServer = this.props.usuarioEstado.datosToken 
 	}
 
 	render() {
 		const { input, valoresFiltro, label, listar, 
 			type, meta: { touched, error, warning } } = this.props
 			
+
 		if(listar.cargando) {
 			return <p>Cargando Personales..</p>
 		} else {
+
 			let personales = listar.personales
 
 			if(valoresFiltro != null) {
@@ -29,9 +32,11 @@ class FieldSelectPesonales extends Component {
 						
 						{
 							personales.map((i) => {
-								return <option key={i._id} value={i._id}>
-									{ i.nombres+ i.apellidos } 
-								</option>
+								if(i._id !== this.dataUserFormServer._id || i.rol !== 'admin') {
+									return <option key={i._id} value={i._id}>
+										{ i.nombres+ i.apellidos } 
+									</option>
+								}
 							})
 						}
 					</select>
@@ -42,4 +47,4 @@ class FieldSelectPesonales extends Component {
 	}
 }
 
-export default FieldSelectPesonales
+export default FieldSelectUsuarios

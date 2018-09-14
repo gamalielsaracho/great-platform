@@ -15,6 +15,7 @@ class Listar extends Component {
 		this.renderPermisos = this.renderPermisos.bind(this)
 		this.renderConfirmation = this.renderConfirmation.bind(this)
 		this.personalLocalSt = jwtDecode(localStorage.getItem('token'))
+		this.dataUserFormServer = this.dataUserFormServer 
 	}
 
 	componentWillMount() {
@@ -48,24 +49,31 @@ class Listar extends Component {
 		// console.log(permisos)
 
 		if (permisos) {
+			// console.log('this.dataUserFormServer -----')
+			// console.log(this.dataUserFormServer)
+
 			return <tbody>
 				{
 					permisos.map((p) => {
-						return <tr key={p._id}>
-				            <td>{ p.usuario.nombres + p.usuario.apellidos}</td>
-				            <td>{ p.modulo }</td>
 
+						if(p.usuario._id === this.dataUserFormServer._id && this.dataUserFormServer.rol === 'admin') {
+							return <span></span>
+						} else {
+							return <tr key={p._id}>
+					            <td>{ p.usuario.nombres + p.usuario.apellidos}</td>
+					            <td>{ p.modulo }</td>
 
-				            <td>{ this.renderConfirmation(p.mostrar) }</td>
-							<td>{ this.renderConfirmation(p.editar) }</td>
-							<td>{ this.renderConfirmation(p.eliminar) }</td>
-							<td>{ this.renderConfirmation(p.crear) }</td>
-				            
-				            <td>
-								<button type="button" onClick={() => { this.props.abrirFormularioEditarPermiso(p._id) }} className="myBtn">Editar</button>
-								<button type="button" onClick={() => { this.props.eliminarPermiso(p._id) }} className="myBtn">Eliminar</button>
-				            </td>
-				        </tr>		
+					            <td>{ this.renderConfirmation(p.mostrar) }</td>
+								<td>{ this.renderConfirmation(p.editar) }</td>
+								<td>{ this.renderConfirmation(p.eliminar) }</td>
+								<td>{ this.renderConfirmation(p.crear) }</td>
+					            
+					            <td>
+									<button type="button" onClick={() => { this.props.abrirFormularioEditarPermiso(p._id) }} className="myBtn">Editar</button>
+									<button type="button" onClick={() => { this.props.eliminarPermiso(p._id) }} className="myBtn">Eliminar</button>
+					            </td>
+					        </tr>		
+						}
 					})
 				}
 			</tbody>
@@ -84,6 +92,8 @@ class Listar extends Component {
 		if(cargando) {
 			return <Cargando/>
 		} else {
+				this.dataUserFormServer = this.props.usuarioEstado.datosToken
+				
 				return <div className='container-fluid'>
 					<h1 className='text-center'>Permisos</h1>
 

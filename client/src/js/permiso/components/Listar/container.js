@@ -15,7 +15,9 @@ function mapStateToProps(state) {
 	return {
 		eliminar: state.permiso.eliminar,
 		listar: state.permiso.listar,
-		permisos: state.permiso.listar.permisos
+		permisos: state.permiso.listar.permisos,
+
+		usuarioEstado: state.personal.usuarioEstado
 	}
 }
 

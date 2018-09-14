@@ -39,9 +39,14 @@ class Menu extends Component {
 						Facultades
 					</NavLink>
 			    </li>
-			     <li>
+			    <li>
 					<NavLink to='/dashboard/permisos' className='mdl-navigation__link'>
 						Permisos
+					</NavLink>
+			    </li>
+			    <li>
+					<NavLink to='/dashboard/roles' className='mdl-navigation__link'>
+						Roles
 					</NavLink>
 			    </li>
 
