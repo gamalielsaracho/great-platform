@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
-
 import $ from 'jquery'
-
 import jwtDecode from 'jwt-decode'
 
 class Menu extends Component {
@@ -11,12 +9,9 @@ class Menu extends Component {
 		super(props)
 	}
 
-
 	// componentDidMount() {
 
-	// }
-
-	
+	// }	
 
 	render() {
 		return <div className='col-xs-12 col-sm-12 col-md-2 col-lg-2 back-green no-print-data'>
@@ -24,7 +19,7 @@ class Menu extends Component {
 
 			<ul className="">
 			    <li>
-					<NavLink to='/dashboard/materias' className='mdl-navigation__link'>
+					<NavLink to={`/dashboard/materias`} className='mdl-navigation__link'>
 						Materias
 					</NavLink>	
 			    </li>

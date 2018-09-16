@@ -13,7 +13,6 @@ class Listar extends Component {
 		this.renderRoles = this.renderRoles.bind(this)
 		this.renderBtnByRoles = this.renderBtnByRoles.bind(this)
 
-		this.personalLocalSt = jwtDecode(localStorage.getItem('token'))
 	}
 
 	componentWillMount() {
@@ -56,6 +55,7 @@ class Listar extends Component {
 						return <tr key={rol._id}>
 				            <td>{ rol.descripcion }</td>
 				            <td>
+				            	{/**/}
 				            	{ this.renderBtnByRoles(rol) }
 				            </td>
 				        </tr>		

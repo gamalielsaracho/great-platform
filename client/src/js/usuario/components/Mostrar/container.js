@@ -11,6 +11,9 @@ function mapStateToProps(state, ownProps) {
 	return {
 		mostrar: state.personal.mostrar,
 
+		// datos del usuario logueado. 
+    	usuarioEstado: state.personal.usuarioEstado,
+    	
 		// guardamos todos los parametros de la url.
 		urls: ownProps.params
 	}

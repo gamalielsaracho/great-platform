@@ -7,6 +7,10 @@ const PermisoSchema = new Schema({
 	modulo: {
 		type: String
 	},
+	privado: {
+		default: false,
+		type: Boolean
+	},
 	mostrar: {
 		default: false,
 		type: Boolean

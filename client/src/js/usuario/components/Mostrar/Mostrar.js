@@ -20,11 +20,13 @@ class Mostrar extends Component {
 		super(props)
 		this.renderPersonal = this.renderPersonal.bind(this)
 
-		// this.rolLst = jwtDecode(localStorage.getItem('token')).rol
-		// this.idUsuarioLst = jwtDecode(localStorage.getItem('token'))._id
+		// Usuario logueado desde el servidor.
+		this.usuario = this.usuario
+
+		// Usuario Local.
+		this.usuarioLst = jwtDecode(localStorage.getItem('token'))
 
 		this.renderBtnEditByRol = this.renderBtnEditByRol.bind(this)
-
 		this.renderCalificacionesByRolAndId = this.renderCalificacionesByRolAndId.bind(this)
 	}
 	
@@ -36,18 +38,12 @@ class Mostrar extends Component {
 	}
 
 	renderCalificacionesByRolAndId(idAlumnoParam, calificacionesListaParam) {
-		if(jwtDecode(localStorage.getItem('token')).rol == 'admin' || jwtDecode(localStorage.getItem('token')).rol == 'docente') {
+		if(this.usuarioLst.rol == 'admin' || this.usuarioLst.rol == 'docente') {
 			return <ListarCalificacionesContainer 
 					idAlumno={idAlumnoParam}
 					calificacionesLista={calificacionesListaParam}/>
 		} else {
-			// console.log('this.props.match.params.idPersonal')
-			// console.log(this.props.match.params.idPersonal)
-
-			// console.log('this.idUsuarioLst')
-			// console.log(jwtDecode(localStorage.getItem('token'))._id)
-
-			if(jwtDecode(localStorage.getItem('token'))._id == this.props.match.params.idPersonal) {
+			if(this.usuarioLst._id == this.props.match.params.idPersonal) {
 				return <ListarCalificacionesContainer 
 					idAlumno={idAlumnoParam}
 					calificacionesLista={calificacionesListaParam}/>
@@ -59,16 +55,11 @@ class Mostrar extends Component {
 
 
 	renderBtnEditByRol(personal) {
-		if(jwtDecode(localStorage.getItem('token')).rol == 'admin') {
+
+		if(this.usuario.rol.descripcion == 'admin') {
 			return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(personal._id) }} className='myBtn'>Editar</button>
 		} else {
-			// console.log('this.props.match.params.idPersonal')
-			// console.log(this.props.match.params.idPersonal)
-
-			// console.log('this.idUsuarioLst')
-			// console.log(this.idUsuarioLst)
-
-			if(jwtDecode(localStorage.getItem('token'))._id == this.props.match.params.idPersonal) {
+			if(this.usuarioLst._id === this.props.match.params.idPersonal) {
 				return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(personal._id) }} className='myBtn'>Editar</button>
 			} else {
 				return <span></span>
@@ -96,7 +87,8 @@ class Mostrar extends Component {
 						<br/>
 					</div>
 					<div className='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
-						<FormularioEditarPersonalContainer/>
+						<FormularioEditarPersonalContainer
+							idPersonalParam={this.props.match.params.idPersonal}/>
 
 						{ this.renderBtnEditByRol(personal) }
 					</div>
@@ -120,10 +112,11 @@ class Mostrar extends Component {
 
 
 		const { cargando, personal, error } = this.props.mostrar
+		const { datosToken } = this.props.usuarioEstado
+
+		this.usuario = datosToken
 		// ...
 
-		console.log('el personal...')
-		console.log(personal)
 		return <div className='container'>
 
 			<MensajeOerror error={error} mensaje={null}/>

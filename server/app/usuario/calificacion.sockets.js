@@ -4,8 +4,6 @@ import { listarUsuarios, mostrarUsuario } from './enventsToCall'
 
 
 export default (socket, io) => {
-	listarUsuarios(socket, io)
-
 
 	socket.on('crear_calificacion', function(data) {
 

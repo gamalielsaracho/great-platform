@@ -22,6 +22,24 @@ export default (socket, io) => {
 		})
 
 
+		socket.on('obtener_permiso_nombreModulo_idUsuario', (data) => {
+			Permiso.findOne({ usuario: data.idUsuario, modulo: data.nombreModulo })
+			.then((permiso) => {
+
+				if(permiso === null) {
+					return socket.emit('obtener_permiso_nombreModulo_idUsuario', { error: 'No se encontró en la base de datos.' })
+				}
+
+				// console.log(permiso)
+				socket.emit('obtener_permiso_nombreModulo_idUsuario', permiso)
+			})
+			.catch((err) => {
+				console.log(err)
+				return socket.emit('obtener_permiso_nombreModulo_idUsuario', { error: 'Ocurrió un error, intente más tarde.' })
+			})
+		})
+
+
 		socket.on('crear_permiso', function(data) {
 
 			var permiso = new Permiso(data)

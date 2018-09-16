@@ -16,7 +16,7 @@ class Listar extends Component {
 		this.handleChange = this.handleChange.bind(this)
 
 		this.renderUsuarioDatos = this.renderUsuarioDatos.bind(this)
-
+		
 		// this.idUsuarioLst = jwtDecode(localStorage.getItem('token'))._id
 	}
 
@@ -30,6 +30,7 @@ class Listar extends Component {
 			return <tr key={i._id}>
 				<td>{ i.nroDocumento }</td>
 				<td>{ i.nombres+' '+i.apellidos }</td>
+				<td>{ i.rol.descripcion }</td>
 				<td>{ i.correo }</td>
 
 				<td>
@@ -90,7 +91,7 @@ class Listar extends Component {
 					return this.renderUsuarioDatos(i)	
 				  })
 			    }
-		</tbody>
+			</tbody>
 		} else {
 			return <span></span>
 		}
@@ -143,7 +144,8 @@ class Listar extends Component {
 							<thead>
 								<tr>
 									<th>CI</th>
-									<th>Nombre</th>
+									<th>Usuario</th>
+									<th>Rol</th>
 									<th>Correo</th>
 
 									<th>Opciones</th>

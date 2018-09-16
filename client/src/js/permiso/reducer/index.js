@@ -25,7 +25,10 @@ import {
 
 	ELIMINAR_PERMISO_REQUEST,
 	ELIMINAR_PERMISO_EXITO,
-	ELIMINAR_PERMISO_FALLO
+	ELIMINAR_PERMISO_FALLO,
+
+	OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO,
+	OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -41,12 +44,29 @@ const INITIAL_STATE = {
 	listar: { permisos: null, cargando: false, error: '' },
 	eliminar: { cargando: false, mensaje: '', error: '' },
 	mostrar: { cargando: false, permiso: null, error: '' },
-	editar: { cargando: false, mensaje: '', error: '' }
+	editar: { cargando: false, mensaje: '', error: '' },
+	obtenerPermisoVerificacion: { permiso: null, error: '' }
 }
 
 
 export default function (state = INITIAL_STATE, action) {
 	switch(action.type) {
+		case OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO:
+			return Object.assign({}, state, {
+				obtenerPermisoVerificacion: {
+					permiso: action.payload
+				}
+			})
+
+		case OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO:
+			return Object.assign({}, state, {
+				obtenerPermisoVerificacion: {
+					permiso: null,
+					error: action.payload
+				}
+			})
+
+
 		case ABRIR_FORMULARIO_CREAR_PERMISO:
 			return Object.assign({}, state, {
 				formulario: {

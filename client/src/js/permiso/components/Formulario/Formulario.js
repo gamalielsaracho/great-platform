@@ -125,6 +125,8 @@ class Formulario extends Component {
 									component={this.renderFieldSelectModulos} 
 									label='Módulo'/>
 								
+								<Field name='privado' type='checkbox' component={this.renderFieldCheckbox} value='privado' label='Ocultar módulo completo'/>
+								
 								<Field name='editar' type='checkbox' component={this.renderFieldCheckbox} value='editar' label='Editar'/>
 								<Field name='crear' type='checkbox' component={this.renderFieldCheckbox} value='crear' label='Crear'/>
 								<Field name='eliminar' type='checkbox' component={this.renderFieldCheckbox} value='eliminar' label='Eliminar'/>

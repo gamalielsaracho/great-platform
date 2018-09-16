@@ -62,7 +62,7 @@ const INITIAL_STATE = {
 	usuarioEstado: {
 		// cargando: false,
 		error: '',
-		datosToken: {},
+		datosToken: null,
 		autenticado: false
 	}
 }
@@ -197,7 +197,7 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, { 
 				usuarioEstado:{
 					// cargando: false,
-					datosToken: {},
+					datosToken: null,
 					autenticado: false, 
 					error: action.payload.error
 				}
@@ -208,7 +208,7 @@ export default function (state = INITIAL_STATE, action) {
 			return Object.assign({}, state, { 
 				usuarioEstado:{ 
 					cargando:false,
-					datosToken: {},
+					datosToken: null,
 					error: '', 
 					autenticado: false 
 				}

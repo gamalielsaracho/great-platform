@@ -9,6 +9,8 @@ import Cargando from '../../../app/components/Cargando'
 
 import MensajeOerror from '../../../app/components/MensajeOerror'
 
+import FieldSelectRolesContainer from '../../../rol/components/FieldSelectRoles'
+
 import jwtDecode from 'jwt-decode'
 
 class FormularioEditar extends Component {
@@ -22,8 +24,14 @@ class FormularioEditar extends Component {
 
 		this.renderFieldSelectRol = this.renderFieldSelectRol.bind(this)
 	
-		// this.rolLst = jwtDecode(localStorage.getItem('token')).rol
-		this.renderSelectInputByRol = this.renderSelectInputByRol.bind(this)
+		this.usuario = null
+		this.usuarioLst = jwtDecode(localStorage.getItem('token'))
+		this.renderSelectRolesInputByRol = this.renderSelectRolesInputByRol.bind(this)
+	}
+
+
+	componentWillMount() {
+		this.props.listarRolesFuncion()
 	}
 
 
@@ -45,31 +53,40 @@ class FormularioEditar extends Component {
 			return <Cargando/>
 		} else {
 			return <form onSubmit={handleSubmit(this.enviarFormulario)}>
-				<div className='row center-xs'>
-					<div className='col-xs-12 col-sm-12 col-md-7 col-lg-7'>
+				<div className='container'>
 						
 						<div className='row'>
-							<div className='col-xs-12 col-sm-12 col-md-10 col-lg-10'>
-
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
 								<Field name="nroDocumento" type="number" component={this.renderFieldInput} label="Número de documento"/>
+							</div>
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
 								<Field name="nombres" type="text" component={this.renderFieldInput} label="Nombres"/>
+							</div>
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
 								<Field name="apellidos" type="text" component={this.renderFieldInput} label="Apellidos"/>
+							</div>
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
 								<Field name="curso" type="text" component={this.renderFieldSelectCurso} label="Curso"/>
-								
-								{ this.renderSelectInputByRol() }
-
-								<Field name="correo" type="email" component={this.renderFieldInput} label="Correo"/>
-								<Field name="contrasena" type="text" component={this.renderFieldInput} label="Contrasena"/>
-								
 							</div>
 						</div>
-						<br/>
-						<div className='row end-xs'>							
-							<button type="submit" className="myBtn" disabled={pristine || submitting}>Guardar</button>
-							<button type="button" onClick={() => { this.props.cerrarFormularioPersonal() }} className="myBtn">Cancelar</button>
+
+						<div className='row'>
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
+								<Field name="correo" type="email" component={this.renderFieldInput} label="Correo"/>
+							</div>
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
+								<Field name="contrasena" type="text" component={this.renderFieldInput} label="Contrasena"/>
+							</div>
+							{ this.renderSelectRolesInputByRol() }
 						</div>
-						
-					</div>
+
+						<br/>
+						<div className='row end-xs'>
+							<div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
+								<button type="submit" className="myBtn" disabled={pristine || submitting}>Guardar</button>
+								<button type="button" onClick={() => { this.props.cerrarFormularioPersonal() }} className="myBtn">Cancelar</button>
+							</div>
+						</div>
 				</div>
 			</form>
 		}
@@ -78,7 +95,6 @@ class FormularioEditar extends Component {
 
 
 	renderFieldInput({ input, label, type, meta: { touched, error, warning } }) {
-
 		return <div>
 			<div className="form-group">
 			 	<label htmlFor={label}>{label}</label>
@@ -88,14 +104,21 @@ class FormularioEditar extends Component {
 		</div>
 	}
 
-	renderSelectInputByRol() {
-		// console.log('localStorage FROM rol ----->')
-		// console.log(this.rolLst)
-
+	renderSelectRolesInputByRol() {
 		var testRol = 'docente'
 
-		if(jwtDecode(localStorage.getItem('token')).rol == 'admin') {
-			return <Field name="rol" type="text" component={this.renderFieldSelectRol} label="Rol"/>
+		var codition = (
+			this.usuario.rol.descripcion == 'admin' && 
+			this.props.idPersonalParam !== this.usuarioLst._id
+		)
+
+		if(codition) {
+			return <div className='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
+				<Field name='rol' type='text' 
+					component={FieldSelectRolesContainer}
+					listar={this.props.listarRoles} 
+					label='Rol:'/>
+			</div>			 
 		} else {
 			return <span></span>
 		}
@@ -144,7 +167,9 @@ class FormularioEditar extends Component {
 		} = this.props.formulario
 
 		const { cargando } = this.props.crear
+		const { datosToken } = this.props.usuarioEstado
 
+		this.usuario = datosToken
 
 		let error = this.props.formulario.error ? this.props.formulario.error 
 			: this.props.crear.error ? this.props.crear.error : this.props.editar.error 
@@ -153,12 +178,12 @@ class FormularioEditar extends Component {
 		let abierto = abirtoEditar ? abirtoEditar : abirtoCrear
 
 		if(abierto) {
-			return <div className=''>
-				<h4 className='text-center'></h4>
-
-				<MensajeOerror error={error} mensaje={null}/>
+			return <div className="main-container-modal">
+				<div className="main-container-modal__content">
+					<MensajeOerror error={error} mensaje={null}/>
 					
-				{ this.renderFormulario(cargando) }
+					{ this.renderFormulario(cargando) }
+				</div>
 			</div>
 		} else {
 			return <span></span>

@@ -25,7 +25,10 @@ import {
 
 	ELIMINAR_PERMISO_REQUEST,
 	ELIMINAR_PERMISO_EXITO,
-	ELIMINAR_PERMISO_FALLO
+	ELIMINAR_PERMISO_FALLO,
+
+	OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO,
+	OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO
 } from './types'
 
 import io from 'socket.io-client'
@@ -66,6 +69,26 @@ export function abrirFormularioEditarPermiso(idPermiso) {
 export function cerrarFormularioPermiso() {
 	return (dispatch) => {
 		dispatch({ type: CERRAR_FORMULARIO_PERMISO })
+	}
+}
+
+export function obtenerPermisoNombreModuloIdUsuario(nombreModulo) {
+	return (dispatch) => {
+
+		let datos = {
+			idUsuario: jwtDecode(localStorage.getItem('token'))._id,
+			nombreModulo: nombreModulo
+		}
+
+		socketPermiso.emit('obtener_permiso_nombreModulo_idUsuario', datos)
+
+		socketPermiso.on('obtener_permiso_nombreModulo_idUsuario', (data) => {
+			if(data.error) {
+				dispatch({ type: OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO, payload: data.error })
+			} else {
+				dispatch({ type: OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO, payload: data })
+			}
+		})
 	}
 }
 

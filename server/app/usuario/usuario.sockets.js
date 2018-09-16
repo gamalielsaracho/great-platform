@@ -1,4 +1,6 @@
 import Usuario from './usuario.model'
+import Rol from '../rol/rol.model'
+
 
 import jwt from 'jsonwebtoken'
 import config from '../../config'
@@ -16,30 +18,49 @@ export default (socket, io) => {
 	})
 
 
+	function searshIdRolByName(nameRol, cd) {
+		Rol.findOne({ descripcion: nameRol }, (err, rol) => {
+			if(err) {
+				console.log(err)
+				return io.socket.emit('registrar_usuario', { error: 'Ocurrió un error, intente nuevamente.' })
+			}
+
+			return cd(rol)
+		})
+	}
+
+
 	socket.on('registrar_usuario', (data) => {
 			
 		Usuario.find((err, usuariosLista) => {
 			if(err) {
-				return io.sockets.emit('registrar_usuario', { error: 'Ocurrió un error, intente nuevamente.' })
+				console.log(err)
+				return io.socket.emit('registrar_usuario', { error: 'Ocurrió un error, intente nuevamente.' })
 			}
 					
-			if(usuariosLista.length == 0) {
-				data.rol = 'admin'
-			}
 
-			var usuario = new Usuario(data)			
-
-			usuario.save((err, usuario) => {
-				if(err) {
-					console.log(err)
-					return socket.emit('registrar_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+			searshIdRolByName('admin', function (rol) {
+				if(usuariosLista.length == 0) {
+					data.rol = rol._id
+				} else {
+					// id de rol alumno por defecto.
+					data.rol = '5b9dddd03a40f81980b631a0'
 				}
 
-				socket.emit('registrar_usuario', { mensaje: 'El usuario se creó exitosamente.' })
-									
-				listarUsuarios(socket, io)
-			})
+				console.log(data)
+				var usuario = new Usuario(data)			
 
+				usuario.save((err, usuario) => {
+					if(err) {
+						console.log(err)
+						return socket.emit('registrar_usuario', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
+					}
+
+					socket.emit('registrar_usuario', { mensaje: 'El usuario se creó exitosamente.' })
+										
+					listarUsuarios(socket, io)
+				})
+			})
 		})
 
 	})
@@ -99,7 +120,7 @@ export default (socket, io) => {
 				return
 			}
 
-			console.log(usuario)
+			// console.log(usuario)
 
 			socket.emit('mostrar_usuario_editar', usuario)									
 		})
@@ -140,13 +161,15 @@ export default (socket, io) => {
 				return socket.emit('verificar_token', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
 			}
 
-			Usuario.findOne({ correo: usuario.correo }, (err, userFromServer) => {
-				if(err) {
-					console.log(err)
-					return socket.emit('verificar_token', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
-				}
-
+			Usuario
+			.findOne({ correo: usuario.correo })
+			.populate('rol')
+			.then((userFromServer) => {
 				socket.emit('verificar_token', userFromServer)
+			})
+			.catch((err) => {
+				console.log(err)
+				return socket.emit('verificar_token', { error: 'Lo sentimos, ocurrió un error. intente nuevamente.' })
 			})
 		})
 	})

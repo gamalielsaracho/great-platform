@@ -28,4 +28,6 @@ export const ELIMINAR_PERMISO_REQUEST = 'eliminair_permiso_request'
 export const ELIMINAR_PERMISO_EXITO = 'eliminair_permiso_exito'
 export const ELIMINAR_PERMISO_FALLO = 'eliminair_permiso_fallo'
 
+export const OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO = 'obtener_permiso_nombreModulo_idUsuario'
+export const OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO = 'obtener_permiso_nombreModulo_idUsuario_fallo'
 

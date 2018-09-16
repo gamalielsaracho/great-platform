@@ -9,15 +9,25 @@ class Menu extends Component {
 		this.renderLinksMenuByRol = this.renderLinksMenuByRol.bind(this)
 		this.renderLinksAuth = this.renderLinksAuth.bind(this)
 
+		this.rol = this.rol
+		this.usuario = this.usuario
 		// this.idUsuarioLst = jwtDecode(localStorage.getItem('token'))._id
 	}
 
 	renderLinksAuth(autenticado, datosToken) {
-		let personal = datosToken.personal
-		let rol = datosToken.rol
+		// let personal = datosToken.personal
 
 		if(autenticado) {
+			// Para obtener el id del usuarios logeado
+			// he ir al perfil de mismo.
+			this.usuario = datosToken
+
 			return <ul className="nav navbar-nav navbar-right">
+			    <li>
+					<NavLink to={`/perfil/${this.usuario._id}`} className='mdl-navigation__link'>
+						Perfil
+					</NavLink>	
+			    </li>
 		        <li onClick={() => { this.props.salirPersonal() }} >
 		        	<a>Salir</a>
 		        </li>
@@ -40,11 +50,14 @@ class Menu extends Component {
 	}
 
 	renderLinksMenuByRol(autenticado, datosToken) {
-		let personal = datosToken.personal
-		let rol = datosToken.rol
+		// .... 
+		if(autenticado && datosToken) {
+			// console.log('DESDE MENÚ.')
+			// console.log(datosToken)
 
-		if(autenticado) {
-			if(rol == "docente" || rol == "admin") {
+			this.rol = datosToken.rol.descripcion
+
+			if(this.rol !== 'alumno') {
 				return <ul className="nav navbar-nav">
 			        <li>
 						<NavLink to='/dashboard' className='mdl-navigation__link'>
@@ -52,15 +65,9 @@ class Menu extends Component {
 						</NavLink>	
 			        </li>
 			    </ul>
-			} else if(rol == "alumno") {
-				return <ul className="nav navbar-nav">
-
-			        <li>
-					    <NavLink to={`/perfil/${jwtDecode(localStorage.getItem('token'))._id}`} className='mdl-navigation__link'>
-					    	Perfil
-					    </NavLink>	
-			        </li>
-			    </ul>
+			    // ....
+			} else {
+				return <span></span>
 			}
 		}else {
 			return <span>
@@ -90,7 +97,7 @@ class Menu extends Component {
 		    <div className="collapse navbar-collapse" id="myNavbar">
 
 		      { this.renderLinksMenuByRol(autenticado, datosToken) }
-			  
+
 			  { this.renderLinksAuth(autenticado, datosToken) }
 		      
 		    </div>

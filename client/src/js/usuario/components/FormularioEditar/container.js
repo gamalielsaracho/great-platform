@@ -8,6 +8,11 @@ import {
   editarPersonal
 } from '../../actions'
 
+import {
+  listarRoles
+} from '../../../rol/actions'
+
+
 
 import FormularioEditar from './FormularioEditar'
 
@@ -68,13 +73,6 @@ const validate = values => {
   return errors
 }
 
-// const warn = values => {
-//   const warnings = {}
-//   if (values.nombre.length) {
-//     warnings.apellido = 'Prueba warnings... :)'
-//   }
-//   return warnings
-// }
 
 function mapStateToProps(state) {
 	return {
@@ -83,6 +81,12 @@ function mapStateToProps(state) {
     
     enableReinitialize: state.personal.formulario.iniciarValores,
     editarContenido: state.personal.formulario.iniciarValores,
+
+    // Select option.
+    listarRoles: state.rol.listar,
+
+    // datos del usuario logueado. 
+    usuarioEstado: state.personal.usuarioEstado,
 
 
     // Para obtener el error al crear o editar.
@@ -101,6 +105,10 @@ function mapDispatchToProps(dispatch) {
 		},
     editarPersonal: (datosFormulario) => {
       dispatch(editarPersonal(datosFormulario))
+    },
+
+    listarRolesFuncion: () => {
+      dispatch(listarRoles())
     }
 	}
 }

@@ -1,10 +1,10 @@
 import Usuario from './usuario.model'
-	
+
 
 export function listarUsuarios(socket, io) {
 	Usuario
 	.find()
-	// .populate('rol')
+	.populate('rol')
 	.then((usuarios) => {	
 		console.log(usuarios)					
 		io.sockets.emit('listar_usuarios', { usuarios: usuarios })
@@ -20,6 +20,8 @@ export function mostrarUsuario(idAlumno, socket, io) {
 
 	Usuario
 	.findById(idAlumno)
+	.populate('rol')
+	
 	.populate('calificaciones.materia')
 	.populate('calificaciones.docente')
 					
