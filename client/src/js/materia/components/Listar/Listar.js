@@ -18,6 +18,8 @@ class Listar extends Component {
 
 		// Usuario logueado desde el servidor.
 		this.usuario = this.usuario
+
+		this.permisos = this.permisos
 		
 		// botones.
 		this.renderBtnCrear = this.renderBtnCrear.bind(this)
@@ -31,24 +33,39 @@ class Listar extends Component {
 		this.props.listarMaterias()
 	}
 
-	renderBtnCrear(habilitado) {
-		if (habilitado) {
+	renderBtnCrear() {
+		let condition = (
+			(this.permisos && this.permisos.crear) ||
+			(this.usuario && this.usuario.rol.descripcion == 'admin')
+		)
+
+		if (condition) {
 			return <button type="button" onClick={this.props.abrirFormularioCrearMateria} className="myBtn">Agregar</button>
 		} else {
 			return <span></span>
 		}
 	}
 
-	renderBtnEditar(habilitado, m) {
-		if (habilitado) {
+	renderBtnEditar(m) {
+		let condition = (
+			(this.permisos && this.permisos.editar) ||
+			(this.usuario && this.usuario.rol.descripcion == 'admin')
+		)
+
+		if (condition) {
 			return <button type="button" onClick={() => { this.props.abrirFormularioEditarMateria(m._id) }} className="myBtn">Editar</button>
 		} else {
 			return <span></span>
 		}
 	}
 
-	renderBtnEliminar(habilitado, m) {
-		if (habilitado) {
+	renderBtnEliminar(m) {
+		let condition = (
+			(this.permisos && this.permisos.eliminar) ||
+			(this.usuario && this.usuario.rol.descripcion == 'admin')
+		)
+
+		if (condition) {
 			return <button type="button" onClick={() => { this.props.eliminarMateria(m._id) }} className="myBtn">Eliminar</button>
 		} else {
 			return <span></span>
@@ -70,6 +87,9 @@ class Listar extends Component {
 	// }	
 
 	renderMateriasContainer(materias, error) {
+		// console.log('renderMateriasContainer(materias, error)')
+		// console.log(this.permisos.crear)
+
 		return <div className='container'>
 			<h1 className='text-center'>Materias</h1>
 
@@ -78,7 +98,7 @@ class Listar extends Component {
 
 			<MensajeOerror error={error} mensaje={null}/>
 
-			{ this.renderBtnCrear(this.permisos.crear) }			
+			{ this.renderBtnCrear() }			
 			
 			<br/>
 			<br/>
@@ -111,9 +131,9 @@ class Listar extends Component {
 				            <td>{ m.nombre }</td>
 
 				            <td>
-				            	{ this.renderBtnEditar(this.permisos.editar, m) }
+				            	{ this.renderBtnEditar(m) }
 
-				            	{ this.renderBtnEliminar(this.permisos.eliminar, m) }
+				            	{ this.renderBtnEliminar(m) }
 
 				            </td>
 				        </tr>		
@@ -131,6 +151,10 @@ class Listar extends Component {
 		// Desde el servidor.
 		this.usuario = this.props.usuarioEstado.datosToken
 
+		// los permisos del usuario que NO es admin
+		// pero tiene algunos permisos.
+		this.permisos = this.props.obtenerPermisoVerificacion.permiso
+
 		let error = this.props.listar.error ? this.props.listar.error :
 			this.props.eliminar.error
 
@@ -139,25 +163,13 @@ class Listar extends Component {
 		} else {
 			if(this.usuario && this.usuario.rol.descripcion == 'admin') {
 				return this.renderMateriasContainer(materias, error)
+			} else if(this.permisos && this.permisos.privado) {				
+				return <div className='container'>
+					<h1 className='text-center'>No tienes permiso para ver este módulo</h1>
+					<p>Comunicar con el admin</p>
+				</div>
 			} else {
-				// los permisos del usuario que NO es admin
-				// pero tiene algunos permisos.
-				this.permisos = this.props.obtenerPermisoVerificacion.permiso
-				
-				if (this.permisos) {
-					if(this.permisos.privado) {
-						return <div className='container'>
-							<h1 className='text-center'>No tienes permiso para ver este módulo</h1>
-							<p>Comunicar con el admin</p>
-						</div>
-					} else {
-						console.log('<----- this.permisos ------>')
-						console.log(this.permisos)
-						return this.renderMateriasContainer(materias, error)
-					}
-				} else {
-					return <span></span>
-				}
+				return this.renderMateriasContainer(materias, error)
 			}
 		}
 
