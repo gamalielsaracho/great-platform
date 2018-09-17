@@ -9,12 +9,22 @@ import {
 	abrirFormularioEditarPersonal
 } from '../../actions'
 
+import {
+	obtenerPermisoNombreModuloIdUsuario
+} from '../../../permiso/actions'
+
 import Listar from './Listar'
 
 
 function mapStateToProps(state) {
 	return {
 		listar: state.personal.listar,
+
+		// datos del usuario logueado. 
+    	usuarioEstado: state.personal.usuarioEstado,
+
+    	obtenerPermisoVerificacion: state.permiso.obtenerPermisoVerificacion,    	
+    	
 		filtro: state.personal.filtro
 	}
 }
@@ -22,6 +32,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
+		obtenerPermisoNombreModuloIdUsuario: (nombreModulo) => {
+			dispatch(obtenerPermisoNombreModuloIdUsuario(nombreModulo))
+		},
+
 		abrirFormularioEditarPersonal: (idPersonal) => {
 			dispatch(abrirFormularioEditarPersonal(idPersonal))
 		},

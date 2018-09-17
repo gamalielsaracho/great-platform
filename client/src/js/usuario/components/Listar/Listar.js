@@ -3,24 +3,34 @@ import ReactDOM from 'react-dom'
 
 import Cargando from '../../../app/components/Cargando'
 
+import MensajeOerror from '../../../app/components/MensajeOerror'
+
 import { NavLink } from 'react-router-dom'
 
 import jwtDecode from 'jwt-decode'
-
 import FiltroContainer from '../Filtro'
 
 class Listar extends Component {
 	constructor(props) {
 		super(props)
 		this.renderPersonales = this.renderPersonales.bind(this)
+		this.renderPersonalesContainer = this.renderPersonalesContainer.bind(this)
+
 		this.handleChange = this.handleChange.bind(this)
 
 		this.renderUsuarioDatos = this.renderUsuarioDatos.bind(this)
 		
-		// this.idUsuarioLst = jwtDecode(localStorage.getItem('token'))._id
+		// Usuario logueado desde el servidor.
+		this.usuario = this.usuario,
+
+		// botones.
+		this.renderBtnMostrar = this.renderBtnMostrar.bind(this)
 	}
 
 	componentWillMount() {
+		const nombreModulo = 'usuarios'
+		this.props.obtenerPermisoNombreModuloIdUsuario(nombreModulo)
+
 		this.props.listarPersonales()
 	}
 
@@ -34,9 +44,7 @@ class Listar extends Component {
 				<td>{ i.correo }</td>
 
 				<td>
-					<NavLink to={`/dashboard/usuarios/${i._id}`}>
-						<button type="button" className="myBtn">Mostrar</button>
-					</NavLink>
+					{ this.renderBtnMostrar(i) }
 				</td>
 			</tr>
 		// }
@@ -63,6 +71,49 @@ class Listar extends Component {
 		}
 
 		this.props.actualizarFormularioFiltro(valoresInputActualizando)
+	}
+
+	renderBtnMostrar(i) {
+		let condition = (
+			(this.permisos && this.permisos.mostrar) ||
+			(this.usuario && this.usuario.rol.descripcion == 'admin')
+		)
+
+		if (condition) {
+			return <NavLink to={`/dashboard/usuarios/${i._id}`}>
+				<button type="button" className="myBtn">Mostrar</button>
+			</NavLink>
+		} else {
+			return <span></span>
+		}
+	}
+
+	renderPersonalesContainer(personales, error) {
+		return <div className='container-fluid'>
+			<h1 className='text-center'>Personas registradas</h1>
+
+			<MensajeOerror error={error} mensaje={null}/>
+			<br/>
+
+			<div className='table-responsive'>
+				<table className='table table-striped'>
+					<thead>
+						<tr>
+							<th>CI</th>
+							<th>Usuario</th>
+							<th>Rol</th>
+							<th>Correo</th>
+
+							<th>Opciones</th>
+						</tr>
+					</thead>
+
+					{ this.renderPersonales(personales) }
+
+				</table>
+			</div>
+
+		</div>
 	}
 
 	renderPersonales(personales) {
@@ -98,14 +149,21 @@ class Listar extends Component {
 		
 	}
 
+
 	render() { 
 
 		const { personales, cargando, error } = this.props.listar
 		let filtro = this.props.filtro
 
-		console.log(this.props.listar)
-		console.log(this.props.filtro)
-		
+		// Desde el servidor.
+		this.usuario = this.props.usuarioEstado.datosToken
+
+		// los permisos del usuario que NO es admin
+		// pero tiene algunos permisos.
+		this.permisos = this.props.obtenerPermisoVerificacion.permiso
+
+		// console.log(this.props.listar)
+		// console.log(this.props.filtro)
 
 			// <div className='row'>
 			// 		<div className='col-lg-4'>
@@ -134,31 +192,19 @@ class Listar extends Component {
 
 		if(cargando) {
 			return <Cargando/>
-		}else {
-			return <div className='container'>
-				<h1 className='text-center'>Personas registradas</h1>
-
-						
-					<div className='table-responsive'>
-						<table className='table table-striped'>
-							<thead>
-								<tr>
-									<th>CI</th>
-									<th>Usuario</th>
-									<th>Rol</th>
-									<th>Correo</th>
-
-									<th>Opciones</th>
-								</tr>
-							</thead>
-
-							{ this.renderPersonales(personales) }
-
-						</table>
-					</div>
-
-			</div>
+		} else {
+			if(this.usuario && this.usuario.rol.descripcion == 'admin') {
+				return this.renderPersonalesContainer(personales, error)
+			} else if(this.permisos && this.permisos.privado) {				
+				return <div className='container'>
+					<h1 className='text-center'>No tienes permiso para ver este módulo</h1>
+					<p>Comunicar con el admin</p>
+				</div>
+			} else {
+				return this.renderPersonalesContainer(personales, error)
+			}
 		}
+
 	}
 }
 
