@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-// import {  } from '../../../globalActions'
-
 import moment from 'moment'
 
 import jwtDecode from 'jwt-decode'
@@ -23,49 +21,35 @@ class Mostrar extends Component {
 		// Usuario logueado desde el servidor.
 		this.usuario = this.usuario
 
+		this.permisos = this.permisos
+
 		// Usuario Local.
 		this.usuarioLst = jwtDecode(localStorage.getItem('token'))
 
-		this.renderBtnEditByRol = this.renderBtnEditByRol.bind(this)
-		this.renderCalificacionesByRolAndId = this.renderCalificacionesByRolAndId.bind(this)
+		this.renderBtnEditar = this.renderBtnEditar.bind(this)
 	}
 	
 	componentWillMount() {
-		// console.log('this.props.match.params.idPersonal')
-		// console.log(this.props.match.params.idPersonal)
-		
+		const nombreModulo = 'usuarios'
+		this.props.obtenerPermisoNombreModuloIdUsuario(nombreModulo)
+
 		this.props.mostrarPersonal(this.props.match.params.idPersonal)
 	}
 
-	renderCalificacionesByRolAndId(idAlumnoParam, calificacionesListaParam) {
-		if(this.usuarioLst.rol == 'admin' || this.usuarioLst.rol == 'docente') {
-			return <ListarCalificacionesContainer 
-					idAlumno={idAlumnoParam}
-					calificacionesLista={calificacionesListaParam}/>
+	renderBtnEditar(i) {
+		let condition = (
+			(this.permisos && this.permisos.editar) ||
+			(this.usuario && this.usuario.rol.descripcion == 'admin') ||
+			(this.usuarioLst._id === this.props.match.params.idPersonal)
+		)
+
+		if(condition) {
+			return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(i._id) }} className='myBtn'>Editar</button>
 		} else {
-			if(this.usuarioLst._id == this.props.match.params.idPersonal) {
-				return <ListarCalificacionesContainer 
-					idAlumno={idAlumnoParam}
-					calificacionesLista={calificacionesListaParam}/>
-			} else {
-				return <span></span>
-			}
+			return <span></span>
 		}
 	}
 
-
-	renderBtnEditByRol(personal) {
-
-		if(this.usuario.rol.descripcion == 'admin') {
-			return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(personal._id) }} className='myBtn'>Editar</button>
-		} else {
-			if(this.usuarioLst._id === this.props.match.params.idPersonal) {
-				return <button onClick={()=> { this.props.abrirFormularioEditarPersonal(personal._id) }} className='myBtn'>Editar</button>
-			} else {
-				return <span></span>
-			}
-		}
-	}
 
 	renderPersonal(cargando, personal) {
 		// console.log(paciente)
@@ -90,32 +74,32 @@ class Mostrar extends Component {
 						<FormularioEditarPersonalContainer
 							idPersonalParam={this.props.match.params.idPersonal}/>
 
-						{ this.renderBtnEditByRol(personal) }
+						{ this.renderBtnEditar(personal) }
 					</div>
 
 				</div>
 
-				{ this.renderCalificacionesByRolAndId(this.props.match.params.idPersonal, personal.calificaciones) }
-				
+				<ListarCalificacionesContainer 
+					idAlumno={this.props.match.params.idPersonal}
+					calificacionesLista={personal.calificaciones}/>
 			</div>
 
 		}
 	}
 
 	render() {
-		const customStyles = {
-		    content : {
-		  		height: '50vh',
-		  		position: 'none'
-		  	}
-		}
-
 
 		const { cargando, personal, error } = this.props.mostrar
 		const { datosToken } = this.props.usuarioEstado
 
 		this.usuario = datosToken
-		// ...
+
+		// Desde el servidor.
+		this.usuario = this.props.usuarioEstado.datosToken
+
+		// los permisos del usuario que NO es admin
+		// pero tiene algunos permisos.
+		this.permisos = this.props.obtenerPermisoVerificacion.permiso
 
 		return <div className='container'>
 

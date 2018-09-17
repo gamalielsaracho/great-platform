@@ -97806,23 +97806,23 @@
 
 	var _MateriaRoutes2 = _interopRequireDefault(_MateriaRoutes);
 
-	var _UsuarioRoutes = __webpack_require__(570);
+	var _UsuarioRoutes = __webpack_require__(571);
 
 	var _UsuarioRoutes2 = _interopRequireDefault(_UsuarioRoutes);
 
-	var _Mostrar = __webpack_require__(578);
+	var _Mostrar = __webpack_require__(579);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
-	var _Listar = __webpack_require__(601);
+	var _Listar = __webpack_require__(602);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
-	var _Mostrar3 = __webpack_require__(608);
+	var _Mostrar3 = __webpack_require__(609);
 
 	var _Mostrar4 = _interopRequireDefault(_Mostrar3);
 
-	var _Listar3 = __webpack_require__(625);
+	var _Listar3 = __webpack_require__(626);
 
 	var _Listar4 = _interopRequireDefault(_Listar3);
 
@@ -98154,9 +98154,9 @@
 
 	var _actions = __webpack_require__(561);
 
-	var _actions2 = __webpack_require__(627);
+	var _actions2 = __webpack_require__(563);
 
-	var _Listar = __webpack_require__(563);
+	var _Listar = __webpack_require__(564);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
@@ -98438,6 +98438,189 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	exports.abrirFormularioCrearPermiso = abrirFormularioCrearPermiso;
+	exports.abrirFormularioEditarPermiso = abrirFormularioEditarPermiso;
+	exports.cerrarFormularioPermiso = cerrarFormularioPermiso;
+	exports.obtenerPermisoNombreModuloIdUsuario = obtenerPermisoNombreModuloIdUsuario;
+	exports.listarPermisos = listarPermisos;
+	exports.crearPermiso = crearPermiso;
+	exports.eliminarPermiso = eliminarPermiso;
+	exports.mostrarPermiso = mostrarPermiso;
+	exports.editarPermiso = editarPermiso;
+
+	var _types = __webpack_require__(303);
+
+	var _socket = __webpack_require__(356);
+
+	var _socket2 = _interopRequireDefault(_socket);
+
+	var _reactRouter = __webpack_require__(562);
+
+	var _reduxForm = __webpack_require__(24);
+
+	var _jwtDecode = __webpack_require__(352);
+
+	var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var socketPermiso = (0, _socket2.default)('http://localhost:3000');
+
+	function abrirFormularioCrearPermiso() {
+		return function (dispatch) {
+			dispatch((0, _reduxForm.reset)('FormularioPermiso'));
+
+			dispatch({ type: _types.ABRIR_FORMULARIO_CREAR_PERMISO });
+		};
+	}
+
+	function abrirFormularioEditarPermiso(idPermiso) {
+
+		return function (dispatch) {
+			dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_PERMISO_REQUEST });
+
+			socketPermiso.emit('mostrar_permiso_editar', { _id: idPermiso });
+
+			socketPermiso.on('mostrar_permiso_editar', function (data) {
+
+				if (data.error) {
+					dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_PERMISO_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_PERMISO_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function cerrarFormularioPermiso() {
+		return function (dispatch) {
+			dispatch({ type: _types.CERRAR_FORMULARIO_PERMISO });
+		};
+	}
+
+	function obtenerPermisoNombreModuloIdUsuario(nombreModulo) {
+		return function (dispatch) {
+
+			var datos = {
+				idUsuario: (0, _jwtDecode2.default)(localStorage.getItem('token'))._id,
+				nombreModulo: nombreModulo
+			};
+
+			socketPermiso.emit('obtener_permiso_nombreModulo_idUsuario', datos);
+
+			socketPermiso.on('obtener_permiso_nombreModulo_idUsuario', function (data) {
+				if (data.error) {
+					dispatch({ type: _types.OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO, payload: data });
+				}
+			});
+		};
+	}
+
+	function listarPermisos() {
+		return function (dispatch) {
+
+			dispatch({ type: _types.LISTAR_PERMISOS_REQUEST });
+
+			socketPermiso.emit('listar_permisos', null);
+
+			socketPermiso.on('listar_permisos', function (data) {
+
+				console.log('listar_permisos');
+				console.log(data);
+
+				if (data.error) {
+					dispatch({ type: _types.LISTAR_PERMISOS_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.LISTAR_PERMISOS_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function crearPermiso(datosFormulario) {
+		return function (dispatch) {
+
+			dispatch({ type: _types.CREAR_PERMISO_REQUEST });
+
+			socketPermiso.emit('crear_permiso', datosFormulario);
+
+			socketPermiso.on('crear_permiso', function (data) {
+				if (data.err) {
+					dispatch({ type: _types.CREAR_PERMISO_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.CREAR_PERMISO_EXITO, payload: data });
+				}
+			});
+
+			dispatch((0, _reduxForm.reset)('FormularioPermiso'));
+		};
+	}
+
+	function eliminarPermiso(idPermiso) {
+		return function (dispatch) {
+
+			dispatch({ type: _types.ELIMINAR_PERMISO_REQUEST });
+
+			socketPermiso.emit('eliminar_permiso', {
+				_id: idPermiso
+			});
+
+			socketPermiso.on('eliminar_permiso', function (data) {
+				console.log(data);
+				if (data.error) {
+					dispatch({ type: _types.ELIMINAR_PERMISO_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.ELIMINAR_PERMISO_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function mostrarPermiso(idPermiso) {
+		return function (dispatch) {
+			dispatch({ type: _types.MOSTRAR_PERMISO_REQUEST });
+
+			socketPermiso.emit('mostrar_permiso', { _id: idPermiso });
+
+			socketPermiso.on('mostrar_permiso', function (data) {
+				// console.log(data)
+				if (data.error) {
+					dispatch({ type: _types.MOSTRAR_PERMISO_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.MOSTRAR_PERMISO_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+	function editarPermiso(datosFormulario) {
+		return function (dispatch) {
+
+			dispatch({ type: _types.EDITAR_PERMISO_REQUEST });
+
+			socketPermiso.emit('editar_permiso', datosFormulario);
+
+			socketPermiso.on('editar_permiso', function (data) {
+				if (data.error) {
+					dispatch({ type: _types.EDITAR_PERMISO_FALLO, payload: data.error });
+				} else {
+					dispatch({ type: _types.EDITAR_PERMISO_EXITO, payload: data });
+				}
+			});
+		};
+	}
+
+/***/ }),
+/* 564 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -98457,11 +98640,11 @@
 
 	var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
 
-	var _Formulario = __webpack_require__(564);
+	var _Formulario = __webpack_require__(565);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
-	var _Mostrar = __webpack_require__(567);
+	var _Mostrar = __webpack_require__(568);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -98489,6 +98672,8 @@
 			// Usuario logueado desde el servidor.
 			_this.usuario = _this.usuario;
 
+			_this.permisos = _this.permisos;
+
 			// botones.
 			_this.renderBtnCrear = _this.renderBtnCrear.bind(_this);
 			_this.renderBtnEditar = _this.renderBtnEditar.bind(_this);
@@ -98505,8 +98690,10 @@
 			}
 		}, {
 			key: 'renderBtnCrear',
-			value: function renderBtnCrear(habilitado) {
-				if (habilitado) {
+			value: function renderBtnCrear() {
+				var condition = this.permisos && this.permisos.crear || this.usuario && this.usuario.rol.descripcion == 'admin';
+
+				if (condition) {
 					return _react2.default.createElement(
 						'button',
 						{ type: 'button', onClick: this.props.abrirFormularioCrearMateria, className: 'myBtn' },
@@ -98518,10 +98705,12 @@
 			}
 		}, {
 			key: 'renderBtnEditar',
-			value: function renderBtnEditar(habilitado, m) {
+			value: function renderBtnEditar(m) {
 				var _this2 = this;
 
-				if (habilitado) {
+				var condition = this.permisos && this.permisos.editar || this.usuario && this.usuario.rol.descripcion == 'admin';
+
+				if (condition) {
 					return _react2.default.createElement(
 						'button',
 						{ type: 'button', onClick: function onClick() {
@@ -98535,10 +98724,12 @@
 			}
 		}, {
 			key: 'renderBtnEliminar',
-			value: function renderBtnEliminar(habilitado, m) {
+			value: function renderBtnEliminar(m) {
 				var _this3 = this;
 
-				if (habilitado) {
+				var condition = this.permisos && this.permisos.eliminar || this.usuario && this.usuario.rol.descripcion == 'admin';
+
+				if (condition) {
 					return _react2.default.createElement(
 						'button',
 						{ type: 'button', onClick: function onClick() {
@@ -98567,6 +98758,9 @@
 		}, {
 			key: 'renderMateriasContainer',
 			value: function renderMateriasContainer(materias, error) {
+				// console.log('renderMateriasContainer(materias, error)')
+				// console.log(this.permisos.crear)
+
 				return _react2.default.createElement(
 					'div',
 					{ className: 'container' },
@@ -98578,7 +98772,7 @@
 					_react2.default.createElement(_Formulario2.default, null),
 					_react2.default.createElement('br', null),
 					_react2.default.createElement(_MensajeOerror2.default, { error: error, mensaje: null }),
-					this.renderBtnCrear(this.permisos.crear),
+					this.renderBtnCrear(),
 					_react2.default.createElement('br', null),
 					_react2.default.createElement('br', null),
 					_react2.default.createElement(
@@ -98632,8 +98826,8 @@
 								_react2.default.createElement(
 									'td',
 									null,
-									_this4.renderBtnEditar(_this4.permisos.editar, m),
-									_this4.renderBtnEliminar(_this4.permisos.eliminar, m)
+									_this4.renderBtnEditar(m),
+									_this4.renderBtnEliminar(m)
 								)
 							);
 						})
@@ -98653,6 +98847,10 @@
 
 				this.usuario = this.props.usuarioEstado.datosToken;
 
+				// los permisos del usuario que NO es admin
+				// pero tiene algunos permisos.
+				this.permisos = this.props.obtenerPermisoVerificacion.permiso;
+
 				var error = this.props.listar.error ? this.props.listar.error : this.props.eliminar.error;
 
 				if (cargando) {
@@ -98660,35 +98858,23 @@
 				} else {
 					if (this.usuario && this.usuario.rol.descripcion == 'admin') {
 						return this.renderMateriasContainer(materias, error);
+					} else if (this.permisos && this.permisos.privado) {
+						return _react2.default.createElement(
+							'div',
+							{ className: 'container' },
+							_react2.default.createElement(
+								'h1',
+								{ className: 'text-center' },
+								'No tienes permiso para ver este m\xF3dulo'
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								'Comunicar con el admin'
+							)
+						);
 					} else {
-						// los permisos del usuario que NO es admin
-						// pero tiene algunos permisos.
-						this.permisos = this.props.obtenerPermisoVerificacion.permiso;
-
-						if (this.permisos) {
-							if (this.permisos.privado) {
-								return _react2.default.createElement(
-									'div',
-									{ className: 'container' },
-									_react2.default.createElement(
-										'h1',
-										{ className: 'text-center' },
-										'No tienes permiso para ver este m\xF3dulo'
-									),
-									_react2.default.createElement(
-										'p',
-										null,
-										'Comunicar con el admin'
-									)
-								);
-							} else {
-								console.log('<----- this.permisos ------>');
-								console.log(this.permisos);
-								return this.renderMateriasContainer(materias, error);
-							}
-						} else {
-							return _react2.default.createElement('span', null);
-						}
+						return this.renderMateriasContainer(materias, error);
 					}
 				}
 			}
@@ -98700,7 +98886,7 @@
 	exports.default = Listar;
 
 /***/ }),
-/* 564 */
+/* 565 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98709,7 +98895,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(565);
+	var _container = __webpack_require__(566);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -98718,7 +98904,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 565 */
+/* 566 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98733,7 +98919,7 @@
 
 	var _actions = __webpack_require__(561);
 
-	var _Formulario = __webpack_require__(566);
+	var _Formulario = __webpack_require__(567);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
@@ -98790,7 +98976,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_Formulario2.default));
 
 /***/ }),
-/* 566 */
+/* 567 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98965,7 +99151,7 @@
 	exports.default = Formulario;
 
 /***/ }),
-/* 567 */
+/* 568 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98974,7 +99160,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(568);
+	var _container = __webpack_require__(569);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -98983,7 +99169,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 568 */
+/* 569 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98996,7 +99182,7 @@
 
 	var _actions = __webpack_require__(561);
 
-	var _Mostrar = __webpack_require__(569);
+	var _Mostrar = __webpack_require__(570);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -99019,7 +99205,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Mostrar2.default);
 
 /***/ }),
-/* 569 */
+/* 570 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99161,7 +99347,7 @@
 	exports.default = Mostrar;
 
 /***/ }),
-/* 570 */
+/* 571 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99170,7 +99356,7 @@
 	  value: true
 	});
 
-	var _UsuarioRoutes = __webpack_require__(571);
+	var _UsuarioRoutes = __webpack_require__(572);
 
 	var _UsuarioRoutes2 = _interopRequireDefault(_UsuarioRoutes);
 
@@ -99179,7 +99365,7 @@
 	exports.default = _UsuarioRoutes2.default;
 
 /***/ }),
-/* 571 */
+/* 572 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99196,11 +99382,11 @@
 
 	var _reactRouterDom = __webpack_require__(306);
 
-	var _Listar = __webpack_require__(572);
+	var _Listar = __webpack_require__(573);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
-	var _Mostrar = __webpack_require__(578);
+	var _Mostrar = __webpack_require__(579);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -99243,7 +99429,7 @@
 	exports.default = UsuarioRoutes;
 
 /***/ }),
-/* 572 */
+/* 573 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99252,7 +99438,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(573);
+	var _container = __webpack_require__(574);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -99261,7 +99447,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 573 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99276,7 +99462,9 @@
 
 	var _actions = __webpack_require__(355);
 
-	var _Listar = __webpack_require__(574);
+	var _actions2 = __webpack_require__(563);
+
+	var _Listar = __webpack_require__(575);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
@@ -99285,12 +99473,22 @@
 	function mapStateToProps(state) {
 		return {
 			listar: state.personal.listar,
+
+			// datos del usuario logueado. 
+			usuarioEstado: state.personal.usuarioEstado,
+
+			obtenerPermisoVerificacion: state.permiso.obtenerPermisoVerificacion,
+
 			filtro: state.personal.filtro
 		};
 	}
 
 	function mapDispatchToProps(dispatch) {
 		return {
+			obtenerPermisoNombreModuloIdUsuario: function obtenerPermisoNombreModuloIdUsuario(nombreModulo) {
+				dispatch((0, _actions2.obtenerPermisoNombreModuloIdUsuario)(nombreModulo));
+			},
+
 			abrirFormularioEditarPersonal: function abrirFormularioEditarPersonal(idPersonal) {
 				dispatch((0, _actions.abrirFormularioEditarPersonal)(idPersonal));
 			},
@@ -99320,7 +99518,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Listar2.default);
 
 /***/ }),
-/* 574 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99343,13 +99541,17 @@
 
 	var _Cargando2 = _interopRequireDefault(_Cargando);
 
+	var _MensajeOerror = __webpack_require__(546);
+
+	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
+
 	var _reactRouterDom = __webpack_require__(306);
 
 	var _jwtDecode = __webpack_require__(352);
 
 	var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
 
-	var _Filtro = __webpack_require__(575);
+	var _Filtro = __webpack_require__(576);
 
 	var _Filtro2 = _interopRequireDefault(_Filtro);
 
@@ -99370,17 +99572,26 @@
 			var _this = _possibleConstructorReturn(this, (Listar.__proto__ || Object.getPrototypeOf(Listar)).call(this, props));
 
 			_this.renderPersonales = _this.renderPersonales.bind(_this);
+			_this.renderPersonalesContainer = _this.renderPersonalesContainer.bind(_this);
+
 			_this.handleChange = _this.handleChange.bind(_this);
 
 			_this.renderUsuarioDatos = _this.renderUsuarioDatos.bind(_this);
 
-			// this.idUsuarioLst = jwtDecode(localStorage.getItem('token'))._id
+			// Usuario logueado desde el servidor.
+			_this.usuario = _this.usuario,
+
+			// botones.
+			_this.renderBtnMostrar = _this.renderBtnMostrar.bind(_this);
 			return _this;
 		}
 
 		_createClass(Listar, [{
 			key: 'componentWillMount',
 			value: function componentWillMount() {
+				var nombreModulo = 'usuarios';
+				this.props.obtenerPermisoNombreModuloIdUsuario(nombreModulo);
+
 				this.props.listarPersonales();
 			}
 		}, {
@@ -99414,15 +99625,7 @@
 					_react2.default.createElement(
 						'td',
 						null,
-						_react2.default.createElement(
-							_reactRouterDom.NavLink,
-							{ to: '/dashboard/usuarios/' + i._id },
-							_react2.default.createElement(
-								'button',
-								{ type: 'button', className: 'myBtn' },
-								'Mostrar'
-							)
-						)
+						this.renderBtnMostrar(i)
 					)
 				);
 				// }
@@ -99451,6 +99654,82 @@
 				};
 
 				this.props.actualizarFormularioFiltro(valoresInputActualizando);
+			}
+		}, {
+			key: 'renderBtnMostrar',
+			value: function renderBtnMostrar(i) {
+				var condition = this.permisos && this.permisos.mostrar || this.usuario && this.usuario.rol.descripcion == 'admin';
+
+				if (condition) {
+					return _react2.default.createElement(
+						_reactRouterDom.NavLink,
+						{ to: '/dashboard/usuarios/' + i._id },
+						_react2.default.createElement(
+							'button',
+							{ type: 'button', className: 'myBtn' },
+							'Mostrar'
+						)
+					);
+				} else {
+					return _react2.default.createElement('span', null);
+				}
+			}
+		}, {
+			key: 'renderPersonalesContainer',
+			value: function renderPersonalesContainer(personales, error) {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'container-fluid' },
+					_react2.default.createElement(
+						'h1',
+						{ className: 'text-center' },
+						'Personas registradas'
+					),
+					_react2.default.createElement(_MensajeOerror2.default, { error: error, mensaje: null }),
+					_react2.default.createElement('br', null),
+					_react2.default.createElement(
+						'div',
+						{ className: 'table-responsive' },
+						_react2.default.createElement(
+							'table',
+							{ className: 'table table-striped' },
+							_react2.default.createElement(
+								'thead',
+								null,
+								_react2.default.createElement(
+									'tr',
+									null,
+									_react2.default.createElement(
+										'th',
+										null,
+										'CI'
+									),
+									_react2.default.createElement(
+										'th',
+										null,
+										'Usuario'
+									),
+									_react2.default.createElement(
+										'th',
+										null,
+										'Rol'
+									),
+									_react2.default.createElement(
+										'th',
+										null,
+										'Correo'
+									),
+									_react2.default.createElement(
+										'th',
+										null,
+										'Opciones'
+									)
+								)
+							),
+							this.renderPersonales(personales)
+						)
+					)
+				);
 			}
 		}, {
 			key: 'renderPersonales',
@@ -99495,8 +99774,15 @@
 
 				var filtro = this.props.filtro;
 
-				console.log(this.props.listar);
-				console.log(this.props.filtro);
+				// Desde el servidor.
+				this.usuario = this.props.usuarioEstado.datosToken;
+
+				// los permisos del usuario que NO es admin
+				// pero tiene algunos permisos.
+				this.permisos = this.props.obtenerPermisoVerificacion.permiso;
+
+				// console.log(this.props.listar)
+				// console.log(this.props.filtro)
 
 				// <div className='row'>
 				// 		<div className='col-lg-4'>
@@ -99526,57 +99812,26 @@
 				if (cargando) {
 					return _react2.default.createElement(_Cargando2.default, null);
 				} else {
-					return _react2.default.createElement(
-						'div',
-						{ className: 'container' },
-						_react2.default.createElement(
-							'h1',
-							{ className: 'text-center' },
-							'Personas registradas'
-						),
-						_react2.default.createElement(
+					if (this.usuario && this.usuario.rol.descripcion == 'admin') {
+						return this.renderPersonalesContainer(personales, error);
+					} else if (this.permisos && this.permisos.privado) {
+						return _react2.default.createElement(
 							'div',
-							{ className: 'table-responsive' },
+							{ className: 'container' },
 							_react2.default.createElement(
-								'table',
-								{ className: 'table table-striped' },
-								_react2.default.createElement(
-									'thead',
-									null,
-									_react2.default.createElement(
-										'tr',
-										null,
-										_react2.default.createElement(
-											'th',
-											null,
-											'CI'
-										),
-										_react2.default.createElement(
-											'th',
-											null,
-											'Usuario'
-										),
-										_react2.default.createElement(
-											'th',
-											null,
-											'Rol'
-										),
-										_react2.default.createElement(
-											'th',
-											null,
-											'Correo'
-										),
-										_react2.default.createElement(
-											'th',
-											null,
-											'Opciones'
-										)
-									)
-								),
-								this.renderPersonales(personales)
+								'h1',
+								{ className: 'text-center' },
+								'No tienes permiso para ver este m\xF3dulo'
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								'Comunicar con el admin'
 							)
-						)
-					);
+						);
+					} else {
+						return this.renderPersonalesContainer(personales, error);
+					}
 				}
 			}
 		}]);
@@ -99587,7 +99842,7 @@
 	exports.default = Listar;
 
 /***/ }),
-/* 575 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99596,7 +99851,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(576);
+	var _container = __webpack_require__(577);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -99605,7 +99860,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 576 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99618,7 +99873,7 @@
 
 	var _actions = __webpack_require__(355);
 
-	var _Filtro = __webpack_require__(577);
+	var _Filtro = __webpack_require__(578);
 
 	var _Filtro2 = _interopRequireDefault(_Filtro);
 
@@ -99641,7 +99896,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Filtro2.default);
 
 /***/ }),
-/* 577 */
+/* 578 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99705,7 +99960,7 @@
 	exports.default = Filtro;
 
 /***/ }),
-/* 578 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99714,7 +99969,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(579);
+	var _container = __webpack_require__(580);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -99723,7 +99978,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 579 */
+/* 580 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99736,7 +99991,9 @@
 
 	var _actions = __webpack_require__(355);
 
-	var _Mostrar = __webpack_require__(580);
+	var _actions2 = __webpack_require__(563);
+
+	var _Mostrar = __webpack_require__(581);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -99749,6 +100006,8 @@
 			// datos del usuario logueado. 
 			usuarioEstado: state.personal.usuarioEstado,
 
+			obtenerPermisoVerificacion: state.permiso.obtenerPermisoVerificacion,
+
 			// guardamos todos los parametros de la url.
 			urls: ownProps.params
 		};
@@ -99756,6 +100015,10 @@
 
 	function mapDispatchToProps(dispatch) {
 		return {
+			obtenerPermisoNombreModuloIdUsuario: function obtenerPermisoNombreModuloIdUsuario(nombreModulo) {
+				dispatch((0, _actions2.obtenerPermisoNombreModuloIdUsuario)(nombreModulo));
+			},
+
 			mostrarPersonal: function mostrarPersonal(idPersonal) {
 				dispatch((0, _actions.mostrarPersonal)(idPersonal));
 			},
@@ -99768,7 +100031,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Mostrar2.default);
 
 /***/ }),
-/* 580 */
+/* 581 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -99803,11 +100066,11 @@
 
 	var _Cargando2 = _interopRequireDefault(_Cargando);
 
-	var _FormularioEditar = __webpack_require__(581);
+	var _FormularioEditar = __webpack_require__(582);
 
 	var _FormularioEditar2 = _interopRequireDefault(_FormularioEditar);
 
-	var _Listar = __webpack_require__(588);
+	var _Listar = __webpack_require__(589);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
@@ -99818,8 +100081,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// import {  } from '../../../globalActions'
 
 	var Mostrar = function (_Component) {
 		_inherits(Mostrar, _Component);
@@ -99834,64 +100095,40 @@
 			// Usuario logueado desde el servidor.
 			_this.usuario = _this.usuario;
 
+			_this.permisos = _this.permisos;
+
 			// Usuario Local.
 			_this.usuarioLst = (0, _jwtDecode2.default)(localStorage.getItem('token'));
 
-			_this.renderBtnEditByRol = _this.renderBtnEditByRol.bind(_this);
-			_this.renderCalificacionesByRolAndId = _this.renderCalificacionesByRolAndId.bind(_this);
+			_this.renderBtnEditar = _this.renderBtnEditar.bind(_this);
 			return _this;
 		}
 
 		_createClass(Mostrar, [{
 			key: 'componentWillMount',
 			value: function componentWillMount() {
-				// console.log('this.props.match.params.idPersonal')
-				// console.log(this.props.match.params.idPersonal)
+				var nombreModulo = 'usuarios';
+				this.props.obtenerPermisoNombreModuloIdUsuario(nombreModulo);
 
 				this.props.mostrarPersonal(this.props.match.params.idPersonal);
 			}
 		}, {
-			key: 'renderCalificacionesByRolAndId',
-			value: function renderCalificacionesByRolAndId(idAlumnoParam, calificacionesListaParam) {
-				if (this.usuarioLst.rol == 'admin' || this.usuarioLst.rol == 'docente') {
-					return _react2.default.createElement(_Listar2.default, {
-						idAlumno: idAlumnoParam,
-						calificacionesLista: calificacionesListaParam });
-				} else {
-					if (this.usuarioLst._id == this.props.match.params.idPersonal) {
-						return _react2.default.createElement(_Listar2.default, {
-							idAlumno: idAlumnoParam,
-							calificacionesLista: calificacionesListaParam });
-					} else {
-						return _react2.default.createElement('span', null);
-					}
-				}
-			}
-		}, {
-			key: 'renderBtnEditByRol',
-			value: function renderBtnEditByRol(personal) {
+			key: 'renderBtnEditar',
+			value: function renderBtnEditar(i) {
 				var _this2 = this;
 
-				if (this.usuario.rol.descripcion == 'admin') {
+				var condition = this.permisos && this.permisos.editar || this.usuario && this.usuario.rol.descripcion == 'admin' || this.usuarioLst._id === this.props.match.params.idPersonal;
+
+				if (condition) {
 					return _react2.default.createElement(
 						'button',
 						{ onClick: function onClick() {
-								_this2.props.abrirFormularioEditarPersonal(personal._id);
+								_this2.props.abrirFormularioEditarPersonal(i._id);
 							}, className: 'myBtn' },
 						'Editar'
 					);
 				} else {
-					if (this.usuarioLst._id === this.props.match.params.idPersonal) {
-						return _react2.default.createElement(
-							'button',
-							{ onClick: function onClick() {
-									_this2.props.abrirFormularioEditarPersonal(personal._id);
-								}, className: 'myBtn' },
-							'Editar'
-						);
-					} else {
-						return _react2.default.createElement('span', null);
-					}
+					return _react2.default.createElement('span', null);
 				}
 			}
 		}, {
@@ -99975,23 +100212,18 @@
 								{ className: 'col-xs-12 col-sm-12 col-md-6 col-lg-6' },
 								_react2.default.createElement(_FormularioEditar2.default, {
 									idPersonalParam: this.props.match.params.idPersonal }),
-								this.renderBtnEditByRol(personal)
+								this.renderBtnEditar(personal)
 							)
 						),
-						this.renderCalificacionesByRolAndId(this.props.match.params.idPersonal, personal.calificaciones)
+						_react2.default.createElement(_Listar2.default, {
+							idAlumno: this.props.match.params.idPersonal,
+							calificacionesLista: personal.calificaciones })
 					);
 				}
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var customStyles = {
-					content: {
-						height: '50vh',
-						position: 'none'
-					}
-				};
-
 				var _props$mostrar = this.props.mostrar,
 				    cargando = _props$mostrar.cargando,
 				    personal = _props$mostrar.personal,
@@ -100000,7 +100232,13 @@
 
 
 				this.usuario = datosToken;
-				// ...
+
+				// Desde el servidor.
+				this.usuario = this.props.usuarioEstado.datosToken;
+
+				// los permisos del usuario que NO es admin
+				// pero tiene algunos permisos.
+				this.permisos = this.props.obtenerPermisoVerificacion.permiso;
 
 				return _react2.default.createElement(
 					'div',
@@ -100017,7 +100255,7 @@
 	exports.default = Mostrar;
 
 /***/ }),
-/* 581 */
+/* 582 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100026,7 +100264,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(582);
+	var _container = __webpack_require__(583);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -100035,7 +100273,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 582 */
+/* 583 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100050,9 +100288,9 @@
 
 	var _actions = __webpack_require__(355);
 
-	var _actions2 = __webpack_require__(583);
+	var _actions2 = __webpack_require__(584);
 
-	var _FormularioEditar = __webpack_require__(584);
+	var _FormularioEditar = __webpack_require__(585);
 
 	var _FormularioEditar2 = _interopRequireDefault(_FormularioEditar);
 
@@ -100157,7 +100395,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_FormularioEditar2.default));
 
 /***/ }),
-/* 583 */
+/* 584 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100295,7 +100533,7 @@
 	}
 
 /***/ }),
-/* 584 */
+/* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100330,7 +100568,7 @@
 
 	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
 
-	var _FieldSelectRoles = __webpack_require__(585);
+	var _FieldSelectRoles = __webpack_require__(586);
 
 	var _FieldSelectRoles2 = _interopRequireDefault(_FieldSelectRoles);
 
@@ -100680,7 +100918,7 @@
 	exports.default = FormularioEditar;
 
 /***/ }),
-/* 585 */
+/* 586 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100689,7 +100927,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(586);
+	var _container = __webpack_require__(587);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -100698,7 +100936,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 586 */
+/* 587 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100709,7 +100947,7 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _FieldSelectRoles = __webpack_require__(587);
+	var _FieldSelectRoles = __webpack_require__(588);
 
 	var _FieldSelectRoles2 = _interopRequireDefault(_FieldSelectRoles);
 
@@ -100726,7 +100964,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_FieldSelectRoles2.default);
 
 /***/ }),
-/* 587 */
+/* 588 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100847,7 +101085,7 @@
 	exports.default = FieldSelectRoles;
 
 /***/ }),
-/* 588 */
+/* 589 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100856,7 +101094,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(589);
+	var _container = __webpack_require__(590);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -100865,7 +101103,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 589 */
+/* 590 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -100876,9 +101114,9 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(590);
+	var _actions = __webpack_require__(591);
 
-	var _Listar = __webpack_require__(591);
+	var _Listar = __webpack_require__(592);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
@@ -100918,7 +101156,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Listar2.default);
 
 /***/ }),
-/* 590 */
+/* 591 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101149,7 +101387,7 @@
 	}
 
 /***/ }),
-/* 591 */
+/* 592 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101180,11 +101418,11 @@
 
 	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
 
-	var _Formulario = __webpack_require__(592);
+	var _Formulario = __webpack_require__(593);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
-	var _Mostrar = __webpack_require__(598);
+	var _Mostrar = __webpack_require__(599);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -101433,7 +101671,7 @@
 	exports.default = Listar;
 
 /***/ }),
-/* 592 */
+/* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101442,7 +101680,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(593);
+	var _container = __webpack_require__(594);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -101451,7 +101689,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 593 */
+/* 594 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101464,9 +101702,9 @@
 
 	var _reduxForm = __webpack_require__(24);
 
-	var _actions = __webpack_require__(590);
+	var _actions = __webpack_require__(591);
 
-	var _Formulario = __webpack_require__(594);
+	var _Formulario = __webpack_require__(595);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
@@ -101552,7 +101790,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_Formulario2.default));
 
 /***/ }),
-/* 594 */
+/* 595 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101591,7 +101829,7 @@
 
 	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
 
-	var _FieldSelectMaterias = __webpack_require__(595);
+	var _FieldSelectMaterias = __webpack_require__(596);
 
 	var _FieldSelectMaterias2 = _interopRequireDefault(_FieldSelectMaterias);
 
@@ -101830,7 +102068,7 @@
 	exports.default = Formulario;
 
 /***/ }),
-/* 595 */
+/* 596 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101839,7 +102077,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(596);
+	var _container = __webpack_require__(597);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -101848,7 +102086,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 596 */
+/* 597 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101859,7 +102097,7 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _FieldSelectMaterias = __webpack_require__(597);
+	var _FieldSelectMaterias = __webpack_require__(598);
 
 	var _FieldSelectMaterias2 = _interopRequireDefault(_FieldSelectMaterias);
 
@@ -101876,7 +102114,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_FieldSelectMaterias2.default);
 
 /***/ }),
-/* 597 */
+/* 598 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -101997,7 +102235,7 @@
 	exports.default = FieldSelectMaterias;
 
 /***/ }),
-/* 598 */
+/* 599 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102006,7 +102244,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(599);
+	var _container = __webpack_require__(600);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -102015,7 +102253,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 599 */
+/* 600 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102026,9 +102264,9 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(590);
+	var _actions = __webpack_require__(591);
 
-	var _Mostrar = __webpack_require__(600);
+	var _Mostrar = __webpack_require__(601);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -102051,7 +102289,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Mostrar2.default);
 
 /***/ }),
-/* 600 */
+/* 601 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102184,7 +102422,7 @@
 	exports.default = Mostrar;
 
 /***/ }),
-/* 601 */
+/* 602 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102193,7 +102431,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(602);
+	var _container = __webpack_require__(603);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -102202,7 +102440,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 602 */
+/* 603 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102213,9 +102451,9 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(603);
+	var _actions = __webpack_require__(604);
 
-	var _Listar = __webpack_require__(604);
+	var _Listar = __webpack_require__(605);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
@@ -102255,7 +102493,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Listar2.default);
 
 /***/ }),
-/* 603 */
+/* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102419,7 +102657,7 @@
 	}
 
 /***/ }),
-/* 604 */
+/* 605 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102448,7 +102686,7 @@
 
 	var _reactRouterDom = __webpack_require__(306);
 
-	var _Formulario = __webpack_require__(605);
+	var _Formulario = __webpack_require__(606);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
@@ -102616,7 +102854,7 @@
 	exports.default = Listar;
 
 /***/ }),
-/* 605 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102625,7 +102863,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(606);
+	var _container = __webpack_require__(607);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -102634,7 +102872,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 606 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102647,9 +102885,9 @@
 
 	var _reduxForm = __webpack_require__(24);
 
-	var _actions = __webpack_require__(603);
+	var _actions = __webpack_require__(604);
 
-	var _Formulario = __webpack_require__(607);
+	var _Formulario = __webpack_require__(608);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
@@ -102703,7 +102941,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_Formulario2.default));
 
 /***/ }),
-/* 607 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102873,7 +103111,7 @@
 	exports.default = Formulario;
 
 /***/ }),
-/* 608 */
+/* 609 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102882,7 +103120,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(609);
+	var _container = __webpack_require__(610);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -102891,7 +103129,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 609 */
+/* 610 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102902,9 +103140,9 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(603);
+	var _actions = __webpack_require__(604);
 
-	var _Mostrar = __webpack_require__(610);
+	var _Mostrar = __webpack_require__(611);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -102927,7 +103165,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Mostrar2.default);
 
 /***/ }),
-/* 610 */
+/* 611 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102956,11 +103194,11 @@
 
 	var _Cargando2 = _interopRequireDefault(_Cargando);
 
-	var _Listar = __webpack_require__(611);
+	var _Listar = __webpack_require__(612);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
-	var _Mostrar = __webpack_require__(618);
+	var _Mostrar = __webpack_require__(619);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -103079,7 +103317,7 @@
 	exports.default = Mostrar;
 
 /***/ }),
-/* 611 */
+/* 612 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103088,7 +103326,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(612);
+	var _container = __webpack_require__(613);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -103097,7 +103335,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 612 */
+/* 613 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103108,9 +103346,9 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(613);
+	var _actions = __webpack_require__(614);
 
-	var _Listar = __webpack_require__(614);
+	var _Listar = __webpack_require__(615);
 
 	var _Listar2 = _interopRequireDefault(_Listar);
 
@@ -103150,7 +103388,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Listar2.default);
 
 /***/ }),
-/* 613 */
+/* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103328,7 +103566,7 @@
 	}
 
 /***/ }),
-/* 614 */
+/* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103357,7 +103595,7 @@
 
 	var _reactRouterDom = __webpack_require__(306);
 
-	var _Formulario = __webpack_require__(615);
+	var _Formulario = __webpack_require__(616);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
@@ -103527,7 +103765,7 @@
 	exports.default = Listar;
 
 /***/ }),
-/* 615 */
+/* 616 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103536,7 +103774,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(616);
+	var _container = __webpack_require__(617);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -103545,7 +103783,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 616 */
+/* 617 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103558,9 +103796,9 @@
 
 	var _reduxForm = __webpack_require__(24);
 
-	var _actions = __webpack_require__(613);
+	var _actions = __webpack_require__(614);
 
-	var _Formulario = __webpack_require__(617);
+	var _Formulario = __webpack_require__(618);
 
 	var _Formulario2 = _interopRequireDefault(_Formulario);
 
@@ -103614,7 +103852,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_Formulario2.default));
 
 /***/ }),
-/* 617 */
+/* 618 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103781,7 +104019,7 @@
 	exports.default = Formulario;
 
 /***/ }),
-/* 618 */
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103790,7 +104028,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(619);
+	var _container = __webpack_require__(620);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -103799,7 +104037,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 619 */
+/* 620 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103810,11 +104048,11 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(613);
+	var _actions = __webpack_require__(614);
 
-	var _materiaActions = __webpack_require__(620);
+	var _materiaActions = __webpack_require__(621);
 
-	var _Mostrar = __webpack_require__(621);
+	var _Mostrar = __webpack_require__(622);
 
 	var _Mostrar2 = _interopRequireDefault(_Mostrar);
 
@@ -103849,7 +104087,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Mostrar2.default);
 
 /***/ }),
-/* 620 */
+/* 621 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103984,7 +104222,7 @@
 	}
 
 /***/ }),
-/* 621 */
+/* 622 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104011,7 +104249,7 @@
 
 	var _Cargando2 = _interopRequireDefault(_Cargando);
 
-	var _FormularioMateria = __webpack_require__(622);
+	var _FormularioMateria = __webpack_require__(623);
 
 	var _FormularioMateria2 = _interopRequireDefault(_FormularioMateria);
 
@@ -104189,7 +104427,7 @@
 	exports.default = Mostrar;
 
 /***/ }),
-/* 622 */
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104198,7 +104436,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(623);
+	var _container = __webpack_require__(624);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -104207,7 +104445,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 623 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104220,11 +104458,11 @@
 
 	var _reduxForm = __webpack_require__(24);
 
-	var _materiaActions = __webpack_require__(620);
+	var _materiaActions = __webpack_require__(621);
 
 	var _actions = __webpack_require__(561);
 
-	var _FormularioMateria = __webpack_require__(624);
+	var _FormularioMateria = __webpack_require__(625);
 
 	var _FormularioMateria2 = _interopRequireDefault(_FormularioMateria);
 
@@ -104283,7 +104521,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(form(_FormularioMateria2.default));
 
 /***/ }),
-/* 624 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104310,7 +104548,7 @@
 
 	var _MensajeOerror2 = _interopRequireDefault(_MensajeOerror);
 
-	var _FieldSelectMaterias = __webpack_require__(595);
+	var _FieldSelectMaterias = __webpack_require__(596);
 
 	var _FieldSelectMaterias2 = _interopRequireDefault(_FieldSelectMaterias);
 
@@ -104457,7 +104695,7 @@
 	exports.default = FormularioMateria;
 
 /***/ }),
-/* 625 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104466,7 +104704,7 @@
 	  value: true
 	});
 
-	var _container = __webpack_require__(626);
+	var _container = __webpack_require__(627);
 
 	var _container2 = _interopRequireDefault(_container);
 
@@ -104475,7 +104713,7 @@
 	exports.default = _container2.default;
 
 /***/ }),
-/* 626 */
+/* 627 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104486,7 +104724,7 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(627);
+	var _actions = __webpack_require__(563);
 
 	var _Listar = __webpack_require__(628);
 
@@ -104528,189 +104766,6 @@
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Listar2.default);
-
-/***/ }),
-/* 627 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.abrirFormularioCrearPermiso = abrirFormularioCrearPermiso;
-	exports.abrirFormularioEditarPermiso = abrirFormularioEditarPermiso;
-	exports.cerrarFormularioPermiso = cerrarFormularioPermiso;
-	exports.obtenerPermisoNombreModuloIdUsuario = obtenerPermisoNombreModuloIdUsuario;
-	exports.listarPermisos = listarPermisos;
-	exports.crearPermiso = crearPermiso;
-	exports.eliminarPermiso = eliminarPermiso;
-	exports.mostrarPermiso = mostrarPermiso;
-	exports.editarPermiso = editarPermiso;
-
-	var _types = __webpack_require__(303);
-
-	var _socket = __webpack_require__(356);
-
-	var _socket2 = _interopRequireDefault(_socket);
-
-	var _reactRouter = __webpack_require__(562);
-
-	var _reduxForm = __webpack_require__(24);
-
-	var _jwtDecode = __webpack_require__(352);
-
-	var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var socketPermiso = (0, _socket2.default)('http://localhost:3000');
-
-	function abrirFormularioCrearPermiso() {
-		return function (dispatch) {
-			dispatch((0, _reduxForm.reset)('FormularioPermiso'));
-
-			dispatch({ type: _types.ABRIR_FORMULARIO_CREAR_PERMISO });
-		};
-	}
-
-	function abrirFormularioEditarPermiso(idPermiso) {
-
-		return function (dispatch) {
-			dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_PERMISO_REQUEST });
-
-			socketPermiso.emit('mostrar_permiso_editar', { _id: idPermiso });
-
-			socketPermiso.on('mostrar_permiso_editar', function (data) {
-
-				if (data.error) {
-					dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_PERMISO_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.ABRIR_FORMULARIO_EDITAR_PERMISO_EXITO, payload: data });
-				}
-			});
-		};
-	}
-
-	function cerrarFormularioPermiso() {
-		return function (dispatch) {
-			dispatch({ type: _types.CERRAR_FORMULARIO_PERMISO });
-		};
-	}
-
-	function obtenerPermisoNombreModuloIdUsuario(nombreModulo) {
-		return function (dispatch) {
-
-			var datos = {
-				idUsuario: (0, _jwtDecode2.default)(localStorage.getItem('token'))._id,
-				nombreModulo: nombreModulo
-			};
-
-			socketPermiso.emit('obtener_permiso_nombreModulo_idUsuario', datos);
-
-			socketPermiso.on('obtener_permiso_nombreModulo_idUsuario', function (data) {
-				if (data.error) {
-					dispatch({ type: _types.OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.OBTENER_PERMISO_NOMBREMODULO_IDUSUARIO, payload: data });
-				}
-			});
-		};
-	}
-
-	function listarPermisos() {
-		return function (dispatch) {
-
-			dispatch({ type: _types.LISTAR_PERMISOS_REQUEST });
-
-			socketPermiso.emit('listar_permisos', null);
-
-			socketPermiso.on('listar_permisos', function (data) {
-
-				console.log('listar_permisos');
-				console.log(data);
-
-				if (data.error) {
-					dispatch({ type: _types.LISTAR_PERMISOS_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.LISTAR_PERMISOS_EXITO, payload: data });
-				}
-			});
-		};
-	}
-
-	function crearPermiso(datosFormulario) {
-		return function (dispatch) {
-
-			dispatch({ type: _types.CREAR_PERMISO_REQUEST });
-
-			socketPermiso.emit('crear_permiso', datosFormulario);
-
-			socketPermiso.on('crear_permiso', function (data) {
-				if (data.err) {
-					dispatch({ type: _types.CREAR_PERMISO_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.CREAR_PERMISO_EXITO, payload: data });
-				}
-			});
-
-			dispatch((0, _reduxForm.reset)('FormularioPermiso'));
-		};
-	}
-
-	function eliminarPermiso(idPermiso) {
-		return function (dispatch) {
-
-			dispatch({ type: _types.ELIMINAR_PERMISO_REQUEST });
-
-			socketPermiso.emit('eliminar_permiso', {
-				_id: idPermiso
-			});
-
-			socketPermiso.on('eliminar_permiso', function (data) {
-				console.log(data);
-				if (data.error) {
-					dispatch({ type: _types.ELIMINAR_PERMISO_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.ELIMINAR_PERMISO_EXITO, payload: data });
-				}
-			});
-		};
-	}
-
-	function mostrarPermiso(idPermiso) {
-		return function (dispatch) {
-			dispatch({ type: _types.MOSTRAR_PERMISO_REQUEST });
-
-			socketPermiso.emit('mostrar_permiso', { _id: idPermiso });
-
-			socketPermiso.on('mostrar_permiso', function (data) {
-				// console.log(data)
-				if (data.error) {
-					dispatch({ type: _types.MOSTRAR_PERMISO_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.MOSTRAR_PERMISO_EXITO, payload: data });
-				}
-			});
-		};
-	}
-
-	function editarPermiso(datosFormulario) {
-		return function (dispatch) {
-
-			dispatch({ type: _types.EDITAR_PERMISO_REQUEST });
-
-			socketPermiso.emit('editar_permiso', datosFormulario);
-
-			socketPermiso.on('editar_permiso', function (data) {
-				if (data.error) {
-					dispatch({ type: _types.EDITAR_PERMISO_FALLO, payload: data.error });
-				} else {
-					dispatch({ type: _types.EDITAR_PERMISO_EXITO, payload: data });
-				}
-			});
-		};
-	}
 
 /***/ }),
 /* 628 */
@@ -105011,7 +105066,7 @@
 
 	var _reduxForm = __webpack_require__(24);
 
-	var _actions = __webpack_require__(627);
+	var _actions = __webpack_require__(563);
 
 	var _actions2 = __webpack_require__(355);
 
@@ -105545,7 +105600,7 @@
 
 	var _reactRedux = __webpack_require__(44);
 
-	var _actions = __webpack_require__(583);
+	var _actions = __webpack_require__(584);
 
 	var _Listar = __webpack_require__(637);
 
@@ -105823,7 +105878,7 @@
 
 	var _reduxForm = __webpack_require__(24);
 
-	var _actions = __webpack_require__(583);
+	var _actions = __webpack_require__(584);
 
 	var _Formulario = __webpack_require__(640);
 

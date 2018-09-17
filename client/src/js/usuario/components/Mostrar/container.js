@@ -5,6 +5,10 @@ import {
 	abrirFormularioEditarPersonal
 } from '../../actions'
 
+import {
+	obtenerPermisoNombreModuloIdUsuario
+} from '../../../permiso/actions'
+
 import Mostrar from './Mostrar'
 
 function mapStateToProps(state, ownProps) {
@@ -13,6 +17,8 @@ function mapStateToProps(state, ownProps) {
 
 		// datos del usuario logueado. 
     	usuarioEstado: state.personal.usuarioEstado,
+
+    	obtenerPermisoVerificacion: state.permiso.obtenerPermisoVerificacion,    	
     	
 		// guardamos todos los parametros de la url.
 		urls: ownProps.params
@@ -22,6 +28,10 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
 	return {
+		obtenerPermisoNombreModuloIdUsuario: (nombreModulo) => {
+			dispatch(obtenerPermisoNombreModuloIdUsuario(nombreModulo))
+		},
+
 		mostrarPersonal: (idPersonal) => {
 			dispatch(mostrarPersonal(idPersonal))
 		},
